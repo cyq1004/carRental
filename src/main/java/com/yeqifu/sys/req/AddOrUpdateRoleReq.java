@@ -13,7 +13,7 @@ public class AddOrUpdateRoleReq {
     /**
      * 用户id
      */
-    private Long roleid;
+    private Integer roleid;
 
     /**
      * 角色名称

@@ -15,6 +15,7 @@ public interface IRoleService {
 
     /**
      * 角色列表
+     *
      * @param req
      * @return
      */
@@ -22,24 +23,37 @@ public interface IRoleService {
 
     /**
      * 添加角色
+     *
      * @param req
      */
     void addRole(AddOrUpdateRoleReq req);
 
     /**
      * 修改角色
+     *
      * @param req
      */
     void updateRole(AddOrUpdateRoleReq req);
 
+    /**
+     * 删除角色
+     *
+     * @param roleid
+     */
+    void deleteRole(Integer roleid);
 
 
-
-
+    /**
+     * 批量删除角色
+     *
+     * @param ids
+     */
+    void deleteBatchRole(Integer[] ids);
 
 
     /**
      * 查询所有角色返回
+     *
      * @param roleVo
      * @return
      */
@@ -50,20 +64,10 @@ public interface IRoleService {
      */
     public List<Role> queryRoleByUserIdForList(RoleVo roleVo, Integer userId);
 
-    /**
-     * 根据id删除角色
-     * @param roleid
-     */
-    public void deleteRole(Integer roleid);
-
-    /**
-     * 批量删除角色
-     * @param ids
-     */
-    public void deleteBatchRole(Integer [] ids);
 
     /**
      * 加载角色管理分配菜单的json
+     *
      * @param roleid
      * @return
      */
@@ -71,6 +75,7 @@ public interface IRoleService {
 
     /**
      * 保存角色和菜单的关系
+     *
      * @param roleVo
      */
     public void saveRoleMenu(RoleVo roleVo);

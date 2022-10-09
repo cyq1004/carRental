@@ -35,12 +35,32 @@ public interface RoleMapper {
     void updateRole(@Param("req") AddOrUpdateRoleReq req);
 
 
+    /**
+     * 删除角色表的数据
+     *
+     * @param roleid
+     */
+    @Delete("delete from sys_role where roleid = #{roleid}")
+    void deleteRole(@Param("roleid") Integer roleid);
 
 
+    /**
+     * 删除角色对应的sys_role_menu里面的数据
+     *
+     * @param roleid
+     */
+    @Delete("delete from sys_role_menu where rid=#{roleid}")
+    void deleteRoleMenu(@Param("roleid") Integer roleid);
 
 
+    /**
+     * 删除角色对应的sys_role_user里面的数据
+     *
+     * @param roleid
+     */
+    @Delete("delete from sys_role_user where rid=#{roleid}")
+    void deleteRoleUser(@Param("roleid") Integer roleid);
 
-    int deleteByPrimaryKey(Integer roleid);
 
     int insert(Role record);
 
@@ -52,20 +72,6 @@ public interface RoleMapper {
 
     int updateByPrimaryKey(Role record);
 
-
-    /**
-     * 根据角色id删除sys_role_menu里面的数据
-     *
-     * @param roleid
-     */
-    void deleteRoleMenuByRid(Integer roleid);
-
-    /**
-     * 根据角色id删除sys_role_user里面的数据
-     *
-     * @param roleid
-     */
-    void deleteRoleUserByRid(Integer roleid);
 
     /**
      * 保存角色和菜单的关系sys_role_menu
@@ -91,5 +97,6 @@ public interface RoleMapper {
      * @return
      */
     List<Role> queryRoleByUid(@Param("available") Integer available, @Param("uid") Long userid);
+
 
 }

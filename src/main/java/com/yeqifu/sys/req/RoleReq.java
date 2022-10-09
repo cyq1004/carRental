@@ -1,6 +1,7 @@
 package com.yeqifu.sys.req;
 
 import lombok.Data;
+import lombok.Getter;
 
 /**
  * 角色模块入参req
@@ -34,5 +35,5 @@ public class RoleReq {
     /**
      * 接手多个角色的id
      */
-    private Long [] ids;
+    private Integer [] ids;
 }

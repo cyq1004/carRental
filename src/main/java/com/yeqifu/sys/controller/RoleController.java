@@ -8,10 +8,8 @@ import com.yeqifu.sys.utils.ResultObj;
 import com.yeqifu.sys.vo.RoleVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 角色管理控制器
@@ -43,8 +41,8 @@ public class RoleController {
      * @param req
      * @return
      */
-    @RequestMapping("addRole")
-    public ResultObj addRole(@RequestBody AddOrUpdateRoleReq req) {
+    @PostMapping("addRole")
+    public ResultObj addRole(@Validated AddOrUpdateRoleReq req) {
         log.info("添加角色:{}", req);
         try {
             roleService.addRole(req);
@@ -58,11 +56,12 @@ public class RoleController {
     /**
      * 修改角色
      *
-     * @param roleVo
+     * @param req
      * @return
      */
-    @RequestMapping("updateRole")
-    public ResultObj updateRole(AddOrUpdateRoleReq req) {
+    @PostMapping("updateRole")
+    public ResultObj updateRole(@Validated AddOrUpdateRoleReq req) {
+        log.info("修改角色:{}", req);
         try {
             roleService.updateRole(req);
             return ResultObj.UPDATE_SUCCESS;
@@ -75,13 +74,14 @@ public class RoleController {
     /**
      * 删除角色
      *
-     * @param roleVo
+     * @param roleid
      * @return
      */
-    @RequestMapping("deleteRole")
-    public ResultObj deleteRole(RoleVo roleVo) {
+    @GetMapping("deleteRole")
+    public ResultObj deleteRole(@RequestParam("roleid") Integer roleid) {
+        log.info("删除角色:{}", roleid);
         try {
-            this.roleService.deleteRole(roleVo.getRoleid());
+            roleService.deleteRole(roleid);
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,13 +92,14 @@ public class RoleController {
     /**
      * 批量删除角色
      *
-     * @param roleVo
+     * @param req
      * @return
      */
-    @RequestMapping("deleteBatchRole")
-    public ResultObj deleteBatchRole(RoleVo roleVo) {
+    @PostMapping("deleteBatchRole")
+    public ResultObj deleteBatchRole(RoleReq req) {
+        log.info("批量删除角色:{}", req);
         try {
-            this.roleService.deleteBatchRole(roleVo.getIds());
+            roleService.deleteBatchRole(req.getIds());
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             return ResultObj.DELETE_ERROR;

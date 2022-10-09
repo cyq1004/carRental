@@ -51,6 +51,7 @@ public class RoleServiceImpl implements IRoleService {
         roleMapper.addRole(req);
     }
 
+
     /**
      * 更新角色
      *
@@ -59,6 +60,34 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public void updateRole(AddOrUpdateRoleReq req) {
         roleMapper.updateRole(req);
+    }
+
+
+    /**
+     * 删除角色
+     *
+     * @param roleid
+     */
+    @Override
+    public void deleteRole(Integer roleid) {
+        //删除角色表的数据
+        roleMapper.deleteRole(roleid);
+        //根据角色id删除sys_role_menu里面的数据
+        roleMapper.deleteRoleMenu(roleid);
+        //根据角色id删除sys_role_user里面的数据
+        roleMapper.deleteRoleUser(roleid);
+    }
+
+    /**
+     * 批量删除角色
+     *
+     * @param ids
+     */
+    @Override
+    public void deleteBatchRole(Integer[] ids) {
+        for (Integer roleid : ids) {
+            deleteRole(roleid);
+        }
     }
 
 
@@ -83,33 +112,6 @@ public class RoleServiceImpl implements IRoleService {
         return roleMapper.queryAllRole(roleVo);
     }
 
-    /**
-     * 根据角色roleid单个删除角色
-     *
-     * @param roleid
-     */
-    @Override
-    public void deleteRole(Integer roleid) {
-        //删除角色表的数据
-        this.roleMapper.deleteByPrimaryKey(roleid);
-        //根据角色id删除sys_role_menu里面的数据
-        this.roleMapper.deleteRoleMenuByRid(roleid);
-        //根据角色id删除sys_role_user里面的数据
-        this.roleMapper.deleteRoleUserByRid(roleid);
-
-    }
-
-    /**
-     * 根据前台页面传来的数组批量删除角色
-     *
-     * @param ids
-     */
-    @Override
-    public void deleteBatchRole(Integer[] ids) {
-        for (Integer rid : ids) {
-            deleteRole(rid);
-        }
-    }
 
     @Override
     public DataGridView initRoleMenuTreeJson(Integer roleid) {
