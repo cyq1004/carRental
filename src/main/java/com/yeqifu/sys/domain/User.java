@@ -72,5 +72,4 @@ public class User implements Serializable {
      * 是否可用，0可用1不可用
      */
     private Integer available;
-
 }

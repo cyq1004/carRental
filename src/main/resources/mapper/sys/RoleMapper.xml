@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yeqifu.sys.mapper.RoleMapper">
+
+    <!--查询角色-->
+    <select id="queryAllRole" resultType="com.yeqifu.sys.domain.Role">
+        select
+        roleid, rolename, roledesc, available
+        from sys_role
+        <where>
+            <if test="req.rolename!=null and req.rolename!=''">
+                and rolename like concat("%",#{req.rolename},"%")
+            </if>
+            <if test="req.roledesc!=null and req.roledesc!=''">
+                and roledesc like concat("%",#{req.roledesc},"%")
+            </if>
+            <if test="req.available!=null">
+                and available=#{req.available}
+            </if>
+        </where>
+    </select>
+
+    <!--添加角色-->
+    <insert id="addRole" parameterType="com.yeqifu.sys.req.AddOrUpdateRoleReq">
+        INSERT INTO sys_role (rolename, roledesc, available)
+        VALUES (#{req.loginname}, #{req.identity}, #{req.realname})
+    </insert>
+
+    <!--更新角色-->
+    <update id="updateRole" parameterType="com.yeqifu.sys.req.AddOrUpdateRoleReq">
+        UPDATE sys_role
+        SET rolename = #{req.rolename},
+            roledesc  = #{req.roledesc},
+            available  = #{req.realname}
+        WHERE roleid = #{req.roleid}
+    </update>
+
+
+
+
+
+
+
+
+
     <resultMap id="BaseResultMap" type="com.yeqifu.sys.domain.Role">
         <id column="roleid" jdbcType="INTEGER" property="roleid"/>
         <result column="rolename" jdbcType="VARCHAR" property="rolename"/>
@@ -28,37 +70,6 @@
         values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{roledesc,jdbcType=VARCHAR},
           #{available,jdbcType=INTEGER})
     </insert>
-    <insert id="insertSelective" parameterType="com.yeqifu.sys.domain.Role">
-        insert into sys_role
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="roleid != null">
-                roleid,
-            </if>
-            <if test="rolename != null">
-                rolename,
-            </if>
-            <if test="roledesc != null">
-                roledesc,
-            </if>
-            <if test="available != null">
-                available,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="roleid != null">
-                #{roleid,jdbcType=INTEGER},
-            </if>
-            <if test="rolename != null">
-                #{rolename,jdbcType=VARCHAR},
-            </if>
-            <if test="roledesc != null">
-                #{roledesc,jdbcType=VARCHAR},
-            </if>
-            <if test="available != null">
-                #{available,jdbcType=INTEGER},
-            </if>
-        </trim>
-    </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.yeqifu.sys.domain.Role">
         update sys_role
         <set>
@@ -82,23 +93,6 @@
         where roleid = #{roleid,jdbcType=INTEGER}
     </update>
 
-    <!--查询角色-->
-    <select id="queryAllRole" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from sys_role
-        <where>
-            <if test="rolename!=null and rolename!=''">
-                and rolename like concat("%",#{rolename},"%")
-            </if>
-            <if test="roledesc!=null and roledesc!=''">
-                and roledesc like concat("%",#{roledesc},"%")
-            </if>
-            <if test="available!=null">
-                and available=#{available}
-            </if>
-        </where>
-    </select>
 
     <!--根据角色id删除sys_role_menu里面的数据 deleteRoleMenuByRid-->
     <delete id="deleteRoleMenuByRid">
