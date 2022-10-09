@@ -7,6 +7,8 @@ import com.yeqifu.sys.req.UserRoleReq;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.vo.UserVo;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 用户服务接口
  */
@@ -109,4 +111,9 @@ public interface IUserService {
      */
     Boolean saveUser(User user);
 
+    /**
+     * 导出用户管理列表
+     * @param req
+     */
+    void exportExcel(UserReq req);
 }

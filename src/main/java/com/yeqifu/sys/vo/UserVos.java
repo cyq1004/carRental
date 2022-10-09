@@ -54,7 +54,7 @@ public class UserVos {
     private Integer type;
 
     /**
-     * 角色id
+     * 是否可用 0:可用，1:不可用
      */
     private Integer available;
 

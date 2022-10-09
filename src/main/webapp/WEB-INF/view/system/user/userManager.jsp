@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/dtree.css">
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/font/dtreefont.css">
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: rgba(255,253,244,0.51)">
 
 <!-- 搜索条件开始 -->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -53,8 +53,6 @@
                        placeholder="请输入用户地址" style="height: 30px;border-radius: 10px">
             </div>
         </div>
-    </div>
-    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">用户电话:</label>
             <div class="layui-input-inline" style="padding: 5px">
@@ -75,12 +73,21 @@
                 <input type="radio" name="sex" value="1" title="男">
                 <input type="radio" name="sex" value="0" title="女">
             </div>
+            <label class="layui-form-label">是否可用:</label>
+            <div class="layui-input-inline">
+                <input type="radio" name="available" value="0" title="可用">
+                <input type="radio" name="available" value="1" title="不可用">
+            </div>
             <button type="button"
                     class="layui-btn layui-btn-normal layui-icon layui-icon-search layui-btn-radius layui-btn-sm"
                     id="doSearch" style="margin-top: 4px">查询
             </button>
             <button type="reset"
                     class="layui-btn layui-btn-warm layui-icon layui-icon-refresh layui-btn-radius layui-btn-sm" style="margin-top: 4px">重置
+            </button>
+            <button type="button"
+                    id="exportExcel"
+                    class="layui-btn layui-btn-normal layui-icon layui-icon-export layui-btn-radius layui-btn-sm" style="margin-top: 4px;background: darkseagreen">导出
             </button>
         </div>
     </div>
@@ -157,8 +164,8 @@
             <div class="layui-inline">
                 <label class="layui-form-label">是否可用:</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="available" value="1" checked="checked" title="可用">
-                    <input type="radio" name="available" value="0" title="不可用">
+                    <input type="radio" name="available" value="0" checked="checked" title="可用">
+                    <input type="radio" name="available" value="1" title="不可用">
                 </div>
             </div>
         </div>
@@ -215,7 +222,7 @@
                         return d.sex == '1' ? '<font color=blue>男</font>' : '<font color=red>女</font>';
                     }}
                 , {field: 'available', title: '账号状态', align: 'center',width:'90', templet: function (d) {
-                    return d.available == '1' ? '<font color=blue>可用</font>' : '<font color=red>不可用</font>';
+                    return d.available == '0' ? '<font color=blue>可用</font>' : '<font color=red>不可用</font>';
                 }}
                 , {field: 'rolename', title: '角色', align: 'center',width:'200'}
                 , {field: 'currentTime', title: '最后一次登录时间', align: 'center',width:'200'}
@@ -240,6 +247,19 @@
             tableIns.reload({
                 url: "${yeqifu}/user/loadAllUser.action?" + params,
                 page:{curr:1}
+            })
+        });
+
+        //导出
+        $("#exportExcel").click(function () {
+            var url = "${yeqifu}/user/exportExcel.action"
+            var params = $("#searchFrm").serialize();
+            $.post(url, params, function(resultJSONObject) {
+                if(resultJSONObject.code == 0){
+                    $.messager.alert("系统提示","导出成功","info");
+                }else{
+                    $.messager.alert("系统提示","导出失败","error");
+                }
             })
         });
 
@@ -320,13 +340,20 @@
             //序列化表单数据
             var params = $("#dataFrm").serialize();
             $.post(url, params, function (obj) {
-                layer.msg(obj.msg);
-                //关闭弹出层
-                layer.close(mainIndex)
-                //刷新数据 表格
-                tableIns.reload();
+                if(obj.code == 0) {
+                    layer.msg(obj.msg);
+                    //关闭弹出层
+                    layer.close(mainIndex)
+                    //刷新数据 表格
+                    tableIns.reload();
+                } else {
+                    layer.msg(obj.msg);
+                }
+
             })
         });
+
+
 
         //批量删除
         function deleteBatch() {

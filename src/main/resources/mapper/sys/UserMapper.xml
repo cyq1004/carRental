@@ -3,9 +3,8 @@
 <mapper namespace="com.yeqifu.sys.mapper.UserMapper">
 
     <select id="login" resultType="com.yeqifu.sys.domain.User">
-        SELECT
-            userid,
-            loginname,
+        SELECT userid,
+               loginname,
             identity,
             realname,
             sex,
@@ -18,7 +17,8 @@
         FROM
             sys_user
         WHERE
-            loginname = #{loginname} and pwd=#{pwd}
+            loginname = #{loginname}
+          and pwd=#{pwd}
     </select>
 
     <select id="queryAllUser" resultType="com.yeqifu.sys.vo.UserVos">
@@ -33,33 +33,35 @@
         t1.position AS position,
         t1.type AS type,
         t1.available AS available,
-        t3.roleid AS roleid,
-        t3.rolename AS rolename,
+        GROUP_CONCAT(DISTINCT t3.rolename) AS rolename,
         max(t4.logintime) as currentTime
         from sys_user as t1
         left join sys_role_user as t2 on t1.userid = t2.uid
         left join sys_role as t3 on t3.roleid = t2.rid
         left join sys_log_login as t4 on t4.loginname = CONCAT(t1.realname,'-',t1.loginname)
         <where>
-            <if test="realname!=null and realname!=''">
-                and realname like concat("%",#{realname},"%")
+            <if test="req.realname!=null and req.realname!=''">
+                and t1.realname like concat("%",#{req.realname},"%")
             </if>
-            <if test="loginname!=null and loginname!=''">
-                and loginname like concat("%",#{loginname},"%")
+            <if test="req.loginname!=null and req.loginname!=''">
+                and t1.loginname like concat("%",#{req.loginname},"%")
             </if>
-            <if test="identity!=null and identity!=''">
-                and identity eq concat("%",#{identity},"%")
+            <if test="req.identity!=null and req.identity!=''">
+                and t1.identity = #{req.identity}
             </if>
-            <if test="address!=null and address!=''">
-                and address like concat("%",#{address},"%")
+            <if test="req.address!=null and req.address!=''">
+                and t1.address like concat("%",#{req.address},"%")
             </if>
-            <if test="phone!=null and phone!=''">
-                and phone eq concat("%",#{phone},"%")
+            <if test="req.phone!=null and req.phone!=''">
+                and t1.phone = #{req.phone}
             </if>
-            <if test="sex!=null">
-                and sex= #{sex}
+            <if test="req.available!=null">
+                and t1.available = #{req.available}
             </if>
-            and type != 1
+            <if test="req.sex!=null">
+                and t1.sex = #{req.sex}
+            </if>
+            and t1.type != 1
         </where>
         GROUP BY CONCAT(t1.realname,'-',t1.loginname)
     </select>
@@ -98,8 +100,7 @@
     <update id="changePassword">
         UPDATE sys_user
         SET pwd = #{user.pwd}
-        WHERE
-            userid = #{user.userid}
+        WHERE userid = #{user.userid}
     </update>
 
 </mapper>

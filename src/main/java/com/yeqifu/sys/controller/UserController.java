@@ -1,7 +1,5 @@
 package com.yeqifu.sys.controller;
 
-import cn.hutool.core.exceptions.ValidateException;
-import cn.hutool.core.util.IdcardUtil;
 import cn.hutool.core.util.ReUtil;
 import com.yeqifu.sys.domain.User;
 import com.yeqifu.sys.req.AddOrUpdateUserReq;
@@ -12,12 +10,13 @@ import com.yeqifu.sys.service.IUserService;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.ResultObj;
 import com.yeqifu.sys.utils.WebUtils;
-import com.yeqifu.sys.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.regex.Pattern;
 
 /**
@@ -25,6 +24,7 @@ import java.util.regex.Pattern;
  *
  * @author cyq
  */
+@Slf4j
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -41,6 +41,7 @@ public class UserController {
      */
     @PostMapping("loadAllUser")
     public DataGridView loadAllUser(UserReq req) {
+        log.info("用户列表:{}", req);
         return this.userService.queryAllUser(req);
     }
 
@@ -52,6 +53,7 @@ public class UserController {
      */
     @PostMapping("addUser")
     public ResultObj addUser(@Validated AddOrUpdateUserReq req) {
+        log.info("添加用户:{}", req);
         try {
             if (!ReUtil.isMatch(Pattern.compile("^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$").pattern(), req.getIdentity())) {
                 return ResultObj.IDENTITY_ERROR;
@@ -78,6 +80,7 @@ public class UserController {
      */
     @PostMapping("updateUser")
     public ResultObj updateUser(@Validated AddOrUpdateUserReq req) {
+        log.info("修改用户:{}", req);
         try {
             this.userService.updateUser(req);
             return ResultObj.UPDATE_SUCCESS;
@@ -95,6 +98,7 @@ public class UserController {
      */
     @GetMapping("deleteUser")
     public ResultObj deleteUser(@RequestParam("userid") Long userid) {
+        log.info("删除用户:{}", userid);
         try {
             this.userService.deleteUser(userid);
             return ResultObj.DELETE_SUCCESS;
@@ -112,6 +116,7 @@ public class UserController {
      */
     @RequestMapping("deleteBatchUser")
     public ResultObj deleteBatchUser(UserReq req) {
+        log.info("批量删除用户:{}", req);
         try {
             this.userService.deleteBatchUser(req.getIds());
             return ResultObj.DELETE_SUCCESS;
@@ -128,6 +133,7 @@ public class UserController {
      */
     @GetMapping("resetUserPwd")
     public ResultObj resetUserPwd(Long userid) {
+        log.info("重置用户密码:{}", userid);
         try {
             this.userService.resetUserPwd(userid);
             return ResultObj.RESET_SUCCESS;
@@ -144,6 +150,7 @@ public class UserController {
      */
     @PostMapping("saveUserRole")
     public ResultObj saveUserRole(UserRoleReq req) {
+        log.info("保存用户和角色的关系:{}", req);
         try {
             this.userService.saveUserRole(req);
             return ResultObj.DISPATCH_SUCCESS;
@@ -161,6 +168,7 @@ public class UserController {
      */
     @GetMapping("initUserRole")
     public DataGridView initUserRole(Long userid) {
+        log.info("加载用户的分配角色:{}", userid);
         return this.userService.queryUserRole(userid);
     }
 
@@ -173,6 +181,7 @@ public class UserController {
      */
     @PostMapping("changePassword")
     public ResultObj changePassword(UpdatePasswordReq req) {
+        log.info("修改用户的密码:{}", req);
         String oldPassword = req.getOldPassword();
         String newPassword = req.getNewPassword();
         String confirmPassword = req.getConfirmPassword();
@@ -196,4 +205,13 @@ public class UserController {
         }
     }
 
+    /**
+     * 导出用户管理列表
+     * @param req
+     */
+    @PostMapping("exportExcel")
+    public void exportExcel(UserReq req) {
+        log.info("导出用户管理列表：{}", req);
+        userService.exportExcel(req);
+    }
 }

@@ -1,6 +1,7 @@
 package com.yeqifu.sys.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.excel.EasyExcel;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.sys.constast.SysConstast;
@@ -15,14 +16,27 @@ import com.yeqifu.sys.service.IUserService;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.vo.UserVo;
 import com.yeqifu.sys.vo.UserVos;
+import com.yeqifu.sys.vo.UserVosExportExcel;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static cn.hutool.core.date.DateTime.now;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -220,5 +234,39 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Boolean saveUser(User user) {
         return userMapper.saveUser(user);
+    }
+
+    /**
+     * 导出用户管理列表
+     *
+     * @param req
+     */
+    @Override
+    public void exportExcel(UserReq req) {
+        List<UserVos> data = userMapper.queryAllUser(req);
+        List<UserVosExportExcel> list = new ArrayList<>();
+        for (UserVos userVo : data) {
+            UserVosExportExcel userVosExportExcel = new UserVosExportExcel();
+            BeanUtil.copyProperties(userVo, userVosExportExcel);
+            list.add(userVosExportExcel);
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Resource resource = new ClassPathResource("file/reviewStatistics.xlsx");
+        if (!CollectionUtils.isEmpty(list)) {
+            try {
+                HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+                // 响应设置
+                String fileName = URLEncoder.encode("用户统计" + formatter.format(now()), "UTF-8").replaceAll("\\+", "%20");
+                String sheetName = "result";
+                response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+                response.setCharacterEncoding("utf-8");
+                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
+                EasyExcel.write(response.getOutputStream(), UserVosExportExcel.class).sheet(sheetName).doWrite(list);
+                response.getOutputStream().flush();
+                response.getOutputStream().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

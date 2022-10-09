@@ -39,6 +39,11 @@ public class UserReq {
     private String phone;
 
     /**
+     * 是否可用 0：可用 1：不可用
+     */
+    private Integer available;
+
+    /**
      * 分页参数
      */
     private Integer page;

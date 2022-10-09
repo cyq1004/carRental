@@ -26,7 +26,7 @@ public interface UserMapper {
      * @param req
      * @return
      */
-    List<UserVos> queryAllUser(UserReq req);
+    List<UserVos> queryAllUser(@Param("req") UserReq req);
 
     /**
      * 增加用户
