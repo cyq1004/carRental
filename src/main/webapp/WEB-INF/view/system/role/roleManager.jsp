@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YQF
-  Date: 2019/9/30
-  Time: 22:57
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -135,6 +128,7 @@
             , title: '用户数据表'//数据导出来的标题
             , toolbar: "#roleToolBar"   //表格的工具条
             , height: 'full-150'
+            , method: 'post'
             , cellMinWidth: 100 //设置列的最小默认宽度
             , page: true  //是否启用分页
             , cols: [[   //列表数据
@@ -190,7 +184,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.rolename + '】这个角色么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/role/deleteRole.action", {roleid: data.roleid}, function (res) {
+                    $.get("${yeqifu}/role/deleteRole.action", {roleid: data.roleid}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();
@@ -241,11 +235,15 @@
             //序列化表单数据
             var params = $("#dataFrm").serialize();
             $.post(url, params, function (obj) {
-                layer.msg(obj.msg);
-                //关闭弹出层
-                layer.close(mainIndex)
-                //刷新数据 表格
-                tableIns.reload();
+                if(obj.code == 0) {
+                    layer.msg(obj.msg);
+                    //关闭弹出层
+                    layer.close(mainIndex)
+                    //刷新数据 表格
+                    tableIns.reload();
+                }else {
+                    layer.msg(obj.msg);
+                }
             })
         });
 

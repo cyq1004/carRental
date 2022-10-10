@@ -52,31 +52,34 @@ public interface IRoleService {
 
 
     /**
-     * 查询所有角色返回
-     *
-     * @param roleVo
-     * @return
-     */
-    public List<Role> queryAllRoleForList(RoleVo roleVo);
-
-    /**
-     * 根据用户id查询用户的可用角色
-     */
-    public List<Role> queryRoleByUserIdForList(RoleVo roleVo, Integer userId);
-
-
-    /**
      * 加载角色管理分配菜单的json
      *
      * @param roleid
      * @return
      */
-    public DataGridView initRoleMenuTreeJson(Integer roleid);
+    DataGridView initRoleMenuTreeJson(Integer roleid);
 
-    /**
-     * 保存角色和菜单的关系
-     *
-     * @param roleVo
-     */
-    public void saveRoleMenu(RoleVo roleVo);
+
+//    /**
+//     * 查询所有角色返回
+//     *
+//     * @param roleVo
+//     * @return
+//     */
+//    public List<Role> queryAllRoleForList(RoleVo roleVo);
+//
+//    /**
+//     * 根据用户id查询用户的可用角色
+//     */
+//    public List<Role> queryRoleByUserIdForList(RoleVo roleVo, Integer userId);
+//
+//
+
+//
+//    /**
+//     * 保存角色和菜单的关系
+//     *
+//     * @param roleVo
+//     */
+//    public void saveRoleMenu(RoleVo roleVo);
 }

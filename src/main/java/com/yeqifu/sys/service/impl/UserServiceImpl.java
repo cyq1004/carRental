@@ -10,6 +10,7 @@ import com.yeqifu.sys.domain.User;
 import com.yeqifu.sys.mapper.RoleMapper;
 import com.yeqifu.sys.mapper.UserMapper;
 import com.yeqifu.sys.req.AddOrUpdateUserReq;
+import com.yeqifu.sys.req.RoleReq;
 import com.yeqifu.sys.req.UserReq;
 import com.yeqifu.sys.req.UserRoleReq;
 import com.yeqifu.sys.service.IUserService;
@@ -170,9 +171,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     public DataGridView queryUserRole(Long userid) {
         //1.查询所有可用的角色
-        Role role = new Role();
-        role.setAvailable(SysConstast.AVAILABLE_TRUE);
-        List<Role> allRole = this.roleMapper.queryAllRole(role);
+//        Role role = new Role();
+//        role.setAvailable(SysConstast.AVAILABLE_TRUE);
+        RoleReq roleReq = new RoleReq();
+        roleReq.setAvailable(SysConstast.AVAILABLE_TRUE);
+        List<Role> allRole = this.roleMapper.queryAllRole(roleReq);
         //2.根据用户ID查询已拥有的角色
         List<Role> userRole = this.roleMapper.queryRoleByUid(SysConstast.AVAILABLE_TRUE, userid);
 

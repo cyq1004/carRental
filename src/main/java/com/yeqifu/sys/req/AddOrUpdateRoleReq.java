@@ -3,6 +3,7 @@ package com.yeqifu.sys.req;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 增加角色入参req
@@ -30,6 +31,6 @@ public class AddOrUpdateRoleReq {
     /**
      * 是否可用
      */
-    @NotBlank(message = "可用性不能为空")
+    @NotNull(message = "可用性不能为空")
     private Integer available;
 }

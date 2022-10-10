@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 角色管理控制器
+ *
+ * @author cyq
  */
 @Slf4j
 @RestController
@@ -30,7 +32,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("loadAllRole")
-    public DataGridView loadAllRole(@RequestBody RoleReq req) {
+    public DataGridView loadAllRole(RoleReq req) {
         log.info("角色列表:{}", req);
         return roleService.queryAllRole(req);
     }
@@ -112,28 +114,28 @@ public class RoleController {
      * @param roleid
      * @return
      */
-    @RequestMapping("initRoleMenuTreeJson")
-    public DataGridView initRoleMenuJson(Integer roleid) {
-        return this.roleService.initRoleMenuTreeJson(roleid);
+    @GetMapping("initRoleMenuTreeJson")
+    public DataGridView initRoleMenuJson(@RequestParam("roleid") Integer roleid) {
+        return roleService.initRoleMenuTreeJson(roleid);
     }
-
-    /**
-     * 保存角色和菜单的关系
-     *
-     * @param roleVo
-     * @return
-     */
-    @RequestMapping("saveRoleMenu")
-    public ResultObj saveRoleMenu(RoleVo roleVo) {
-        try {
-
-            this.roleService.saveRoleMenu(roleVo);
-            return ResultObj.DISPATCH_SUCCESS;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultObj.DISPATCH_ERROR;
-        }
-    }
+//
+//    /**
+//     * 保存角色和菜单的关系
+//     *
+//     * @param roleVo
+//     * @return
+//     */
+//    @RequestMapping("saveRoleMenu")
+//    public ResultObj saveRoleMenu(RoleVo roleVo) {
+//        try {
+//
+//            this.roleService.saveRoleMenu(roleVo);
+//            return ResultObj.DISPATCH_SUCCESS;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResultObj.DISPATCH_ERROR;
+//        }
+//    }
 
 
 }

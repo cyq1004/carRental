@@ -23,7 +23,7 @@
     <!--添加角色-->
     <insert id="addRole" parameterType="com.yeqifu.sys.req.AddOrUpdateRoleReq">
         INSERT INTO sys_role (rolename, roledesc, available)
-        VALUES (#{req.loginname}, #{req.identity}, #{req.realname})
+        VALUES (#{req.rolename}, #{req.roledesc}, #{req.available})
     </insert>
 
     <!--更新角色-->
@@ -31,7 +31,7 @@
         UPDATE sys_role
         SET rolename = #{req.rolename},
             roledesc  = #{req.roledesc},
-            available  = #{req.realname}
+            available  = #{req.available}
         WHERE roleid = #{req.roleid}
     </update>
 

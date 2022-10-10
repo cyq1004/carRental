@@ -42,7 +42,7 @@ public class UserController {
     @PostMapping("loadAllUser")
     public DataGridView loadAllUser(UserReq req) {
         log.info("用户列表:{}", req);
-        return this.userService.queryAllUser(req);
+        return userService.queryAllUser(req);
     }
 
     /**
@@ -64,7 +64,7 @@ public class UserController {
             if (userService.getUserByLoginName(req.getLoginname()) != null) {
                 return ResultObj.ADD_LoginName_ERROR;
             }
-            this.userService.addUser(req);
+            userService.addUser(req);
             return ResultObj.ADD_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class UserController {
     public ResultObj updateUser(@Validated AddOrUpdateUserReq req) {
         log.info("修改用户:{}", req);
         try {
-            this.userService.updateUser(req);
+            userService.updateUser(req);
             return ResultObj.UPDATE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class UserController {
     public ResultObj deleteUser(@RequestParam("userid") Long userid) {
         log.info("删除用户:{}", userid);
         try {
-            this.userService.deleteUser(userid);
+            userService.deleteUser(userid);
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +118,7 @@ public class UserController {
     public ResultObj deleteBatchUser(UserReq req) {
         log.info("批量删除用户:{}", req);
         try {
-            this.userService.deleteBatchUser(req.getIds());
+            userService.deleteBatchUser(req.getIds());
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             return ResultObj.DELETE_ERROR;
@@ -135,7 +135,7 @@ public class UserController {
     public ResultObj resetUserPwd(Long userid) {
         log.info("重置用户密码:{}", userid);
         try {
-            this.userService.resetUserPwd(userid);
+            userService.resetUserPwd(userid);
             return ResultObj.RESET_SUCCESS;
         } catch (Exception e) {
             return ResultObj.RESET_ERROR;
@@ -152,7 +152,7 @@ public class UserController {
     public ResultObj saveUserRole(UserRoleReq req) {
         log.info("保存用户和角色的关系:{}", req);
         try {
-            this.userService.saveUserRole(req);
+            userService.saveUserRole(req);
             return ResultObj.DISPATCH_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();

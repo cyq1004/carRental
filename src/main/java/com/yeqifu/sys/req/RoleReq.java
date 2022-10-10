@@ -35,5 +35,5 @@ public class RoleReq {
     /**
      * 接手多个角色的id
      */
-    private Integer [] ids;
+    private Integer[] ids;
 }

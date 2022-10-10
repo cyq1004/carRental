@@ -78,6 +78,7 @@ public class RoleServiceImpl implements IRoleService {
         roleMapper.deleteRoleUser(roleid);
     }
 
+
     /**
      * 批量删除角色
      *
@@ -88,28 +89,6 @@ public class RoleServiceImpl implements IRoleService {
         for (Integer roleid : ids) {
             deleteRole(roleid);
         }
-    }
-
-
-    /**
-     * 查询所有菜单返回
-     *
-     * @param roleVo
-     * @return
-     */
-    @Override
-    public List<Role> queryAllRoleForList(RoleVo roleVo) {
-        return roleMapper.queryAllRole(roleVo);
-    }
-
-    /**
-     * @param roleVo
-     * @param userId
-     * @return
-     */
-    @Override
-    public List<Role> queryRoleByUserIdForList(RoleVo roleVo, Integer userId) {
-        return roleMapper.queryAllRole(roleVo);
     }
 
 
@@ -137,19 +116,43 @@ public class RoleServiceImpl implements IRoleService {
             Boolean spread = m1.getSpread() == SysConstast.SPREAD_TRUE ? true : false;
             data.add(new TreeNode(id, pid, title, spread, checkArr));
         }
-
         return new DataGridView(data);
     }
 
-    @Override
-    public void saveRoleMenu(RoleVo roleVo) {
-        Integer rid = roleVo.getRoleid();
-        Integer[] mids = roleVo.getIds();
-        //根据rid删除sys_role_menu里面的所有数据
-        this.roleMapper.deleteRoleMenuByRid(rid);
-        //保存角色和菜单的关系
-        for (Integer mid : mids) {
-            this.roleMapper.insertRoleMenu(rid, mid);
-        }
-    }
+
+//    /**
+//     * 查询所有菜单返回
+//     *
+//     * @param roleVo
+//     * @return
+//     */
+//    @Override
+//    public List<Role> queryAllRoleForList(RoleVo roleVo) {
+//        return roleMapper.queryAllRole(roleVo);
+//    }
+
+//    /**
+//     * @param roleVo
+//     * @param userId
+//     * @return
+//     */
+//    @Override
+//    public List<Role> queryRoleByUserIdForList(RoleVo roleVo, Integer userId) {
+//        return roleMapper.queryAllRole(roleVo);
+//    }
+
+
+
+//
+//    @Override
+//    public void saveRoleMenu(RoleVo roleVo) {
+//        Integer rid = roleVo.getRoleid();
+//        Integer[] mids = roleVo.getIds();
+//        //根据rid删除sys_role_menu里面的所有数据
+//        this.roleMapper.deleteRoleMenuByRid(rid);
+//        //保存角色和菜单的关系
+//        for (Integer mid : mids) {
+//            this.roleMapper.insertRoleMenu(rid, mid);
+//        }
+//    }
 }
