@@ -1,97 +1,60 @@
 package com.yeqifu.sys.domain;
 
-public class Menu {
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ *  @author cyq
+ *  @description 菜单表
+ */
+@Data
+@TableName("sys_menu")
+public class Menu implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 菜单ID
+     */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    /**
+     * 父ID
+     */
     private Integer pid;
 
+    /**
+     * 标题
+     */
     private String title;
 
+    /**
+     * 链接
+     */
     private String href;
 
+    /**
+     * 是否展开，0展开1不展开
+     */
     private Integer spread;
 
+    /**
+     *
+     */
     private String target;
 
+    /**
+     * 图标
+     */
     private String icon;
 
+    /**
+     * 是否可用，0可用1不可用
+     */
     private Integer available;
-
-    public Menu() {
-    }
-
-    public Menu(Integer id, Integer pid, String title, String href, Integer spread, String target, String icon, Integer available) {
-        this.id = id;
-        this.pid = pid;
-        this.title = title;
-        this.href = href;
-        this.spread = spread;
-        this.target = target;
-        this.icon = icon;
-        this.available = available;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setHref(String href) {
-        this.href = href == null ? null : href.trim();
-    }
-
-    public Integer getSpread() {
-        return spread;
-    }
-
-    public void setSpread(Integer spread) {
-        this.spread = spread;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target == null ? null : target.trim();
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon == null ? null : icon.trim();
-    }
-
-    public Integer getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Integer available) {
-        this.available = available;
-    }
 }

@@ -1,8 +1,8 @@
 package com.yeqifu.sys.service;
 
 import com.yeqifu.sys.domain.Menu;
+import com.yeqifu.sys.req.MenuReq;
 import com.yeqifu.sys.utils.DataGridView;
-import com.yeqifu.sys.vo.MenuVo;
 
 import java.util.List;
 
@@ -12,46 +12,64 @@ import java.util.List;
 public interface IMenuService {
 
     /**
-     * 查询所有菜单返回
-     * @param menuVo
+     * 查询所有菜单
+     *
+     * @param req
      * @return
      */
-    public List<Menu> queryAllMenuForList(MenuVo menuVo);
+    DataGridView queryAllMenu(MenuReq req);
 
-    /**
-     * 根据用户id查询用户的可用菜单
-     */
-    public List<Menu> queryMenuByUserIdForList(MenuVo menuVo,Long userId);
 
     /**
      * 查询所有菜单
-     * @param menuVo
+     *
+     * @param req
      * @return
      */
-    public DataGridView queryAllMenu(MenuVo menuVo);
+    List<Menu> queryAllMenuForList(MenuReq req);
+
+
+    /**
+     * 当前用户可用菜单列表
+     *
+     * @param menuVo
+     * @param userId
+     * @return
+     */
+    List<Menu> queryMenuByUserIdForList(MenuReq req, Long userId);
+
 
     /**
      * 添加菜单
-     * @param menuVo
+     *
+     * @param menu
      */
-    public void addMenu(MenuVo menuVo);
+    void addMenu(Menu menu);
+
 
     /**
      * 修改菜单
-     * @param menuVo
+     *
+     * @param menu
      */
-    public void updateMenu(MenuVo menuVo);
+    void updateMenu(Menu menu);
 
-    /**
-     * 根据pid查询菜单数量
-     * @param pid
-     * @return
-     */
-    public Integer queryMenuByPid(Integer pid);
 
     /**
      * 根据id删除菜单
-     * @param menuVo
+     *
+     * @param id
      */
-    public void deleteMenu(MenuVo menuVo);
+    void deleteMenu(Integer id);
+
+
+    /**
+     * 根据pid查询菜单数量
+     *
+     * @param pid
+     * @return
+     */
+    Integer queryMenuByPid(Integer pid);
+
+
 }
