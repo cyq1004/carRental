@@ -1,33 +1,32 @@
 package com.yeqifu.sys.service;
 
 
-import com.yeqifu.sys.domain.LogInfo;
-import com.yeqifu.sys.req.LogInfoReq;
+import com.yeqifu.sys.domain.Log;
+import com.yeqifu.sys.req.LogReq;
 import com.yeqifu.sys.utils.DataGridView;
 
 /**
- * 登录日志的服务接口
+ * 日志管理的服务接口
  *
  * @author chenyq
  */
-public interface ILogInfoService {
+public interface ILogService {
 
     /**
-     * 查询所有日志
+     * 日志管理列表
      *
      * @param req
      * @return
      */
-    DataGridView queryAllLogInfo(LogInfoReq req);
+    DataGridView queryAllLogInfo(LogReq req);
 
 
     /**
      * 删除一条日志
      *
-     * @param logInfoId
+     * @param id
      */
     void deleteLogInfo(Long id);
-
 
     /**
      * 批量删除日志
@@ -40,9 +39,7 @@ public interface ILogInfoService {
     /**
      * 添加日志
      *
-     * @param logInfo
+     * @param req
      */
-    void addLogInfo(LogInfo logInfo);
-
-
+    void addLog(Log log);
 }

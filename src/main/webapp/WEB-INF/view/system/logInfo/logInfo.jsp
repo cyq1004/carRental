@@ -152,7 +152,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.loginname + '】这个日志么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/logInfo/deleteLogInfo.action", {id: data.id}, function (res) {
+                    $.post("${yeqifu}/log/deleteLogInfo.action", {id: data.id}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();
@@ -176,7 +176,7 @@
             });
             layer.confirm('真的要删除这些日志么？', function (index) {
                 //向服务端发送删除指令
-                $.post("${yeqifu}/logInfo/deleteBatchLogInfo.action",params, function (res) {
+                $.post("${yeqifu}/log/deleteBatchLogInfo.action",params, function (res) {
                     layer.msg(res.msg);
                     //刷新数据表格
                     tableIns.reload();
