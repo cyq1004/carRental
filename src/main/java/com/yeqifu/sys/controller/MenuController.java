@@ -6,9 +6,7 @@ import com.yeqifu.sys.domain.User;
 import com.yeqifu.sys.req.MenuReq;
 import com.yeqifu.sys.service.IMenuService;
 import com.yeqifu.sys.utils.*;
-import com.yeqifu.sys.vo.MenuVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,7 +72,7 @@ public class MenuController {
      * @param req
      * @return
      */
-    @PostMapping("loadIndexleftMenuJson")
+    @RequestMapping("loadIndexleftMenuJson")
     public List<TreeNode> loadIndexLeftMenuJson(MenuReq req) {
         log.info("当前用户可用菜单列表:{}", req);
         //得到当前登陆的用户对象
@@ -160,7 +158,7 @@ public class MenuController {
      * 有 返回code>=0
      * 没有 返回code<0
      *
-     * @param menuVo
+     * @param id
      * @return
      */
     @GetMapping("checkMenuHasChildren")
@@ -174,7 +172,6 @@ public class MenuController {
             return ResultObj.STATUS_FALSE;
         }
     }
-
 
 
 }

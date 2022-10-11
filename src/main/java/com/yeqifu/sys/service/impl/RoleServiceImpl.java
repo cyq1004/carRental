@@ -8,6 +8,7 @@ import com.yeqifu.sys.domain.Role;
 import com.yeqifu.sys.mapper.MenuMapper;
 import com.yeqifu.sys.mapper.RoleMapper;
 import com.yeqifu.sys.req.AddOrUpdateRoleReq;
+import com.yeqifu.sys.req.MenuReq;
 import com.yeqifu.sys.req.RoleReq;
 import com.yeqifu.sys.service.IRoleService;
 import com.yeqifu.sys.utils.DataGridView;
@@ -95,7 +96,7 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public DataGridView initRoleMenuTreeJson(Integer roleid) {
         //查询所有的可用的菜单
-        Menu menu = new Menu();
+        MenuReq menu = new MenuReq();
         menu.setAvailable(SysConstast.AVAILABLE_TRUE);
         List<Menu> allMenu = menuMapper.queryAllMenu(menu);
         //根据角色ID查询当前角色拥有的菜单
