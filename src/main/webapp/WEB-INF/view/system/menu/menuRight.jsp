@@ -40,7 +40,7 @@
         }
     </style>
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: rgba(255,253,244,0.51)">
 
 <!-- 搜索条件开始 -->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">

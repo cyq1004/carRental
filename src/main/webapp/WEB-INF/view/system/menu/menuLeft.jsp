@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/dtree.css">
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/font/dtreefont.css">
 </head>
-<body class="main_body">
+<body class="main_body" style="background: rgba(255,253,244,0.51)">
 
     <ul id="menuTree" class="dtree" data-id="0"></ul>
 

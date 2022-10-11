@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YQF
-  Date: 2019/9/28
-  Time: 17:32
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

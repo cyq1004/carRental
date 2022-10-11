@@ -4,9 +4,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.sys.domain.LogInfo;
 import com.yeqifu.sys.mapper.LogInfoMapper;
+import com.yeqifu.sys.req.LogInfoReq;
 import com.yeqifu.sys.service.ILogInfoService;
 import com.yeqifu.sys.utils.DataGridView;
-import com.yeqifu.sys.vo.LogInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * 日志管理
+ *
  * @author yeqifu
  */
 @Service
@@ -24,42 +25,49 @@ public class LogInfoServiceImpl implements ILogInfoService {
 
     /**
      * 查询日志
-     * @param logInfoVo
+     *
+     * @param req
      * @return
      */
     @Override
-    public DataGridView queryAllLogInfo(LogInfoVo logInfoVo) {
-        Page<Object> page= PageHelper.startPage(logInfoVo.getPage(),logInfoVo.getLimit());
-        List<LogInfo> data = this.logInfoMapper.queryAllLogInfo(logInfoVo);
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView queryAllLogInfo(LogInfoReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<LogInfo> data = logInfoMapper.queryAllLogInfo(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
-    /**
-     * 添加日志
-     * @param logInfoVo
-     */
-    @Override
-    public void addLogInfo(LogInfoVo logInfoVo) {
-        this.logInfoMapper.insertSelective(logInfoVo);
-    }
 
     /**
-     * 删除单个日志
-     * @param logInfoId
+     * 删除一条日志
+     *
+     * @param id
      */
     @Override
-    public void deleteLogInfo(Integer logInfoId) {
-        this.logInfoMapper.deleteByPrimaryKey(logInfoId);
+    public void deleteLogInfo(Long id) {
+        logInfoMapper.deleteLogInfo(id);
     }
+
 
     /**
      * 批量删除日志
+     *
      * @param ids
      */
     @Override
-    public void deleteBatchLogInfo(Integer[] ids) {
-        for (Integer id : ids) {
+    public void deleteBatchLogInfo(Long[] ids) {
+        for (Long id : ids) {
             this.deleteLogInfo(id);
         }
+    }
+
+
+    /**
+     * 添加日志
+     *
+     * @param logInfo
+     */
+    @Override
+    public void addLogInfo(LogInfo logInfo) {
+        logInfoMapper.addLogInfo(logInfo);
     }
 }

@@ -1,38 +1,45 @@
 package com.yeqifu.sys.mapper;
 
 import com.yeqifu.sys.domain.LogInfo;
-import com.yeqifu.sys.vo.LogInfoVo;
+import com.yeqifu.sys.req.LogInfoReq;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface LogInfoMapper {
 
     /**
+     * 查询日志
+     *
+     * @param req
+     * @return
+     */
+    List<LogInfo> queryAllLogInfo(LogInfoReq req);
+
+
+    /**
      * 根据ID删除日志
+     *
      * @param id
      * @return
      */
-    int deleteByPrimaryKey(Integer id);
+    int deleteLogInfo(@Param("id") Long id);
 
-    int insert(LogInfo record);
 
     /**
      * 添加日志
-     * @param record
+     *
+     * @param logInfo
      * @return
      */
-    int insertSelective(LogInfo record);
+    int addLogInfo(@Param("logInfo") LogInfo logInfo);
 
-    LogInfo selectByPrimaryKey(Integer id);
+
+
 
     int updateByPrimaryKeySelective(LogInfo record);
 
     int updateByPrimaryKey(LogInfo record);
 
-    /**
-     * 查询日志
-     * @param logInfoVo
-     * @return
-     */
-    List<LogInfo> queryAllLogInfo(LogInfoVo logInfoVo);
+
 }

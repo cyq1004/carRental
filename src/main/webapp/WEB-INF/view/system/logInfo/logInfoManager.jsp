@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YQF
-  Date: 2019/9/30
-  Time: 22:57
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -100,6 +93,7 @@
         tableIns = table.render({
             elem: '#logInfoTable'   //渲染的目标对象
             , url: '${yeqifu}/logInfo/loadAllLogInfo.action' //数据接口
+            , method : 'post'
             , title: '用户数据表'//数据导出来的标题
             , toolbar: "#logInfoToolBar"   //表格的工具条
             , height: 'full-190'
@@ -151,7 +145,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.loginname + '】这个日志么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/logInfo/deleteLogInfo.action", {id: data.id}, function (res) {
+                    $.get("${yeqifu}/logInfo/deleteLogInfo.action", {id: data.id}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();
