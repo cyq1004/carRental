@@ -1,47 +1,54 @@
 package com.yeqifu.sys.service;
 
 import com.yeqifu.sys.domain.Message;
+import com.yeqifu.sys.req.AddOrUpdateMessageReq;
+import com.yeqifu.sys.req.MessageReq;
 import com.yeqifu.sys.utils.DataGridView;
-import com.yeqifu.sys.vo.MessageVo;
 
 public interface IMessageService {
 
     /**
-     * 查询所有留言
-     * @param messageVo
+     * 查询留言
+     *
+     * @param req
      * @return
      */
-    public DataGridView queryAllMessage(MessageVo messageVo);
+    DataGridView queryAllMessage(MessageReq req);
 
     /**
      * 添加留言
-     * @param messageVo
+     *
+     * @param req
      */
-    public void addMessage(MessageVo messageVo);
+    void addMessage(AddOrUpdateMessageReq req);
 
     /**
      * 删除留言
+     *
      * @param messageid
      */
-    public void deleteMessage(Integer messageid);
+    void deleteMessage(Long id);
 
     /**
      * 批量删除留言
+     *
      * @param ids
      */
-    public void deleteBatchMessage(Integer[] ids);
+    void deleteBatchMessage(Long[] ids);
 
     /**
      * 更新留言
-     * @param messageVo
+     *
+     * @param req
      */
-    public void updateMessage(MessageVo messageVo);
+    void updateMessage(MessageReq req);
 
     /**
      * 通过id查询一条留言
+     *
      * @param id
      * @return
      */
-    Message queryMessageById(Integer id);
+    Message loadMessageById(Long id);
 
 }

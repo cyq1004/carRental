@@ -2,20 +2,23 @@ package com.yeqifu.sys.controller;
 
 import com.yeqifu.sys.domain.Message;
 import com.yeqifu.sys.domain.User;
+import com.yeqifu.sys.req.AddOrUpdateMessageReq;
+import com.yeqifu.sys.req.MessageReq;
 import com.yeqifu.sys.service.IMessageService;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.ResultObj;
 import com.yeqifu.sys.utils.WebUtils;
-import com.yeqifu.sys.vo.MessageVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 /**
  * 系统留言控制器
  */
+@Slf4j
 @RestController
 @RequestMapping("message")
 public class MessageController {
@@ -25,28 +28,32 @@ public class MessageController {
 
     /**
      * 加载留言列表返回DataGridView
-     * @param messageVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("loadAllMessage")
-    public DataGridView loadAllMessage(MessageVo messageVo){
-        return this.messageService.queryAllMessage(messageVo);
+    @PostMapping("loadAllMessage")
+    public DataGridView loadAllMessage(MessageReq req) {
+        log.info("留言列表:{}", req);
+        return messageService.queryAllMessage(req);
     }
 
     /**
      * 添加留言
-     * @param messageVo
+     *
+     * @param req
      * @return
      */
     @RequestMapping("addMessage")
-    public ResultObj addMessage(MessageVo messageVo){
+    public ResultObj addMessage(@Validated AddOrUpdateMessageReq req) {
+        log.info("添加留言:{}", req);
         try {
-            messageVo.setCreatetime(new Date());
-            User user=(User) WebUtils.getHttpSession().getAttribute("user");
-            messageVo.setOpername(user.getRealname());
-            this.messageService.addMessage(messageVo);
+            req.setCreatetime(new Date());
+            User user = (User) WebUtils.getHttpSession().getAttribute("user");
+            req.setOpername(user.getRealname());
+            messageService.addMessage(req);
             return ResultObj.ADD_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.ADD_ERROR;
         }
@@ -54,15 +61,17 @@ public class MessageController {
 
     /**
      * 删除留言
-     * @param messageVo
+     *
+     * @param id
      * @return
      */
-    @RequestMapping("deleteMessage")
-    public ResultObj deleteMessage(MessageVo messageVo){
+    @GetMapping("deleteMessage")
+    public ResultObj deleteMessage(@RequestParam("id") Long id) {
+        log.info("删除留言:{}", id);
         try {
-            this.messageService.deleteMessage(messageVo.getId());
+            messageService.deleteMessage(id);
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -70,15 +79,17 @@ public class MessageController {
 
     /**
      * 批量删除留言
-     * @param messageVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("deleteBatchMessage")
-    public ResultObj deleteBatchMessage(MessageVo messageVo){
+    @PostMapping("deleteBatchMessage")
+    public ResultObj deleteBatchMessage(MessageReq req) {
+        log.info("批量删除留言:{}", req);
         try {
-            this.messageService.deleteBatchMessage(messageVo.getIds());
+            messageService.deleteBatchMessage(req.getIds());
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -86,15 +97,17 @@ public class MessageController {
 
     /**
      * 更新留言
-     * @param messageVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("updateMessage")
-    public ResultObj updateMessage(MessageVo messageVo){
+    @PostMapping("updateMessage")
+    public ResultObj updateMessage(@Validated AddOrUpdateMessageReq req) {
+        log.info("更新留言:{}", req);
         try {
-            this.messageService.updateMessage(messageVo);
+            messageService.updateMessage(req);
             return ResultObj.UPDATE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.UPDATE_ERROR;
         }
@@ -102,10 +115,14 @@ public class MessageController {
 
     /**
      * 根据id查询留言
+     *
+     * @param id
+     * @return
      */
-    @RequestMapping("loadMessageById")
-    public Message loadMessageById(Integer id) {
-        return this.messageService.queryMessageById(id);
+    @GetMapping("loadMessageById")
+    public Message loadMessageById(@RequestParam("id") Long id) {
+        log.info("根据id查询留言:{}", id);
+        return messageService.loadMessageById(id);
     }
 
 }

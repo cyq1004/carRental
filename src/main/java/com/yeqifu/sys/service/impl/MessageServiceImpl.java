@@ -4,9 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.sys.domain.Message;
 import com.yeqifu.sys.mapper.MessageMapper;
+import com.yeqifu.sys.req.AddOrUpdateMessageReq;
+import com.yeqifu.sys.req.MessageReq;
 import com.yeqifu.sys.service.IMessageService;
 import com.yeqifu.sys.utils.DataGridView;
-import com.yeqifu.sys.vo.MessageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,63 +20,69 @@ public class MessageServiceImpl implements IMessageService {
     private MessageMapper messageMapper;
 
     /**
-     * 查询所有
+     * 查询留言
+     *
      * @param messageVo
      * @return
      */
     @Override
-    public DataGridView queryAllMessage(MessageVo messageVo) {
-        Page<Object> page = PageHelper.startPage(messageVo.getPage(),messageVo.getLimit());
-        List<Message> data = this.messageMapper.queryAllMessage(messageVo);
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView queryAllMessage(MessageReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<Message> data = messageMapper.queryAllMessage(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
     /**
      * 添加留言
-     * @param messageVo
+     *
+     * @param req
      */
     @Override
-    public void addMessage(MessageVo messageVo) {
-        this.messageMapper.insertSelective(messageVo);
+    public void addMessage(AddOrUpdateMessageReq req) {
+        messageMapper.addMessage(req);
     }
 
     /**
      * 删除一条留言
-     * @param messageid
+     *
+     * @param id
      */
     @Override
-    public void deleteMessage(Integer messageid) {
-        this.messageMapper.deleteByPrimaryKey(messageid);
+    public void deleteMessage(Long id) {
+        messageMapper.deleteMessage(id);
     }
 
     /**
      * 批量删除留言
+     *
      * @param ids
      */
     @Override
-    public void deleteBatchMessage(Integer[] ids) {
-        for (Integer id : ids) {
-            this.deleteMessage(id);
+    public void deleteBatchMessage(Long[] ids) {
+        for (Long id : ids) {
+            deleteMessage(id);
         }
     }
 
     /**
      * 更新留言
-     * @param messageVo
+     *
+     * @param req
      */
     @Override
-    public void updateMessage(MessageVo messageVo) {
-        this.messageMapper.updateByPrimaryKeySelective(messageVo);
+    public void updateMessage(MessageReq req) {
+        messageMapper.updateMessage(req);
     }
 
     /**
      * 通过id查询一条留言
+     *
      * @param id
      * @return
      */
     @Override
-    public Message queryMessageById(Integer id) {
-        return this.messageMapper.selectByPrimaryKey(id);
+    public Message loadMessageById(Long id) {
+        return this.messageMapper.loadMessageById(id);
     }
 
 }

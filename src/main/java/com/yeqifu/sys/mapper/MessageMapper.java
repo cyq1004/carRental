@@ -1,21 +1,54 @@
 package com.yeqifu.sys.mapper;
 
 import com.yeqifu.sys.domain.Message;
+import com.yeqifu.sys.req.AddOrUpdateMessageReq;
+import com.yeqifu.sys.req.MessageReq;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface MessageMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Message record);
+    /**
+     * 查询留言
+     *
+     * @param req
+     * @return
+     */
+    List<Message> queryAllMessage(@Param("req") MessageReq req);
 
-    int insertSelective(Message record);
 
-    Message selectByPrimaryKey(Integer id);
+    /**
+     * 添加留言
+     *
+     * @param req
+     * @return
+     */
+    int addMessage(@Param("req") AddOrUpdateMessageReq req);
 
-    int updateByPrimaryKeySelective(Message record);
+    /**
+     * 删除留言
+     *
+     * @param id
+     * @return
+     */
+    int deleteMessage(@Param("id") Integer id);
 
-    int updateByPrimaryKey(Message record);
+    /**
+     * 更新留言
+     *
+     * @param req
+     * @return
+     */
+    int updateMessage(@Param("req") MessageReq req);
 
-    List<Message> queryAllMessage(Message message);
+
+    /**
+     * 通过id查询一条留言
+     *
+     * @param id
+     * @return
+     */
+    Message loadMessageById(@Param("id") Long id);
+
 }
