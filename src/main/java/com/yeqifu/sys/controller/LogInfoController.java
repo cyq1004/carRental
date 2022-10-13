@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 日志管理控制器
+ * 登录管理控制器
  *
  * @author chenyq
  */
@@ -22,7 +22,7 @@ public class LogInfoController {
     private ILogInfoService logInfoService;
 
     /**
-     * 加载日志列表返回DataGridView
+     * 加载登录日志列表返回DataGridView
      *
      * @param req
      * @return

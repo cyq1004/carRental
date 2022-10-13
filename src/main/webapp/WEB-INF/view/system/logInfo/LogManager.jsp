@@ -100,6 +100,7 @@
         tableIns = table.render({
             elem: '#logInfoTable'   //渲染的目标对象
             , url: '${yeqifu}/log/loadAllLogInfo.action' //数据接口
+            , method: 'post'
             , title: '用户数据表'//数据导出来的标题
             , toolbar: "#logInfoToolBar"   //表格的工具条
             , height: 'full-190'

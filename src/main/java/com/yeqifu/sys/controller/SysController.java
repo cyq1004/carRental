@@ -87,9 +87,9 @@ public class SysController {
      *
      * @return
      */
-    @RequestMapping("toLogInfo")
+    @RequestMapping("toLogManager")
     public String toLogInfo() {
-        return "system/logInfo/logInfo";
+        return "system/logInfo/LogManager";
     }
 
     /**
