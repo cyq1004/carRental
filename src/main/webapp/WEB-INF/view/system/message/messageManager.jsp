@@ -183,6 +183,7 @@
         tableIns = table.render({
             elem: '#messageTable'   //渲染的目标对象
             , url: '${yeqifu}/message/loadAllMessage.action' //数据接口
+            , method : 'post'
             , title: '留言数据表'//数据导出来的标题
             , toolbar: "#messageToolBar"   //表格的工具条
             , height: 'full-190'

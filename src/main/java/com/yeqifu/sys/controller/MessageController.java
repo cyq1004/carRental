@@ -32,7 +32,7 @@ public class MessageController {
      * @param req
      * @return
      */
-    @PostMapping("loadAllMessage")
+    @RequestMapping("loadAllMessage")
     public DataGridView loadAllMessage(MessageReq req) {
         log.info("留言列表:{}", req);
         return messageService.queryAllMessage(req);
