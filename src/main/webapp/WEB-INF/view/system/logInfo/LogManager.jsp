@@ -151,9 +151,9 @@
             var data = obj.data; //获得当前行数据
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if (layEvent === 'del') { //删除
-                layer.confirm('真的删除【' + data.loginname + '】这个日志么？', function (index) {
+                layer.confirm('真的删除【' + data.logname + '】这个日志么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/log/deleteLogInfo.action", {id: data.id}, function (res) {
+                    $.get("${yeqifu}/log/deleteLogInfo.action", {id: data.id}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();

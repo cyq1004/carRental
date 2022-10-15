@@ -16,7 +16,7 @@ public interface LogMapper {
      * @param req
      * @return
      */
-    List<LogInfo> queryAllLogInfo(@Param("req") LogReq req);
+    List<Log> queryAllLogInfo(@Param("req") LogReq req);
 
 
     /**

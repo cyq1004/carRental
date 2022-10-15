@@ -41,7 +41,7 @@ public interface IMessageService {
      *
      * @param req
      */
-    void updateMessage(MessageReq req);
+    void updateMessage(AddOrUpdateMessageReq req);
 
     /**
      * 通过id查询一条留言

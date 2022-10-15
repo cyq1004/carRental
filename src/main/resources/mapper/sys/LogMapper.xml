@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yeqifu.sys.mapper.LogMapper">
 
-  <select id="queryAllLogInfo" resultType="com.yeqifu.sys.domain.LogInfo">
+  <select id="queryAllLogInfo" resultType="com.yeqifu.sys.domain.Log">
     select
      id as id,
      logname as logname,
@@ -12,7 +12,7 @@
     from sys_log
     <where>
       <if test="req.logname!=null and req.logname!=''">
-        and loginname like concat("%",#{req.loginname},"%")
+        and logname like concat("%",#{req.logname},"%")
       </if>
       <if test="req.logip!=null and req.logip!=''">
         and logip eq #{req.logip})

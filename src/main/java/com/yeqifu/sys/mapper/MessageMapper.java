@@ -32,7 +32,7 @@ public interface MessageMapper {
      * @param id
      * @return
      */
-    int deleteMessage(@Param("id") Integer id);
+    int deleteMessage(@Param("id") Long id);
 
     /**
      * 更新留言
@@ -40,7 +40,7 @@ public interface MessageMapper {
      * @param req
      * @return
      */
-    int updateMessage(@Param("req") MessageReq req);
+    int updateMessage(@Param("req") AddOrUpdateMessageReq req);
 
 
     /**

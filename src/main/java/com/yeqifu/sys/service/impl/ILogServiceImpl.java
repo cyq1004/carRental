@@ -33,7 +33,7 @@ public class ILogServiceImpl implements ILogService {
     @Override
     public DataGridView queryAllLogInfo(LogReq req) {
         Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
-        List<LogInfo> data = logMapper.queryAllLogInfo(req);
+        List<Log> data = logMapper.queryAllLogInfo(req);
         return new DataGridView(page.getTotal(), data);
     }
 

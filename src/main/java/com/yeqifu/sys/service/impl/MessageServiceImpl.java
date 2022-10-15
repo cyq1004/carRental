@@ -22,7 +22,7 @@ public class MessageServiceImpl implements IMessageService {
     /**
      * 查询留言
      *
-     * @param messageVo
+     * @param req
      * @return
      */
     @Override
@@ -70,7 +70,7 @@ public class MessageServiceImpl implements IMessageService {
      * @param req
      */
     @Override
-    public void updateMessage(MessageReq req) {
+    public void updateMessage(AddOrUpdateMessageReq req) {
         messageMapper.updateMessage(req);
     }
 

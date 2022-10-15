@@ -32,7 +32,7 @@ public class LogController {
     @PostMapping("loadAllLogInfo")
     public DataGridView loadAllLogInfo(LogReq req) {
         log.info("加载日志列表:{}", req);
-        return logService.queryAllLogInfo(req);
+            return logService.queryAllLogInfo(req);
     }
 
     /**
