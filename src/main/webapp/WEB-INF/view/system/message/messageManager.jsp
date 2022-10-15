@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YQF
-  Date: 2019/9/30
-  Time: 22:57
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,7 +16,7 @@
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/dtree.css">
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/font/dtreefont.css">
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: rgba(255,253,244,0.51)>
 
 <!-- 搜索条件开始 -->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
