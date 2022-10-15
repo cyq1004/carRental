@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 登录管理控制器
+ * 登录日志管理控制器
  *
  * @author chenyq
  */

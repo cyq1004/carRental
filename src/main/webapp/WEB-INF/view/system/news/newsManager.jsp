@@ -1,9 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YQF
-  Date: 2019/9/30
-  Time: 22:57
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -183,6 +177,7 @@
         tableIns = table.render({
             elem: '#newsTable'   //渲染的目标对象
             , url: '${yeqifu}/news/loadAllNews.action' //数据接口
+            , method : 'post'
             , title: '新闻数据表'//数据导出来的标题
             , toolbar: "#newsToolBar"   //表格的工具条
             , height: 'full-190'
@@ -237,7 +232,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.title + '】这个新闻么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/news/deleteNews.action", {id: data.id}, function (res) {
+                    $.get("${yeqifu}/news/deleteNews.action", {id: data.id}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();

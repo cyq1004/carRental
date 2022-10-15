@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.sys.domain.News;
 import com.yeqifu.sys.mapper.NewsMapper;
+import com.yeqifu.sys.req.AddOrUpdateNewsReq;
+import com.yeqifu.sys.req.NewsReq;
 import com.yeqifu.sys.service.INewsService;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.vo.NewsVo;
@@ -20,62 +22,68 @@ public class NewsServiceImpl implements INewsService {
 
     /**
      * 查询所有
+     *
      * @param newsVo
      * @return
      */
     @Override
-    public DataGridView queryAllNews(NewsVo newsVo) {
-        Page<Object> page = PageHelper.startPage(newsVo.getPage(),newsVo.getLimit());
-        List<News> data = this.newsMapper.queryAllNews(newsVo);
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView loadAllNews(NewsReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<News> data = newsMapper.loadAllNews(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
     /**
      * 添加公告
-     * @param newsVo
+     *
+     * @param news
      */
     @Override
-    public void addNews(NewsVo newsVo) {
-        this.newsMapper.insertSelective(newsVo);
+    public void addNews(News news) {
+        newsMapper.addNews(news);
     }
 
     /**
      * 删除一条公告
-     * @param newsid
+     *
+     * @param id
      */
     @Override
-    public void deleteNews(Integer newsid) {
-        this.newsMapper.deleteByPrimaryKey(newsid);
+    public void deleteNews(Long id) {
+        newsMapper.deleteNews(id);
     }
 
     /**
      * 批量删除公告
+     *
      * @param ids
      */
     @Override
-    public void deleteBatchNews(Integer[] ids) {
-        for (Integer id : ids) {
-            this.deleteNews(id);
+    public void deleteBatchNews(Long[] ids) {
+        for (Long id : ids) {
+            deleteNews(id);
         }
     }
 
     /**
      * 更新公告
-     * @param newsVo
+     *
+     * @param req
      */
     @Override
-    public void updateNews(NewsVo newsVo) {
-        this.newsMapper.updateByPrimaryKeySelective(newsVo);
+    public void updateNews(AddOrUpdateNewsReq req) {
+        newsMapper.updateNews(req);
     }
 
     /**
-     * 通过id查询一条公告
+     * 根据id查询公告
+     *
      * @param id
      * @return
      */
     @Override
-    public News queryNewsById(Integer id) {
-        return this.newsMapper.selectByPrimaryKey(id);
+    public News loadNewsById(Long id) {
+        return newsMapper.loadNewsById(id);
     }
 
 }

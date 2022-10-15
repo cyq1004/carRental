@@ -1,58 +1,45 @@
 package com.yeqifu.sys.domain;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class News {
-    private Integer id;
+/**
+ *  @author cyq
+ *  @description 用户表
+ */
+@Data
+@TableName("sys_news")
+public class News implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键id
+     */
+    private Long id;
+
+    /**
+     * 标题
+     */
     private String title;
 
+    /**
+     * 内容
+     */
     private String content;
 
+    /**
+     * 创建时间
+     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createtime;
 
+    /**
+     * 发布人
+     */
     private String opername;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    public String getOpername() {
-        return opername;
-    }
-
-    public void setOpername(String opername) {
-        this.opername = opername == null ? null : opername.trim();
-    }
 }

@@ -1,21 +1,25 @@
 package com.yeqifu.sys.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.yeqifu.sys.domain.News;
 import com.yeqifu.sys.domain.User;
+import com.yeqifu.sys.req.AddOrUpdateNewsReq;
+import com.yeqifu.sys.req.NewsReq;
 import com.yeqifu.sys.service.INewsService;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.ResultObj;
 import com.yeqifu.sys.utils.WebUtils;
 import com.yeqifu.sys.vo.NewsVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 /**
  * 系统公告控制器
  */
+@Slf4j
 @RestController
 @RequestMapping("news")
 public class NewsController {
@@ -25,28 +29,32 @@ public class NewsController {
 
     /**
      * 加载公告列表返回DataGridView
-     * @param newsVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("loadAllNews")
-    public DataGridView loadAllNews(NewsVo newsVo){
-        return this.newsService.queryAllNews(newsVo);
+    @PostMapping("loadAllNews")
+    public DataGridView loadAllNews(NewsReq req) {
+        return newsService.loadAllNews(req);
     }
 
     /**
      * 添加公告
-     * @param newsVo
+     *
+     * @param req
      * @return
      */
     @RequestMapping("addNews")
-    public ResultObj addNews(NewsVo newsVo){
+    public ResultObj addNews(AddOrUpdateNewsReq req) {
         try {
-            newsVo.setCreatetime(new Date());
-            User user=(User) WebUtils.getHttpSession().getAttribute("user");
-            newsVo.setOpername(user.getRealname());
-            this.newsService.addNews(newsVo);
+            News news = new News();
+            BeanUtil.copyProperties(req, news);
+            news.setCreatetime(new Date());
+            User user = (User) WebUtils.getHttpSession().getAttribute("user");
+            news.setOpername(user.getRealname());
+            newsService.addNews(news);
             return ResultObj.ADD_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.ADD_ERROR;
         }
@@ -54,15 +62,16 @@ public class NewsController {
 
     /**
      * 删除公告
-     * @param newsVo
+     *
+     * @param id
      * @return
      */
-    @RequestMapping("deleteNews")
-    public ResultObj deleteNews(NewsVo newsVo){
+    @GetMapping("deleteNews")
+    public ResultObj deleteNews(@RequestParam("id") Long id) {
         try {
-            this.newsService.deleteNews(newsVo.getId());
+            newsService.deleteNews(id);
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -70,15 +79,16 @@ public class NewsController {
 
     /**
      * 批量删除公告
-     * @param newsVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("deleteBatchNews")
-    public ResultObj deleteBatchNews(NewsVo newsVo){
+    @PostMapping("deleteBatchNews")
+    public ResultObj deleteBatchNews(NewsReq req) {
         try {
-            this.newsService.deleteBatchNews(newsVo.getIds());
+            newsService.deleteBatchNews(req.getIds());
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -86,15 +96,16 @@ public class NewsController {
 
     /**
      * 更新公告
-     * @param newsVo
+     *
+     * @param req
      * @return
      */
     @RequestMapping("updateNews")
-    public ResultObj updateNews(NewsVo newsVo){
+    public ResultObj updateNews(AddOrUpdateNewsReq req) {
         try {
-            this.newsService.updateNews(newsVo);
+            newsService.updateNews(req);
             return ResultObj.UPDATE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.UPDATE_ERROR;
         }
@@ -103,9 +114,9 @@ public class NewsController {
     /**
      * 根据id查询公告
      */
-    @RequestMapping("loadNewsById")
-    public News loadNewsById(Integer id) {
-        return this.newsService.queryNewsById(id);
+    @GetMapping("loadNewsById")
+    public News loadNewsById(@RequestParam("id") Long id) {
+        return newsService.loadNewsById(id);
     }
 
 }

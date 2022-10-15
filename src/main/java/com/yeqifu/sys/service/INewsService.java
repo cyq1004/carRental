@@ -1,6 +1,8 @@
 package com.yeqifu.sys.service;
 
 import com.yeqifu.sys.domain.News;
+import com.yeqifu.sys.req.AddOrUpdateNewsReq;
+import com.yeqifu.sys.req.NewsReq;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.vo.NewsVo;
 
@@ -8,40 +10,46 @@ public interface INewsService {
 
     /**
      * 查询所有公告
-     * @param newsVo
+     *
+     * @param req
      * @return
      */
-    public DataGridView queryAllNews(NewsVo newsVo);
+    DataGridView loadAllNews(NewsReq req);
 
     /**
      * 添加公告
-     * @param newsVo
+     *
+     * @param news
      */
-    public void addNews(NewsVo newsVo);
+    void addNews(News news);
 
     /**
      * 删除公告
-     * @param newsid
+     *
+     * @param id
      */
-    public void deleteNews(Integer newsid);
+    void deleteNews(Long id);
 
     /**
      * 批量删除公告
+     *
      * @param ids
      */
-    public void deleteBatchNews(Integer[] ids);
+    void deleteBatchNews(Long[] ids);
 
     /**
      * 更新公告
-     * @param newsVo
+     *
+     * @param req
      */
-    public void updateNews(NewsVo newsVo);
+    void updateNews(AddOrUpdateNewsReq req);
 
     /**
-     * 通过id查询一条公告
+     * 根据id查询公告
+     *
      * @param id
      * @return
      */
-    News queryNewsById(Integer id);
+    News loadNewsById(Long id);
 
 }
