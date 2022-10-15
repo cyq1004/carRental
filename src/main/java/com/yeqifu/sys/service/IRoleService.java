@@ -60,6 +60,14 @@ public interface IRoleService {
     DataGridView initRoleMenuTreeJson(Integer roleid);
 
 
+    /**
+     * 保存角色和菜单的关系
+     *
+     * @param roleVo
+     */
+    void saveRoleMenu(RoleVo roleVo);
+
+
 //    /**
 //     * 查询所有角色返回
 //     *
@@ -75,11 +83,5 @@ public interface IRoleService {
 //
 //
 
-//
-//    /**
-//     * 保存角色和菜单的关系
-//     *
-//     * @param roleVo
-//     */
-//    public void saveRoleMenu(RoleVo roleVo);
+
 }

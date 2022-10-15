@@ -306,7 +306,8 @@
                         checkbar:true,
                         checkbarType:"all",
                         checkbarData:"choose",
-                        url: "${yeqifu}/role/initRoleMenuTreeJson.action?roleid="+data.roleid
+                        url: "${yeqifu}/role/initRoleMenuTreeJson.action?roleid="+data.roleid,
+                        method: "get"
                     });
 
                 }

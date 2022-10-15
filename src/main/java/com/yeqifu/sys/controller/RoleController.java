@@ -118,24 +118,23 @@ public class RoleController {
     public DataGridView initRoleMenuJson(@RequestParam("roleid") Integer roleid) {
         return roleService.initRoleMenuTreeJson(roleid);
     }
-//
-//    /**
-//     * 保存角色和菜单的关系
-//     *
-//     * @param roleVo
-//     * @return
-//     */
-//    @RequestMapping("saveRoleMenu")
-//    public ResultObj saveRoleMenu(RoleVo roleVo) {
-//        try {
-//
-//            this.roleService.saveRoleMenu(roleVo);
-//            return ResultObj.DISPATCH_SUCCESS;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResultObj.DISPATCH_ERROR;
-//        }
-//    }
+
+    /**
+     * 保存角色和菜单的关系
+     *
+     * @param roleVo
+     * @return
+     */
+    @RequestMapping("saveRoleMenu")
+    public ResultObj saveRoleMenu(RoleVo roleVo) {
+        try {
+            roleService.saveRoleMenu(roleVo);
+            return ResultObj.DISPATCH_SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultObj.DISPATCH_ERROR;
+        }
+    }
 
 
 }

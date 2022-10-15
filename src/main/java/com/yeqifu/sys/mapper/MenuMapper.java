@@ -4,6 +4,7 @@ import com.yeqifu.sys.domain.Menu;
 import com.yeqifu.sys.req.MenuReq;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
@@ -79,4 +80,12 @@ public interface MenuMapper {
     List<Menu> queryMenuByRoleId(@Param("available") Integer available, @Param("rid") Integer roleid);
 
 
+    /**
+     * 根据id获取菜单信息
+     *
+     * @param id
+     * @return
+     */
+    @Select({"select * from sys_menu where id = #{id}"})
+    Menu getMenuById(@Param("id") Integer id);
 }

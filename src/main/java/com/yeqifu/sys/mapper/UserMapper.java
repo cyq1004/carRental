@@ -89,6 +89,9 @@ public interface UserMapper {
     @Select({"select * from sys_user where loginname = #{loginname}"})
     User getUserByLoginName(@Param("loginname") String loginname);
 
+    @Select({"select * from sys_user where userid = #{userid}"})
+    User getUserByUserId(@Param("userid") Long userid);
+
     /**
      * 保存注册用户
      *
@@ -97,6 +100,5 @@ public interface UserMapper {
      */
     @Insert({"insert into sys_user(loginname,phone,pwd) values (#{user.loginname},#{user.phone},#{user.pwd})"})
     Boolean saveUser(@Param("user") User user);
-
 
 }

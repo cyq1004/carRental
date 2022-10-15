@@ -42,7 +42,7 @@ public interface INewsService {
      *
      * @param req
      */
-    void updateNews(AddOrUpdateNewsReq req);
+     void updateNews(AddOrUpdateNewsReq req);
 
     /**
      * 根据id查询公告

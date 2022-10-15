@@ -3,21 +3,26 @@ package com.yeqifu.sys.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.sys.constast.SysConstast;
+import com.yeqifu.sys.domain.Log;
 import com.yeqifu.sys.domain.Menu;
 import com.yeqifu.sys.domain.Role;
+import com.yeqifu.sys.domain.User;
 import com.yeqifu.sys.mapper.MenuMapper;
 import com.yeqifu.sys.mapper.RoleMapper;
 import com.yeqifu.sys.req.AddOrUpdateRoleReq;
 import com.yeqifu.sys.req.MenuReq;
 import com.yeqifu.sys.req.RoleReq;
+import com.yeqifu.sys.service.ILogService;
 import com.yeqifu.sys.service.IRoleService;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.TreeNode;
+import com.yeqifu.sys.utils.WebUtils;
 import com.yeqifu.sys.vo.RoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,6 +33,9 @@ public class RoleServiceImpl implements IRoleService {
 
     @Autowired
     private MenuMapper menuMapper;
+
+    @Autowired
+    private ILogService iLogService;
 
     /**
      * 角色列表
@@ -49,6 +57,15 @@ public class RoleServiceImpl implements IRoleService {
      */
     @Override
     public void addRole(AddOrUpdateRoleReq req) {
+        //记录操作日志 向sys_log里面插入数据
+        User logUser = (User) WebUtils.getHttpSession().getAttribute("user");
+        Log log = new Log();
+        log.setLogname(logUser.getRealname());
+        log.setLogip(WebUtils.getHttpServletRequest().getRemoteAddr());
+        log.setLogtime(new Date());
+        log.setLog("添加角色"+req.getRolename());
+        iLogService.addLog(log);
+
         roleMapper.addRole(req);
     }
 
@@ -60,6 +77,15 @@ public class RoleServiceImpl implements IRoleService {
      */
     @Override
     public void updateRole(AddOrUpdateRoleReq req) {
+        //记录操作日志 向sys_log里面插入数据
+        User logUser = (User) WebUtils.getHttpSession().getAttribute("user");
+        Log log = new Log();
+        log.setLogname(logUser.getRealname());
+        log.setLogip(WebUtils.getHttpServletRequest().getRemoteAddr());
+        log.setLogtime(new Date());
+        log.setLog("更新角色"+req.getRolename());
+        iLogService.addLog(log);
+
         roleMapper.updateRole(req);
     }
 
@@ -71,6 +97,16 @@ public class RoleServiceImpl implements IRoleService {
      */
     @Override
     public void deleteRole(Integer roleid) {
+        Role role = roleMapper.getRoleById(roleid);
+        //记录操作日志 向sys_log里面插入数据
+        User logUser = (User) WebUtils.getHttpSession().getAttribute("user");
+        Log log = new Log();
+        log.setLogname(logUser.getRealname());
+        log.setLogip(WebUtils.getHttpServletRequest().getRemoteAddr());
+        log.setLogtime(new Date());
+        log.setLog("删除角色"+role.getRolename());
+        iLogService.addLog(log);
+
         //删除角色表的数据
         roleMapper.deleteRole(roleid);
         //根据角色id删除sys_role_menu里面的数据
@@ -92,7 +128,12 @@ public class RoleServiceImpl implements IRoleService {
         }
     }
 
-
+    /**
+     * 加载角色管理分配菜单的json
+     *
+     * @param roleid
+     * @return
+     */
     @Override
     public DataGridView initRoleMenuTreeJson(Integer roleid) {
         //查询所有的可用的菜单
@@ -120,6 +161,22 @@ public class RoleServiceImpl implements IRoleService {
         return new DataGridView(data);
     }
 
+    /**
+     *
+     * @param roleVo
+     */
+    @Override
+    public void saveRoleMenu(RoleVo roleVo) {
+        Integer rid = roleVo.getRoleid();
+        Integer[] mids = roleVo.getIds();
+        //根据rid删除sys_role_menu里面的所有数据
+        roleMapper.deleteRoleMenuByRid(rid);
+        //保存角色和菜单的关系
+        for (Integer mid : mids) {
+            this.roleMapper.insertRoleMenu(rid, mid);
+        }
+    }
+
 
 //    /**
 //     * 查询所有菜单返回
@@ -144,16 +201,5 @@ public class RoleServiceImpl implements IRoleService {
 
 
 
-//
-//    @Override
-//    public void saveRoleMenu(RoleVo roleVo) {
-//        Integer rid = roleVo.getRoleid();
-//        Integer[] mids = roleVo.getIds();
-//        //根据rid删除sys_role_menu里面的所有数据
-//        this.roleMapper.deleteRoleMenuByRid(rid);
-//        //保存角色和菜单的关系
-//        for (Integer mid : mids) {
-//            this.roleMapper.insertRoleMenu(rid, mid);
-//        }
-//    }
+
 }
