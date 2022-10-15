@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  Customer: YQF
-  Date: 2019/10/14
-  Time: 18:50
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -23,7 +16,7 @@
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/dtree.css">
     <link rel="stylesheet" href="${yeqifu}/static/layui_ext/dtree/font/dtreefont.css">
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: rgba(255,253,244,0.51)">
 
 <!-- 搜索条件开始 -->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -105,9 +98,9 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs layui-btn-radius" lay-event="del">删除</a>
 </div>
 
-<!-- 添加和修改的弹出层-->
-<div style="display: none;padding: 20px" id="saveOrUpdateDiv">
-    <form class="layui-form" lay-filter="dataFrm" id="dataFrm">
+<!-- 修改客户 -->
+<div style="display: none;padding: 20px" id="UpdateDiv">
+    <form class="layui-form" lay-filter="updateDataFrm" id="updateDataFrm">
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">客户姓名:</label>
@@ -119,7 +112,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">身份证号:</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="identity" lay-verify="required" placeholder="请输入客户姓名" autocomplete="off"
+                    <input type="text" name="identity" readonly lay-verify="required" placeholder="请输入客户身份证号" autocomplete="off"
                            class="layui-input">
                 </div>
             </div>
@@ -158,7 +151,70 @@
             <div class="layui-input-block" style="text-align: center;padding-right: 120px">
                 <button type="button"
                         class="layui-btn layui-btn-normal layui-btn-md layui-icon layui-icon-release layui-btn-radius"
-                        lay-filter="doSubmit" lay-submit="">提交
+                        lay-filter="doUpdateSubmit" lay-submit="">提交
+                </button>
+                <button type="reset"
+                        class="layui-btn layui-btn-warm layui-btn-md layui-icon layui-icon-refresh layui-btn-radius">重置
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--添加客户-->
+<div style="display: none;padding: 20px" id="saveDiv">
+    <form class="layui-form" lay-filter="saveDataFrm" id="saveDataFrm">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">客户姓名:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="custname" lay-verify="required" placeholder="请输入客户姓名" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">身份证号:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="identity" lay-verify="required" placeholder="请输入客户身份证号" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">客户地址:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="address" placeholder="请输入客户地址" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">客户职业:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="career" placeholder="请输入客户职业" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">客户电话:</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="phone" lay-verify="required|phone" placeholder="请输入客户电话" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">客户性别:</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="sex" value="1" checked="checked" title="男">
+                    <input type="radio" name="sex" value="0" title="女">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="text-align: center;padding-right: 120px">
+                <button type="button"
+                        class="layui-btn layui-btn-normal layui-btn-md layui-icon layui-icon-release layui-btn-radius"
+                        lay-filter="doSaveSubmit" lay-submit="">提交
                 </button>
                 <button type="reset"
                         class="layui-btn layui-btn-warm layui-btn-md layui-icon layui-icon-refresh layui-btn-radius">重置
@@ -181,6 +237,7 @@
         tableIns = table.render({
             elem: '#customerTable'   //渲染的目标对象
             , url: '${yeqifu}/customer/loadAllCustomer.action' //数据接口
+            , method: 'post'
             , title: '客户数据表'//数据导出来的标题
             , toolbar: "#customerToolBar"   //表格的工具条
             , height: 'full-210'
@@ -196,7 +253,7 @@
 
                 , {
                     field: 'sex', title: '性别', align: 'center', width: '120', templet: function (d) {
-                        return d.sex == '1' ? '<font color=blue>男</font>' : '<font color=red>女</font>';
+                        return d.sex == '0' ? '<font color=blue>男</font>' : '<font color=red>女</font>';
                     }
                 }
                 , {field: 'createtime', title: '录入时间', align: 'center', width: '200'}
@@ -268,11 +325,11 @@
             mainIndex = layer.open({
                 type: 1,
                 title: '添加客户',
-                content: $("#saveOrUpdateDiv"),
+                content: $("#saveDiv"),
                 area: ['700px', '320px'],
                 success: function (index) {
                     //清空表单数据
-                    $("#dataFrm")[0].reset();
+                    $("#saveDataFrm")[0].reset();
                     url = "${yeqifu}/customer/addCustomer.action";
                 }
             });
@@ -283,25 +340,46 @@
             mainIndex = layer.open({
                 type: 1,
                 title: '修改客户',
-                content: $("#saveOrUpdateDiv"),
+                content: $("#UpdateDiv"),
                 area: ['700px', '320px'],
                 success: function (index) {
-                    form.val("dataFrm", data);
+                    form.val("updateDataFrm", data);
                     url = "${yeqifu}/customer/updateCustomer.action";
                 }
             });
         }
 
-        //保存
-        form.on("submit(doSubmit)", function (obj) {
+        //保存更新
+        form.on("submit(doUpdateSubmit)", function (obj) {
             //序列化表单数据
-            var params = $("#dataFrm").serialize();
+            var params = $("#updateDataFrm").serialize();
             $.post(url, params, function (obj) {
-                layer.msg(obj.msg);
-                //关闭弹出层
-                layer.close(mainIndex)
-                //刷新数据 表格
-                tableIns.reload();
+                if(obj.code == 0) {
+                    layer.msg(obj.msg);
+                    //关闭弹出层
+                    layer.close(mainIndex)
+                    //刷新数据 表格
+                    tableIns.reload();
+                }else {
+                    layer.msg(obj.msg);
+                }
+            })
+        });
+
+        //保存
+        form.on("submit(doSaveSubmit)", function (obj) {
+            //序列化表单数据
+            var params = $("#saveDataFrm").serialize();
+            $.post(url, params, function (obj) {
+                if(obj.code == 0) {
+                    layer.msg(obj.msg);
+                    //关闭弹出层
+                    layer.close(mainIndex)
+                    //刷新数据 表格
+                    tableIns.reload();
+                }else {
+                    layer.msg(obj.msg);
+                }
             })
         });
 

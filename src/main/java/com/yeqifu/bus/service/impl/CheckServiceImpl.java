@@ -43,7 +43,7 @@ public class CheckServiceImpl implements ICheckService {
         //查询出租单
         Rent rent = this.rentMapper.selectByPrimaryKey(rentid);
         //查询客户
-        Customer customer = this.customerMapper.selectByPrimaryKey(rent.getIdentity());
+        Customer customer = customerMapper.queryCustomerByIdentity(rent.getIdentity());
         //查询车辆
         Car car = this.carMapper.selectByPrimaryKey(rent.getCarnumber());
         //组装check

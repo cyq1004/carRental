@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.bus.domain.Customer;
 import com.yeqifu.bus.mapper.CustomerMapper;
+import com.yeqifu.bus.req.CustomerReq;
 import com.yeqifu.bus.service.ICustomerService;
 import com.yeqifu.bus.vo.CustomerVo;
 import com.yeqifu.sys.utils.DataGridView;
@@ -20,46 +21,50 @@ public class CustomerServiceImpl implements ICustomerService {
 
     /**
      * 查询所有客户信息 分页
-     * @param customerVo
+     *
+     * @param req
      * @return
      */
     @Override
-    public DataGridView queryAllCustomer(CustomerVo customerVo) {
-        Page<Object> page = PageHelper.startPage(customerVo.getPage(),customerVo.getLimit());
-        List<Customer> data = this.customerMapper.queryAllCustomer(customerVo);
-
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView loadAllCustomer(CustomerReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<Customer> data = customerMapper.loadAllCustomer(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
     /**
      * 添加一个客户
-     * @param customerVo
+     *
+     * @param customer
      */
     @Override
-    public void addCustomer(CustomerVo customerVo) {
-        this.customerMapper.insertSelective(customerVo);
+    public void addCustomer(Customer customer) {
+        customerMapper.addCustomer(customer);
     }
 
     /**
-     * 更新一个客户
-     * @param customerVo
+     * 更新客户信息
+     *
+     * @param customer
      */
     @Override
-    public void updateCustomer(CustomerVo customerVo) {
-        this.customerMapper.updateByPrimaryKeySelective(customerVo);
+    public void updateCustomer(Customer customer) {
+        customerMapper.updateCustomer(customer);
     }
 
     /**
      * 删除一个客户
+     *
      * @param identity
      */
     @Override
     public void deleteCustomer(String identity) {
-        this.customerMapper.deleteByPrimaryKey(identity);
+        customerMapper.deleteCustomer(identity);
     }
 
     /**
      * 批量删除客户
+     *
      * @param identitys
      */
     @Override
@@ -67,26 +72,27 @@ public class CustomerServiceImpl implements ICustomerService {
         for (String identity : identitys) {
             this.deleteCustomer(identity);
         }
-
     }
 
     /**
      * 通过身份证号查询客户
+     *
      * @param identity
      * @return
      */
     @Override
     public Customer queryCustomerByIdentity(String identity) {
-        return this.customerMapper.selectByPrimaryKey(identity);
+        return customerMapper.queryCustomerByIdentity(identity);
     }
 
     /**
      * 查询所有客户数据不分页
-     * @param customerVo
+     *
+     * @param req
      * @return
      */
     @Override
-    public List<Customer> queryAllCustomerForList(CustomerVo customerVo) {
-        return this.customerMapper.queryAllCustomer(customerVo);
+    public List<Customer> queryAllCustomerForList(CustomerReq req) {
+        return customerMapper.loadAllCustomer(req);
     }
 }

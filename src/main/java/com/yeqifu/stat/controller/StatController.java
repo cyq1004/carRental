@@ -2,6 +2,7 @@ package com.yeqifu.stat.controller;
 
 import com.yeqifu.bus.domain.Customer;
 import com.yeqifu.bus.domain.Rent;
+import com.yeqifu.bus.req.CustomerReq;
 import com.yeqifu.bus.service.ICustomerService;
 import com.yeqifu.bus.service.IRentService;
 import com.yeqifu.bus.vo.CustomerVo;
@@ -137,12 +138,12 @@ public class StatController {
 
     /**
      * 导出客户数据
-     * @param customerVo
+     * @param req
      * @param response
      */
     @RequestMapping("exportCustomer")
-    public ResponseEntity<Object> exportCustomer(CustomerVo customerVo, HttpServletResponse response){
-        List<Customer> customers = customerService.queryAllCustomerForList(customerVo);
+    public ResponseEntity<Object> exportCustomer(CustomerReq req, HttpServletResponse response){
+        List<Customer> customers = customerService.queryAllCustomerForList(req);
         String fileName="客户数据.xls";
         String sheetName="客户数据";
 

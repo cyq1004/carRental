@@ -1,17 +1,12 @@
-package com.yeqifu.bus.domain;
+package com.yeqifu.bus.req;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
-
 /**
- * 客户表
+ * 客户模块请求req
  */
 @Data
-@TableName("bus_customer")
-public class Customer {
+public class CustomerReq {
 
     /**
      * 身份证
@@ -44,8 +39,11 @@ public class Customer {
     private String career;
 
     /**
-     * 创建时间
+     * 分页参数
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date createtime;
+    private Integer page;
+    private Integer limit;
+
+    //接受多个id
+    private String [] ids;
 }
