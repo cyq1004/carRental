@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
- * @author luoyi-
+ * @author chenyq
  */
 public class LogInfoVo extends LogInfo {
 

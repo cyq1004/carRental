@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * web的工具类
- * @author luoyi-
+ * @author chenyq
  */
 public class WebUtils {
 	

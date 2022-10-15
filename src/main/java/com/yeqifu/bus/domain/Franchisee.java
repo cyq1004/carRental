@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 加盟商表
- * @author yeqifu
+ * @author chenyq
  * @TableName bus_franchisee
  */
 public class Franchisee implements Serializable {

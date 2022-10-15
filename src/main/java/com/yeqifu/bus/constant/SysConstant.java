@@ -2,7 +2,7 @@ package com.yeqifu.bus.constant;
 
 /**
  * 常量接口
- * @author yeqifu
+ * @author chenyq
  */
 public interface SysConstant {
 

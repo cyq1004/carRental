@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author luoyi-
+ * @author chenyq
  */
 @Service
 public class RentServiceImpl implements IRentService {

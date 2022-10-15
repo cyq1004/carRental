@@ -5,7 +5,7 @@ import com.yeqifu.bus.domain.Franchisee;
 import java.util.List;
 
 /**
- * @Author: 落亦-
+ * @author chenyq
  * @Date: 2022/5/22 13:57
  */
 public interface FranchiseeMapper {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 加盟商控制器
  *
- * @Author: 落亦-
+ * @author chenyq
  * @Date: 2022/5/22 9:45
  */
 @RestController

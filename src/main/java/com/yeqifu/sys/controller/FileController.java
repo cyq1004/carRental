@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * 文件上传下载的控制器
- * @author luoyi-
+ * @author chenyq
  */
 @Controller
 @RequestMapping("file")

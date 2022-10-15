@@ -5,7 +5,7 @@ import com.yeqifu.bus.vo.FranchiseeVo;
 import com.yeqifu.sys.utils.DataGridView;
 
 /**
- * @Author: 落亦-
+ * @author chenyq
  * @Date: 2022/5/22 13:50
  */
 public interface FranchiseeService {

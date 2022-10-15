@@ -17,7 +17,7 @@ import java.util.Properties;
 /**
  * 文件上传工具类
  *
- * @author luoyi-
+ * @author chenyq
  */
 public class AppFileUtils {
 
