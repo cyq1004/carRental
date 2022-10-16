@@ -73,7 +73,7 @@ public class CustomerController {
      * @return
      */
     @PostMapping("updateCustomer")
-    public ResultObj updateCustomer(AddOrUpdateCustomerReq req) {
+    public ResultObj updateCustomer(@Validated AddOrUpdateCustomerReq req) {
         try {
             Customer customer = new Customer();
             BeanUtil.copyProperties(req, customer);
