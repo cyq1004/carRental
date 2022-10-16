@@ -1,21 +1,27 @@
 package com.yeqifu.bus.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.yeqifu.bus.domain.Car;
+import com.yeqifu.bus.req.AddOrUpdateCarReq;
+import com.yeqifu.bus.req.CarReq;
 import com.yeqifu.bus.service.ICarService;
 import com.yeqifu.bus.vo.CarVo;
 import com.yeqifu.sys.constast.SysConstast;
 import com.yeqifu.sys.utils.AppFileUtils;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.ResultObj;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 /**
  * 车辆管理控制器
  */
+@Slf4j
 @RestController
 @RequestMapping("car")
 public class CarController {
@@ -25,56 +31,65 @@ public class CarController {
 
     /**
      * 加载车辆列表返回DataGridView
-     * @param carVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("loadAllCar")
-    public DataGridView loadAllCar(CarVo carVo){
-        return this.carService.queryAllCar(carVo);
+    @PostMapping("loadAllCar")
+    public DataGridView loadAllCar(CarReq req) {
+        log.info("加载车辆列表:{}", req);
+        return carService.loadAllCar(req);
     }
 
     /**
-     * 添加一个车辆
-     * @param carVo
+     * 添加车辆
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("addCar")
-    public ResultObj addCar(CarVo carVo){
-        try{
-            carVo.setCreatetime(new Date());
-            //如果不是默认图片就去掉图片的_temp的后缀
-            if(!carVo.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)){
-                String filePath =AppFileUtils.updateFileName(carVo.getCarimg(), SysConstast.FILE_UPLOAD_TEMP);
-                carVo.setCarimg(filePath);
+    @PostMapping("addCar")
+    public ResultObj addCar(@Validated AddOrUpdateCarReq req) {
+        log.info("添加车辆:{}", req);
+        try {
+            if (carService.queryCarByCarNumber(req.getCarnumber()) != null) {
+                return new ResultObj(-1, "该车牌号的车辆已存在");
             }
-            this.carService.addCar(carVo);
+            Car car = new Car();
+            BeanUtil.copyProperties(req, car);
+            car.setCreatetime(new Date());
+            //如果不是默认图片就去掉图片的_temp的后缀
+            if (!car.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)) {
+                String filePath = AppFileUtils.updateFileName(car.getCarimg(), SysConstast.FILE_UPLOAD_TEMP);
+                car.setCarimg(filePath);
+            }
+            carService.addCar(car);
             return ResultObj.ADD_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.ADD_ERROR;
         }
     }
 
     /**
-     * 修改一个车辆
-     * @param carVo
+     * 修改车辆
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("updateCar")
-    public ResultObj updateCar(CarVo carVo){
-        try{
-            String carimg = carVo.getCarimg();
+    @PostMapping("updateCar")
+    public ResultObj updateCar(@Validated AddOrUpdateCarReq req) {
+        try {
+            String carimg = req.getCarimg();
             if (carimg.endsWith(SysConstast.FILE_UPLOAD_TEMP)) {
-                String filePath =AppFileUtils.updateFileName(carVo.getCarimg(), SysConstast.FILE_UPLOAD_TEMP);
-                carVo.setCarimg(filePath);
-                //把原来的删除
-                Car car = this.carService.queryCarByCarNumber(carVo.getCarnumber());
+                String filePath = AppFileUtils.updateFileName(req.getCarimg(), SysConstast.FILE_UPLOAD_TEMP);
+                req.setCarimg(filePath);
+                //把原来图片的删除
+                Car car = carService.queryCarByCarNumber(req.getCarnumber());
                 AppFileUtils.removeFileByPath(car.getCarimg());
-
             }
-            this.carService.updateCar(carVo);
+            carService.updateCar(req);
             return ResultObj.UPDATE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.UPDATE_ERROR;
         }
@@ -82,15 +97,16 @@ public class CarController {
 
     /**
      * 删除一个车辆
-     * @param carVo
+     *
+     * @param carnumber
      * @return
      */
-    @RequestMapping("deleteCar")
-    public ResultObj deleteCar(CarVo carVo){
+    @GetMapping("deleteCar")
+    public ResultObj deleteCar(@RequestParam("carnumber") String carnumber) {
         try {
-            this.carService.deleteCar(carVo.getCarnumber());
+            carService.deleteCar(carnumber);
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -98,15 +114,16 @@ public class CarController {
 
     /**
      * 批量删除车辆
-     * @param carVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("deleteBatchCar")
-    public ResultObj deleteBatchCar(CarVo carVo){
-        try{
-            this.carService.deleteBatchCar(carVo.getIds());
+    @PostMapping("deleteBatchCar")
+    public ResultObj deleteBatchCar(CarReq req) {
+        try {
+            carService.deleteBatchCar(req.getIds());
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }

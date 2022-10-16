@@ -1,6 +1,8 @@
 package com.yeqifu.bus.service;
 
 import com.yeqifu.bus.domain.Car;
+import com.yeqifu.bus.req.AddOrUpdateCarReq;
+import com.yeqifu.bus.req.CarReq;
 import com.yeqifu.bus.vo.CarVo;
 import com.yeqifu.sys.utils.DataGridView;
 
@@ -8,37 +10,43 @@ public interface ICarService {
 
     /**
      * 查询所有车辆
-     * @param carVo
+     *
+     * @param req
      * @return
      */
-    public DataGridView queryAllCar(CarVo carVo);
+    DataGridView loadAllCar(CarReq req);
 
     /**
      * 添加车辆
-     * @param carVo
+     *
+     * @param req
      */
-    public void addCar(CarVo carVo);
+    void addCar(Car car);
 
     /**
      * 修改车辆
-     * @param carVo
+     *
+     * @param req
      */
-    public void updateCar(CarVo carVo);
+    void updateCar(AddOrUpdateCarReq req);
 
     /**
-     * 根据id删除车辆
+     * 根据车牌号删除车辆
+     *
      * @param carnumber
      */
-    public void deleteCar(String carnumber);
+    void deleteCar(String carnumber);
 
     /**
      * 批量删除车辆
+     *
      * @param carnumbers
      */
-    public void deleteBatchCar(String[] carnumbers);
+    void deleteBatchCar(String[] carnumbers);
 
     /**
      * 根据车牌号查询
+     *
      * @param carnumber
      * @return
      */
@@ -46,6 +54,7 @@ public interface ICarService {
 
     /**
      * 出租单审核通过后修改汽车状态
+     *
      * @param car
      */
     void updateCarCheck(Car car);

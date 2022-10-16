@@ -45,7 +45,7 @@ public class CheckServiceImpl implements ICheckService {
         //查询客户
         Customer customer = customerMapper.queryCustomerByIdentity(rent.getIdentity());
         //查询车辆
-        Car car = this.carMapper.selectByPrimaryKey(rent.getCarnumber());
+        Car car = carMapper.getByCarnumber(rent.getCarnumber());
         //组装check
         Check check = new Check();
         check.setCheckid(RandomUtils.createRandomStringUseTime(SysConstast.CAR_ORDER_JC));
@@ -81,7 +81,7 @@ public class CheckServiceImpl implements ICheckService {
         rent.setRentflag(SysConstast.RENT_BACK_TRUE);
         this.rentMapper.updateByPrimaryKeySelective(rent);
         //更改汽车的状态
-        Car car = this.carMapper.selectByPrimaryKey(rent.getCarnumber());
+        Car car = this.carMapper.getByCarnumber(rent.getCarnumber());
         //更改汽车状态为未出租
         car.setIsrenting(SysConstast.RENT_CAR_FALSE);
         this.carMapper.updateByPrimaryKeySelective(car);

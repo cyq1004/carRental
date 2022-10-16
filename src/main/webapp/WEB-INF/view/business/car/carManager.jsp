@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="${yeqifu}/static/layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="${yeqifu}/static/css/public.css" media="all"/>
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: rgba(255,253,244,0.51)">
 
 <!-- 搜索条件开始 -->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -203,6 +203,7 @@
         tableIns = table.render({
             elem: '#carTable'   //渲染的目标对象
             , url: '${yeqifu}/car/loadAllCar.action' //数据接口
+            , method: 'post'
             , title: '车辆数据表'//数据导出来的标题
             , toolbar: "#carToolBar"   //表格的工具条
             , height: 'full-210'
@@ -271,7 +272,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.carnumber + '】这个车辆么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/car/deleteCar.action", {carnumber: data.carnumber}, function (res) {
+                    $.get("${yeqifu}/car/deleteCar.action", {carnumber: data.carnumber}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();
@@ -299,8 +300,8 @@
                     //清空表单数据
                     $("#dataFrm")[0].reset();
                     //设置默认图片
-                    $("#showCarImg").attr("src", "${yeqifu}/file/downloadShowFile.action?path=images/defaultcarimage.jpg");
-                    $("#carimg").val("images/defaultcarimage.jpg");
+                    $("#showCarImg").attr("src", "${yeqifu}/file/downloadShowFile.action?path=images/defaultCar.jpg");
+                    $("#carimg").val("images/defaultCar.jpg");
                     url = "${yeqifu}/car/addCar.action";
                     $("#carnumber").removeAttr("readonly","readonly");
                 }

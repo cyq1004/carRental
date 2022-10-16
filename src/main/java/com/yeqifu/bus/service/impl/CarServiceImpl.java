@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.bus.domain.Car;
 import com.yeqifu.bus.mapper.CarMapper;
+import com.yeqifu.bus.req.AddOrUpdateCarReq;
+import com.yeqifu.bus.req.CarReq;
 import com.yeqifu.bus.service.ICarService;
 import com.yeqifu.bus.vo.CarVo;
 import com.yeqifu.sys.constast.SysConstast;
@@ -21,53 +23,58 @@ public class CarServiceImpl implements ICarService {
     private CarMapper carMapper;
 
     /**
-     * 查询所有信息
-     * @param carVo
+     * 查询所有车辆
+     *
+     * @param req
      * @return
      */
     @Override
-    public DataGridView queryAllCar(CarVo carVo) {
-        Page<Object> page = PageHelper.startPage(carVo.getPage(),carVo.getLimit());
-        List<Car> data = this.carMapper.queryAllCar(carVo);
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView loadAllCar(CarReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<Car> data = carMapper.loadAllCar(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
     /**
      * 添加一个车辆
-     * @param carVo
+     *
+     * @param car
      */
     @Override
-    public void addCar(CarVo carVo) {
-        this.carMapper.insertSelective(carVo);
+    public void addCar(Car car) {
+        carMapper.addCar(car);
     }
 
     /**
      * 更新一个车辆
-     * @param carVo
+     *
+     * @param req
      */
     @Override
-    public void updateCar(CarVo carVo) {
-        this.carMapper.updateByPrimaryKeySelective(carVo);
+    public void updateCar(AddOrUpdateCarReq req) {
+        carMapper.updateCar(req);
     }
 
     /**
      * 删除一个车辆
+     *
      * @param carnumber
      */
     @Override
     public void deleteCar(String carnumber) {
         //先删除图片
-        Car car = this.carMapper.selectByPrimaryKey(carnumber);
+        Car car = carMapper.getByCarnumber(carnumber);
         //如果不是默认图片就删除
-        if (!car.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)){
+        if (!car.getCarimg().equals(SysConstast.DEFAULT_CAR_IMG)) {
             AppFileUtils.deleteFileUsePath(car.getCarimg());
         }
         //删除数据库的数据
-        this.carMapper.deleteByPrimaryKey(carnumber);
+        carMapper.deleteCar(carnumber);
     }
 
     /**
      * 批量删除车辆
+     *
      * @param carnumbers
      */
     @Override
@@ -75,16 +82,26 @@ public class CarServiceImpl implements ICarService {
         for (String carnumber : carnumbers) {
             this.deleteCar(carnumber);
         }
-
     }
 
+    /**
+     * 根据车牌号查询
+     *
+     * @param carnumber
+     * @return
+     */
     @Override
     public Car queryCarByCarNumber(String carnumber) {
-        return this.carMapper.selectByPrimaryKey(carnumber);
+        return carMapper.getByCarnumber(carnumber);
     }
 
+    /**
+     * 出租单审核通过后修改汽车状态
+     *
+     * @param car
+     */
     @Override
     public void updateCarCheck(Car car) {
-        this.carMapper.updateByPrimaryKeySelective(car);
+        carMapper.updateByPrimaryKeySelective(car);
     }
 }
