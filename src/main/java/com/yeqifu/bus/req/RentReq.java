@@ -1,8 +1,7 @@
-package com.yeqifu.bus.domain;
+package com.yeqifu.bus.req;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,28 +9,24 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 /**
- * 汽车出租表
+ * 汽车出租管理请求req
  */
 @Data
-@TableName("bus_rent")
-public class Rent {
+public class RentReq {
 
     /**
      * 出租单号
      */
-    @TableId
     private String rentid;
 
     /**
      * 出租价格
      */
-    @TableField("price")
     private Double price;
 
     /**
      * 起租时间
      */
-    @TableField("begindate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //前台获取的时间进行格式化插入到数据库中
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8") //后台数据库查询出来的时间转换到前台进行显示
     private Date begindate;
@@ -39,7 +34,6 @@ public class Rent {
     /**
      * 还车时间
      */
-    @TableField("returndate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss",timezone = "GTM+8")
     private Date returndate;
@@ -47,31 +41,41 @@ public class Rent {
     /**
      * 归还状态
      */
-    @TableField("rentflag")
     private Integer rentflag;
 
     /**
      * 身份证号
      */
-    @TableField("identity")
     private String identity;
 
     /**
      * 车牌号
      */
-    @TableField("carnumber")
     private String carnumber;
 
     /**
      * 客户名称
      */
-    @TableField("opername")
     private String opername;
 
     /**
      * 创建时间
      */
-    @TableField("createtime")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8") //后台数据库查询出来的时间转换到前台进行显示
     private Date createtime;
+
+
+    /**
+     * 分页参数
+     */
+    private Integer page;
+    private Integer limit;
+
+    /**
+     * 扩展表单参数  将前台时间提交到后台
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date endTime;
 }

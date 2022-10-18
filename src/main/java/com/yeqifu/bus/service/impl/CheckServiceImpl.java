@@ -79,7 +79,7 @@ public class CheckServiceImpl implements ICheckService {
         Rent rent = this.rentMapper.selectByPrimaryKey(checkVo.getRentid());
         //更改为已归还
         rent.setRentflag(SysConstast.RENT_BACK_TRUE);
-        this.rentMapper.updateByPrimaryKeySelective(rent);
+        this.rentMapper.updateRent(rent);
         //更改汽车的状态
         Car car = this.carMapper.getByCarnumber(rent.getCarnumber());
         //更改汽车状态为未出租

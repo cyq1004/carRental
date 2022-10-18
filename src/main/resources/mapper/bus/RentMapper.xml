@@ -1,6 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yeqifu.bus.mapper.RentMapper">
+
+  <insert id="addRent" parameterType="com.yeqifu.bus.domain.Rent">
+    insert into bus_rent (rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime)
+    values (#{rent.rentid}, #{rent.price}, #{rent.begindate}, #{rent.returndate}, #{rent.rentflag}, #{rent.identity}, #{rent.carnumber}, #{rent.opername}, #{rent.createtime})
+  </insert>
+
+  <select id="queryAllRent" resultType="com.yeqifu.bus.domain.Rent">
+    select
+        rentid as rentid,
+        price as price,
+        begindate as begindate,
+        returndate as returndate,
+        rentflag as rentflag,
+        identity as identity,
+        carnumber as carnumber,
+        opername as opername,
+        createtime as createtime
+    from bus_rent
+    <where>
+      <if test="req.rentid!=null and req.rentid!=''">
+        and rentid like concat("%",#{req.rentid},"%")
+      </if>
+      <if test="req.carnumber!=null and req.carnumber!=''">
+        and carnumber like concat("%",#{req.carnumber},"%")
+      </if>
+      <if test="req.identity!=null and req.identity!=''">
+        and identity like concat("%",#{req.identity},"%")
+      </if>
+      <if test="req.startTime!=null">
+        and createtime >=#{req.startTime}
+      </if>
+      <if test="req.endTime!=null">
+        and createtime <![CDATA[<=]]>#{req.endTime}
+      </if>
+      <if test="req.rentflag!=null">
+        and rentflag=#{req.rentflag}
+      </if>
+    </where>
+    order by createtime desc
+  </select>
+
+
+  <update id="updateRent" parameterType="com.yeqifu.bus.domain.Rent">
+     update bus_rent
+        set price = #{rent.price},
+        begindate = #{rent.begindate},
+        returndate = #{rent.returndate},
+        rentflag = #{rent.rentflag},
+        identity = #{rent.identity},
+        carnumber = #{rent.carnumber},
+        opername = #{rent.opername},
+        createtime = #{rent.createtime}
+      where rentid = #{rent.rentid}
+  </update>
+
+
+
+
+
+
   <resultMap id="BaseResultMap" type="com.yeqifu.bus.domain.Rent">
     <id column="rentid" jdbcType="VARCHAR" property="rentid" />
     <result column="price" jdbcType="DOUBLE" property="price" />
@@ -16,7 +76,7 @@
     rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from bus_rent
     where rentid = #{rentid,jdbcType=VARCHAR}
@@ -96,36 +156,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yeqifu.bus.domain.Rent">
-    update bus_rent
-    <set>
-      <if test="price != null">
-        price = #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="begindate != null">
-        begindate = #{begindate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="returndate != null">
-        returndate = #{returndate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="rentflag != null">
-        rentflag = #{rentflag,jdbcType=INTEGER},
-      </if>
-      <if test="identity != null">
-        identity = #{identity,jdbcType=VARCHAR},
-      </if>
-      <if test="carnumber != null">
-        carnumber = #{carnumber,jdbcType=VARCHAR},
-      </if>
-      <if test="opername != null">
-        opername = #{opername,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where rentid = #{rentid,jdbcType=VARCHAR}
-  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.yeqifu.bus.domain.Rent">
     update bus_rent
     set price = #{price,jdbcType=DOUBLE},
@@ -139,32 +170,6 @@
     where rentid = #{rentid,jdbcType=VARCHAR}
   </update>
 
-  <!--查询-->
-  <select id="queryAllRent" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from bus_rent
-    <where>
-      <if test="rentid!=null and rentid!=''">
-        and rentid like concat("%",#{rentid},"%")
-      </if>
-      <if test="carnumber!=null and carnumber!=''">
-        and carnumber like concat("%",#{carnumber},"%")
-      </if>
-      <if test="identity!=null and identity!=''">
-        and identity like concat("%",#{identity},"%")
-      </if>
-      <if test="startTime!=null">
-        and createtime >=#{startTime}
-      </if>
-      <if test="endTime!=null">
-        and createtime <![CDATA[<=]]>#{endTime}
-      </if>
-      <if test="rentflag!=null">
-        and rentflag=#{rentflag}
-      </if>
-    </where>
-    order by createtime desc
-  </select>
+
 
 </mapper>

@@ -1,6 +1,7 @@
 package com.yeqifu.bus.service;
 
 import com.yeqifu.bus.domain.Rent;
+import com.yeqifu.bus.req.RentReq;
 import com.yeqifu.bus.vo.RentVo;
 import com.yeqifu.sys.utils.DataGridView;
 
@@ -8,30 +9,35 @@ public interface IRentService {
 
     /**
      * 保存出租单信息
-     * @param rentVo
+     *
+     * @param rent
      */
-    void addRent(RentVo rentVo);
+    void addRent(Rent rent);
 
     /**
-     * 查询
-     * @param rentVo
+     * 出租单列表查询
+     *
+     * @param req
      */
-    DataGridView queryAllRent(RentVo rentVo);
+    DataGridView queryAllRent(RentReq req);
 
     /**
      * 修改出租单
-     * @param rentVo
+     *
+     * @param rent
      */
-    void updateRent(RentVo rentVo);
+    void updateRent(Rent rent);
 
     /**
      * 删除出租单
+     *
      * @param rentid
      */
     void deleteRent(String rentid);
 
     /**
      * 根据出租单号查询出租单信息
+     *
      * @param rentid
      * @return
      */
@@ -39,6 +45,7 @@ public interface IRentService {
 
     /**
      * 审核出租单
+     *
      * @param rentVo
      */
     void checkRent(RentVo rentVo);

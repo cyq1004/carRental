@@ -6,12 +6,14 @@ import com.yeqifu.bus.domain.Car;
 import com.yeqifu.bus.domain.Rent;
 import com.yeqifu.bus.mapper.CarMapper;
 import com.yeqifu.bus.mapper.RentMapper;
+import com.yeqifu.bus.req.RentReq;
 import com.yeqifu.bus.service.IRentService;
 import com.yeqifu.bus.vo.RentVo;
 import com.yeqifu.sys.constast.SysConstast;
 import com.yeqifu.sys.utils.DataGridView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,27 +29,56 @@ public class RentServiceImpl implements IRentService {
     @Autowired
     private CarMapper carMapper;
 
+    /**
+     * 保存出租单信息
+     *
+     * @param rent
+     */
     @Override
-    public void addRent(RentVo rentVo) {
-        this.rentMapper.insertSelective(rentVo);
+    @Transactional
+    public void addRent(Rent rent) {
+        rentMapper.addRent(rent);
         //更改车辆的出租状态
         Car car = new Car();
-        car.setCarnumber(rentVo.getCarnumber());
+        car.setCarnumber(rent.getCarnumber());
         //设置车辆为审核状态
         car.setIsrenting(SysConstast.RENT_CAR_CHECK);
         carMapper.updateByPrimaryKeySelective(car);
     }
 
+    /**
+     * 出租单列表查询
+     *
+     * @param req
+     * @return
+     */
     @Override
-    public DataGridView queryAllRent(RentVo rentVo) {
-        Page<Object> page = PageHelper.startPage(rentVo.getPage(),rentVo.getLimit());
-        List<Rent> data = this.rentMapper.queryAllRent(rentVo);
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView queryAllRent(RentReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<Rent> data = rentMapper.queryAllRent(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
+    /**
+     * 审核出租单
+     *
+     * @param rentVo
+     */
     @Override
-    public void updateRent(RentVo rentVo) {
-        this.rentMapper.updateByPrimaryKeySelective(rentVo);
+    public void checkRent(RentVo rentVo) {
+        rentVo.setRentflag(SysConstast.RENT_BACK_FALSE);
+        this.rentMapper.updateRent(rentVo);
+    }
+
+
+    /**
+     * 修改出租单
+     *
+     * @param rent
+     */
+    @Override
+    public void updateRent(Rent rent) {
+        rentMapper.updateRent(rent);
     }
 
     @Override
@@ -64,6 +95,7 @@ public class RentServiceImpl implements IRentService {
 
     /**
      * 根据出租单号查询出租单信息
+     *
      * @param rentid
      * @return
      */
@@ -72,14 +104,5 @@ public class RentServiceImpl implements IRentService {
         return this.rentMapper.selectByPrimaryKey(rentid);
     }
 
-    /**
-     * 审核出租单
-     * @param rentVo
-     */
-    @Override
-    public void checkRent(RentVo rentVo) {
-        rentVo.setRentflag(SysConstast.RENT_BACK_FALSE);
-        this.rentMapper.updateByPrimaryKeySelective(rentVo);
-    }
 
 }

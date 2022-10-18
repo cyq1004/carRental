@@ -16,6 +16,7 @@ public class ExportCustomerUtils {
 
     /**
      * 导出客户数据
+     *
      * @param customers
      * @param sheetName
      * @return
@@ -40,7 +41,7 @@ public class ExportCustomerUtils {
         sheet.addMergedRegion(region1);
         sheet.addMergedRegion(region2);
         //1.6.1创建第一行
-        int index=0;
+        int index = 0;
         HSSFRow row1 = sheet.createRow(index);
         //1.6.2在第一行里面创建一个单元格
         HSSFCell row1_cell1 = row1.createCell(0);
@@ -57,10 +58,10 @@ public class ExportCustomerUtils {
         //1.7.3设置标题样式
         row2_cell1.setCellStyle(subTitleStyle);
         //1.7.4设置单元格内容
-        row2_cell1.setCellValue("总条数："+customers.size()+"   导出时间："+new Date().toLocaleString());
+        row2_cell1.setCellValue("总条数：" + customers.size() + "   导出时间：" + new Date().toLocaleString());
 
         //1.8.1第三行
-        String[] titles={"身份证号","客户姓名","客户电话","客户地址","客户职业","性别","录入时间"};
+        String[] titles = {"身份证号", "客户姓名", "客户电话", "客户地址", "客户职业", "性别", "录入时间"};
         index++;
         HSSFRow row3 = sheet.createRow(index);
         for (int i = 0; i < titles.length; i++) {
@@ -97,7 +98,7 @@ public class ExportCustomerUtils {
             //1.9.1创建列客户性别
             HSSFCell row_sex = row.createCell(5);
             row_sex.setCellStyle(baseStyle);
-            row_sex.setCellValue(customer.getSex()==1?"男":"女");
+            row_sex.setCellValue(customer.getSex() == 1 ? "男" : "女");
             //1.9.1创建列客户录入时间
             HSSFCell row_createtime = row.createCell(6);
             row_createtime.setCellStyle(baseStyle);

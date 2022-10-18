@@ -70,34 +70,34 @@
     update bus_car
     <set>
       <if test="cartype != null">
-        cartype = #{cartype,jdbcType=VARCHAR},
+        cartype = #{cartype},
       </if>
       <if test="color != null">
-        color = #{color,jdbcType=VARCHAR},
+        color = #{color},
       </if>
       <if test="price != null">
-        price = #{price,jdbcType=DOUBLE},
+        price = #{price},
       </if>
       <if test="rentprice != null">
-        rentprice = #{rentprice,jdbcType=DOUBLE},
+        rentprice = #{rentprice},
       </if>
       <if test="deposit != null">
-        deposit = #{deposit,jdbcType=DOUBLE},
+        deposit = #{deposit},
       </if>
       <if test="isrenting != null">
-        isrenting = #{isrenting,jdbcType=INTEGER},
+        isrenting = #{isrenting},
       </if>
       <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
+        description = #{description},
       </if>
       <if test="carimg != null">
-        carimg = #{carimg,jdbcType=VARCHAR},
+        carimg = #{carimg},
       </if>
       <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+        createtime = #{createtime},
       </if>
     </set>
-    where carnumber = #{carnumber,jdbcType=VARCHAR}
+    where carnumber = #{carnumber}
   </update>
 
 

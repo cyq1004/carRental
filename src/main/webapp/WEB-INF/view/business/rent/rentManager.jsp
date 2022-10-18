@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  Rent: YQF
-  Date: 2019/10/14
-  Time: 18:50
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -284,6 +277,7 @@
         tableIns = table.render({
             elem: '#rentTable'   //渲染的目标对象
             , url: '${yeqifu}/rent/loadAllRent.action' //数据接口
+            , method : 'post'
             , title: '出租单数据表'//数据导出来的标题
             , toolbar: "#rentToolBar"   //表格的工具条
             , height: 'full-210'
