@@ -357,6 +357,7 @@
                 success: function (index) {
                     form.val("dataFrm", data);
                     url = "${yeqifu}/rent/updateRent.action";
+                    tableIns.reload();
                 }
             });
         }
