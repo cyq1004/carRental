@@ -35,6 +35,7 @@ public interface IRentService {
      */
     void deleteRent(String rentid);
 
+
     /**
      * 根据出租单号查询出租单信息
      *
@@ -44,9 +45,9 @@ public interface IRentService {
     Rent queryRentByRentId(String rentid);
 
     /**
-     * 审核出租单
+     * 修改出租单状态
      *
-     * @param rentVo
+     * @param rent
      */
-    void checkRent(RentVo rentVo);
+    void updateRentFlag(Rent rent);
 }

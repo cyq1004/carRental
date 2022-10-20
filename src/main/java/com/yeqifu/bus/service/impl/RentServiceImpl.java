@@ -60,18 +60,6 @@ public class RentServiceImpl implements IRentService {
     }
 
     /**
-     * 审核出租单
-     *
-     * @param rentVo
-     */
-    @Override
-    public void checkRent(RentVo rentVo) {
-        rentVo.setRentflag(SysConstast.RENT_BACK_FALSE);
-        this.rentMapper.updateRent(rentVo);
-    }
-
-
-    /**
      * 修改出租单
      *
      * @param rent
@@ -81,16 +69,21 @@ public class RentServiceImpl implements IRentService {
         rentMapper.updateRent(rent);
     }
 
+    /**
+     * 删除出租单
+     *
+     * @param rentid
+     */
     @Override
     public void deleteRent(String rentid) {
         //更改汽车状态，将已出租的状态转换成未出租的状态
-        Rent rent = this.rentMapper.selectByPrimaryKey(rentid);
+        Rent rent = rentMapper.selectByPrimaryKey(rentid);
         Car car = new Car();
         car.setCarnumber(rent.getCarnumber());
         //转换成未出租的状态
         car.setIsrenting(SysConstast.RENT_CAR_FALSE);
         carMapper.updateByPrimaryKeySelective(car);
-        this.rentMapper.deleteByPrimaryKey(rentid);
+        rentMapper.deleteRent(rentid);
     }
 
     /**
@@ -101,8 +94,16 @@ public class RentServiceImpl implements IRentService {
      */
     @Override
     public Rent queryRentByRentId(String rentid) {
-        return this.rentMapper.selectByPrimaryKey(rentid);
+        return rentMapper.selectByPrimaryKey(rentid);
     }
 
-
+    /**
+     * 修改出租单状态
+     *
+     * @param rent
+     */
+    @Override
+    public void updateRentFlag(Rent rent) {
+        rentMapper.updateRentFlag(rent);
+    }
 }

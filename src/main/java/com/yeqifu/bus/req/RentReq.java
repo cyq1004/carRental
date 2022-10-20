@@ -28,14 +28,14 @@ public class RentReq {
      * 起租时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //前台获取的时间进行格式化插入到数据库中
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8") //后台数据库查询出来的时间转换到前台进行显示
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") //后台数据库查询出来的时间转换到前台进行显示
     private Date begindate;
 
     /**
      * 还车时间
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss",timezone = "GTM+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date returndate;
 
     /**
@@ -61,7 +61,7 @@ public class RentReq {
     /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8") //后台数据库查询出来的时间转换到前台进行显示
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") //后台数据库查询出来的时间转换到前台进行显示
     private Date createtime;
 
 

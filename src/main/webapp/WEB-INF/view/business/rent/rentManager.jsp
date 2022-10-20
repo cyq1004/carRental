@@ -327,7 +327,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.rentid + '】这个出租单么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/rent/deleteRent.action", {rentid: data.rentid}, function (res) {
+                    $.get("${yeqifu}/rent/deleteRent.action", {rentid: data.rentid}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();

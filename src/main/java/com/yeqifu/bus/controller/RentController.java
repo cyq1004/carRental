@@ -16,6 +16,8 @@ import com.yeqifu.sys.utils.ResultObj;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,6 +87,7 @@ public class RentController {
      */
     @PostMapping("saveRent")
     public ResultObj saveRent(RentReq req) {
+        log.info("保存出租单信息:{}", req);
         try {
             Rent rent = new Rent();
             BeanUtil.copyProperties(req, rent);
@@ -109,6 +112,7 @@ public class RentController {
      */
     @PostMapping("loadAllRent")
     public DataGridView loadAllRent(RentReq req) {
+        log.info("出租单列表查询:{}", req);
         return rentService.queryAllRent(req);
     }
 
@@ -120,12 +124,13 @@ public class RentController {
      */
     @PostMapping("checkRent")
     public ResultObj checkRent(RentReq req) {
+        log.info("审核出租单信息:{}", req);
         try {
             Rent rent = new Rent();
             BeanUtil.copyProperties(req, rent);
             //修改出租单的状态
             rent.setRentflag(SysConstast.RENT_BACK_FALSE);
-            rentService.updateRent(rent);
+            rentService.updateRentFlag(rent);
             //修改汽车的状态
             Car car = carService.queryCarByCarNumber(rent.getCarnumber());
             car.setIsrenting(SysConstast.RENT_CAR_TRUE);
@@ -140,14 +145,14 @@ public class RentController {
     /**
      * 删除出租单信息
      *
-     * @param rentVo
+     * @param rentid
      * @return
      */
-    @RequestMapping("deleteRent")
-    public ResultObj deleteRent(RentVo rentVo) {
+    @GetMapping("deleteRent")
+    public ResultObj deleteRent(String rentid) {
+        log.info("删除出租单信息:{}", rentid);
         try {
-            //删除
-            this.rentService.deleteRent(rentVo.getRentid());
+            rentService.deleteRent(rentid);
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,23 +163,20 @@ public class RentController {
     /**
      * 修改出租单信息
      *
-     * @param rentVo
+     * @param req
      * @return
      */
-    @RequestMapping("updateRent")
-    public ResultObj updateRent(RentVo rentVo) {
+    @PostMapping("updateRent")
+    public ResultObj updateRent(RentReq req) {
         try {
+            Rent rent = new Rent();
+            BeanUtil.copyProperties(req, rent);
             //修改
-            this.rentService.updateRent(rentVo);
+            rentService.updateRent(rent);
             return ResultObj.UPDATE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.UPDATE_ERROR;
         }
     }
-
-
-
-
-
 }

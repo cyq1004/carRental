@@ -42,134 +42,26 @@
     order by createtime desc
   </select>
 
-
   <update id="updateRent" parameterType="com.yeqifu.bus.domain.Rent">
      update bus_rent
         set price = #{rent.price},
         begindate = #{rent.begindate},
         returndate = #{rent.returndate},
-        rentflag = #{rent.rentflag},
         identity = #{rent.identity},
         carnumber = #{rent.carnumber},
-        opername = #{rent.opername},
-        createtime = #{rent.createtime}
+        opername = #{rent.opername}
       where rentid = #{rent.rentid}
   </update>
 
-
-
-
-
-
-  <resultMap id="BaseResultMap" type="com.yeqifu.bus.domain.Rent">
-    <id column="rentid" jdbcType="VARCHAR" property="rentid" />
-    <result column="price" jdbcType="DOUBLE" property="price" />
-    <result column="begindate" jdbcType="TIMESTAMP" property="begindate" />
-    <result column="returndate" jdbcType="TIMESTAMP" property="returndate" />
-    <result column="rentflag" jdbcType="INTEGER" property="rentflag" />
-    <result column="identity" jdbcType="VARCHAR" property="identity" />
-    <result column="carnumber" jdbcType="VARCHAR" property="carnumber" />
-    <result column="opername" jdbcType="VARCHAR" property="opername" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.yeqifu.bus.domain.Rent">
     select
-    <include refid="Base_Column_List" />
+      rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime
     from bus_rent
-    where rentid = #{rentid,jdbcType=VARCHAR}
+    where rentid = #{rentid}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+  <delete id="deleteRent" parameterType="java.lang.String">
     delete from bus_rent
-    where rentid = #{rentid,jdbcType=VARCHAR}
+    where rentid = #{rentid}
   </delete>
-  <insert id="insert" parameterType="com.yeqifu.bus.domain.Rent">
-    insert into bus_rent (rentid, price, begindate, 
-      returndate, rentflag, identity, 
-      carnumber, opername, createtime
-      )
-    values (#{rentid,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{begindate,jdbcType=TIMESTAMP}, 
-      #{returndate,jdbcType=TIMESTAMP}, #{rentflag,jdbcType=INTEGER}, #{identity,jdbcType=VARCHAR}, 
-      #{carnumber,jdbcType=VARCHAR}, #{opername,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.yeqifu.bus.domain.Rent">
-    insert into bus_rent
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="rentid != null">
-        rentid,
-      </if>
-      <if test="price != null">
-        price,
-      </if>
-      <if test="begindate != null">
-        begindate,
-      </if>
-      <if test="returndate != null">
-        returndate,
-      </if>
-      <if test="rentflag != null">
-        rentflag,
-      </if>
-      <if test="identity != null">
-        identity,
-      </if>
-      <if test="carnumber != null">
-        carnumber,
-      </if>
-      <if test="opername != null">
-        opername,
-      </if>
-      <if test="createtime != null">
-        createtime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="rentid != null">
-        #{rentid,jdbcType=VARCHAR},
-      </if>
-      <if test="price != null">
-        #{price,jdbcType=DOUBLE},
-      </if>
-      <if test="begindate != null">
-        #{begindate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="returndate != null">
-        #{returndate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="rentflag != null">
-        #{rentflag,jdbcType=INTEGER},
-      </if>
-      <if test="identity != null">
-        #{identity,jdbcType=VARCHAR},
-      </if>
-      <if test="carnumber != null">
-        #{carnumber,jdbcType=VARCHAR},
-      </if>
-      <if test="opername != null">
-        #{opername,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-
-  <update id="updateByPrimaryKey" parameterType="com.yeqifu.bus.domain.Rent">
-    update bus_rent
-    set price = #{price,jdbcType=DOUBLE},
-      begindate = #{begindate,jdbcType=TIMESTAMP},
-      returndate = #{returndate,jdbcType=TIMESTAMP},
-      rentflag = #{rentflag,jdbcType=INTEGER},
-      identity = #{identity,jdbcType=VARCHAR},
-      carnumber = #{carnumber,jdbcType=VARCHAR},
-      opername = #{opername,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP}
-    where rentid = #{rentid,jdbcType=VARCHAR}
-  </update>
-
-
-
 </mapper>

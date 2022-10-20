@@ -33,7 +33,7 @@ public class Rent {
      */
     @TableField("begindate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") //前台获取的时间进行格式化插入到数据库中
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8") //后台数据库查询出来的时间转换到前台进行显示
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") //后台数据库查询出来的时间转换到前台进行显示
     private Date begindate;
 
     /**
@@ -41,7 +41,7 @@ public class Rent {
      */
     @TableField("returndate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss",timezone = "GTM+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date returndate;
 
     /**
@@ -72,6 +72,6 @@ public class Rent {
      * 创建时间
      */
     @TableField("createtime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GTM+8") //后台数据库查询出来的时间转换到前台进行显示
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8") //后台数据库查询出来的时间转换到前台进行显示
     private Date createtime;
 }
