@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,7 +15,9 @@ import java.util.Date;
  */
 @Data
 @TableName("bus_rent")
-public class Rent {
+public class Rent implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 出租单号

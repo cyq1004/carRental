@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,9 @@ import java.util.Date;
  */
 @Data
 @TableName("bus_customer")
-public class Customer {
+public class Customer implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 身份证

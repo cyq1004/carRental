@@ -5,11 +5,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @TableName("bus_check")
-public class Check {
+public class Check implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 检查单id

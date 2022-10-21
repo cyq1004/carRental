@@ -1,13 +1,18 @@
 package com.yeqifu.bus.domain;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
  * 加盟商表
- * @author chenyq
- * @TableName bus_franchisee
  */
+@Data
+@TableName("bus_franchisee")
 public class Franchisee implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     /**
      * 主键
      */
@@ -23,7 +28,7 @@ public class Franchisee implements Serializable {
      */
     private String phone;
 
-    private static final long serialVersionUID = 1L;
+
 
     public Integer getId() {
         return id;
