@@ -47,7 +47,7 @@ public interface RentMapper {
      * @param rentid
      * @return
      */
-    Rent selectByPrimaryKey(@Param("rentid") String rentid);
+    Rent queryRentByRentId(@Param("rentid") String rentid);
 
     /**
      * 修改出租单状态

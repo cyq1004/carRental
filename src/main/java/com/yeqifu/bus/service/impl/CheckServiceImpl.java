@@ -10,6 +10,7 @@ import com.yeqifu.bus.mapper.CarMapper;
 import com.yeqifu.bus.mapper.CheckMapper;
 import com.yeqifu.bus.mapper.CustomerMapper;
 import com.yeqifu.bus.mapper.RentMapper;
+import com.yeqifu.bus.req.CheckReq;
 import com.yeqifu.bus.service.ICheckService;
 import com.yeqifu.bus.vo.CheckVo;
 import com.yeqifu.sys.constast.SysConstast;
@@ -38,10 +39,16 @@ public class CheckServiceImpl implements ICheckService {
     @Autowired
     private CarMapper carMapper;
 
+    /**
+     * 根据出租单号加载检测单的表单数据
+     *
+     * @param rentid
+     * @return
+     */
     @Override
     public Map<String, Object> initCheckFormData(String rentid) {
         //查询出租单
-        Rent rent = this.rentMapper.selectByPrimaryKey(rentid);
+        Rent rent = rentMapper.queryRentByRentId(rentid);
         //查询客户
         Customer customer = customerMapper.queryCustomerByIdentity(rent.getIdentity());
         //查询车辆
@@ -51,80 +58,78 @@ public class CheckServiceImpl implements ICheckService {
         check.setCheckid(RandomUtils.createRandomStringUseTime(SysConstast.CAR_ORDER_JC));
         check.setRentid(rentid);
         check.setCheckdate(new Date());
-//        User user =(User) WebUtils.getHttpSession().getAttribute("user");
-/*        System.out.println("======================================");
-        System.out.println(user.getRealname());*/
-
-//        check.setOpername(user.getRealname());
-
         check.setOpername(rent.getOpername());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("rent",rent);
-        map.put("customer",customer);
-        map.put("car",car);
-        map.put("check",check);
-
+        map.put("rent", rent);
+        map.put("customer", customer);
+        map.put("car", car);
+        map.put("check", check);
         return map;
     }
 
     /**
      * 保存检查单数据
-     * @param checkVo
+     *
+     * @param check
      */
     @Override
-    public void addCheck(CheckVo checkVo) {
-        this.checkMapper.insertSelective(checkVo);
+    public void addCheck(Check check) {
+        checkMapper.addCheck(check);
         //更改出租单的状态
-        Rent rent = this.rentMapper.selectByPrimaryKey(checkVo.getRentid());
+        Rent rent = rentMapper.queryRentByRentId(check.getRentid());
         //更改为已归还
         rent.setRentflag(SysConstast.RENT_BACK_TRUE);
-        this.rentMapper.updateRent(rent);
+        rentMapper.updateRentFlag(rent);
         //更改汽车的状态
-        Car car = this.carMapper.getByCarnumber(rent.getCarnumber());
+        Car car = carMapper.getByCarnumber(rent.getCarnumber());
         //更改汽车状态为未出租
         car.setIsrenting(SysConstast.RENT_CAR_FALSE);
-        this.carMapper.updateByPrimaryKeySelective(car);
+        carMapper.updateByPrimaryKeySelective(car);
     }
 
     /**
      * 查询所有检查单
-     * @param checkVo
+     *
+     * @param req
      * @return
      */
     @Override
-    public DataGridView queryAllCheck(CheckVo checkVo) {
-        Page<Object> page = PageHelper.startPage(checkVo.getPage(), checkVo.getLimit());
-        List<Check> data = this.checkMapper.queryAllCheck(checkVo);
-        return new DataGridView(page.getTotal(),data);
+    public DataGridView loadAllCheck(CheckReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<Check> data = checkMapper.loadAllCheck(req);
+        return new DataGridView(page.getTotal(), data);
     }
 
     /**
      * 批量删除检查单
+     *
      * @param ids
      */
     @Override
     public void deleteBatchCheck(String[] ids) {
         for (String id : ids) {
-            this.checkMapper.deleteByPrimaryKey(id);
+            checkMapper.deleteCheck(id);
         }
     }
 
     /**
      * 删除检查单
-     * @param checkVo
+     *
+     * @param checkid
      */
     @Override
-    public void deleteCheck(CheckVo checkVo) {
-        this.checkMapper.deleteByPrimaryKey(checkVo.getCheckid());
+    public void deleteCheck(String checkid) {
+        checkMapper.deleteCheck(checkid);
     }
 
     /**
      * 更新检查单
-     * @param checkVo
+     *
+     * @param check
      */
     @Override
-    public void updateCheck(CheckVo checkVo) {
-        this.checkMapper.updateByPrimaryKeySelective(checkVo);
+    public void updateCheck(Check check) {
+        checkMapper.updateCheck(check);
     }
 }

@@ -77,7 +77,7 @@ public class RentServiceImpl implements IRentService {
     @Override
     public void deleteRent(String rentid) {
         //更改汽车状态，将已出租的状态转换成未出租的状态
-        Rent rent = rentMapper.selectByPrimaryKey(rentid);
+        Rent rent = rentMapper.queryRentByRentId(rentid);
         Car car = new Car();
         car.setCarnumber(rent.getCarnumber());
         //转换成未出租的状态
@@ -94,7 +94,7 @@ public class RentServiceImpl implements IRentService {
      */
     @Override
     public Rent queryRentByRentId(String rentid) {
-        return rentMapper.selectByPrimaryKey(rentid);
+        return rentMapper.queryRentByRentId(rentid);
     }
 
     /**

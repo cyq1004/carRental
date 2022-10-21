@@ -200,6 +200,7 @@
         tableIns = table.render({
             elem: '#checkTable'   //渲染的目标对象
             , url: '${yeqifu}/check/loadAllCheck.action' //数据接口
+            , method: 'post'
             , title: '检查单数据表'//数据导出来的标题
             , toolbar: "#checkToolBar"   //表格的工具条
             , height: 'full-260'
@@ -260,7 +261,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.checkid + '】这个检查单么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/check/deleteCheck.action", {checkid: data.checkid}, function (res) {
+                    $.get("${yeqifu}/check/deleteCheck.action", {checkid: data.checkid}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();

@@ -1,5 +1,7 @@
 package com.yeqifu.bus.service;
 
+import com.yeqifu.bus.domain.Check;
+import com.yeqifu.bus.req.CheckReq;
 import com.yeqifu.bus.vo.CheckVo;
 import com.yeqifu.sys.utils.DataGridView;
 
@@ -11,38 +13,45 @@ import java.util.Map;
 public interface ICheckService {
     /**
      * 根据出租单号加载检测单的表单数据
+     *
      * @param rentid
      * @return
      */
-    Map<String,Object> initCheckFormData(String rentid);
+    Map<String, Object> initCheckFormData(String rentid);
 
     /**
      * 保存检查单数据
-     * @param checkVo
+     *
+     * @param check
      */
-    void addCheck(CheckVo checkVo);
+    void addCheck(Check check);
 
     /**
      * 查询所有检查单
+     *
+     * @param req
      * @return
      */
-    DataGridView queryAllCheck(CheckVo checkVo);
+    DataGridView loadAllCheck(CheckReq req);
 
     /**
      * 批量删除检查单
+     *
      * @param ids
      */
     void deleteBatchCheck(String[] ids);
 
     /**
      * 删除检查单
-     * @param checkVo
+     *
+     * @param checkid
      */
-    void deleteCheck(CheckVo checkVo);
+    void deleteCheck(String checkid);
 
     /**
      * 更新检查单
-     * @param checkVo
+     *
+     * @param check
      */
-    void updateCheck(CheckVo checkVo);
+    void updateCheck(Check check);
 }

@@ -53,7 +53,7 @@
       where rentid = #{rent.rentid}
   </update>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.yeqifu.bus.domain.Rent">
+  <select id="queryRentByRentId" parameterType="java.lang.String" resultType="com.yeqifu.bus.domain.Rent">
     select
       rentid, price, begindate, returndate, rentflag, identity, carnumber, opername, createtime
     from bus_rent

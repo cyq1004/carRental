@@ -35,7 +35,6 @@ public interface IRentService {
      */
     void deleteRent(String rentid);
 
-
     /**
      * 根据出租单号查询出租单信息
      *

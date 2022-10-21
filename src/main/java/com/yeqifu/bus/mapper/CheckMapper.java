@@ -1,22 +1,42 @@
 package com.yeqifu.bus.mapper;
 
 import com.yeqifu.bus.domain.Check;
+import com.yeqifu.bus.req.CheckReq;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CheckMapper {
-    int deleteByPrimaryKey(String checkid);
 
-    int insert(Check record);
+    /**
+     * 保存检查单数据
+     *
+     * @param check
+     * @return
+     */
+    int addCheck(@Param("check") Check check);
 
-    int insertSelective(Check record);
+    /**
+     * 查询所有检查单
+     *
+     * @param req
+     * @return
+     */
+    List<Check> loadAllCheck(@Param("req") CheckReq req);
 
-    Check selectByPrimaryKey(String checkid);
+    /**
+     * 删除检查单
+     *
+     * @param checkid
+     * @return
+     */
+    int deleteCheck(@Param("checkid") String checkid);
 
-    int updateByPrimaryKeySelective(Check record);
-
-    int updateByPrimaryKey(Check record);
-
-    //查询
-    List<Check> queryAllCheck(Check check);
+    /**
+     * 修改检查单
+     *
+     * @param check
+     * @return
+     */
+    int updateCheck(@Param("check") Check check);
 }

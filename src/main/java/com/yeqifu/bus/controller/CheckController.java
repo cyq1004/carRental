@@ -1,14 +1,16 @@
 package com.yeqifu.bus.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import com.yeqifu.bus.domain.Check;
 import com.yeqifu.bus.domain.Rent;
+import com.yeqifu.bus.req.CheckReq;
 import com.yeqifu.bus.service.ICheckService;
 import com.yeqifu.bus.service.IRentService;
-import com.yeqifu.bus.vo.CheckVo;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.ResultObj;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.Map;
 /**
  * 检查单管理的控制器
  */
+@Slf4j
 @RestController
 @RequestMapping("check")
 public class CheckController {
@@ -28,38 +31,42 @@ public class CheckController {
 
     /**
      * 根据出租单号查询出租单信息
+     *
      * @param rentid
      * @return
      */
-    @RequestMapping("checkRentExist")
-    public Rent checkRentExist(String rentid){
-        //出租单号不存在，返回一个null，出租单号存在，返回一个rent对象
+    @GetMapping("checkRentExist")
+    public Rent checkRentExist(@RequestParam("rentid") String rentid) {
         Rent rent = rentService.queryRentByRentId(rentid);
         return rent;
     }
 
     /**
      * 根据出租单号加载检查单的表单数据
+     *
      * @param rentid
      * @return
      */
-    @RequestMapping("initCheckFormData")
-    public Map<String,Object> initCheckFormData(String rentid){
-        return this.checkService.initCheckFormData(rentid);
+    @GetMapping("initCheckFormData")
+    public Map<String, Object> initCheckFormData(@RequestParam("rentid") String rentid) {
+        return checkService.initCheckFormData(rentid);
     }
 
     /**
      * 保存检查单数据
-     * @param checkVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("saveCheck")
-    public ResultObj saveCheck(CheckVo checkVo){
-        try{
-            checkVo.setCreatetime(new Date());
-            this.checkService.addCheck(checkVo);
+    @PostMapping("saveCheck")
+    public ResultObj saveCheck(CheckReq req) {
+        try {
+            Check check = new Check();
+            BeanUtil.copyProperties(req, check);
+            check.setCreatetime(new Date());
+            checkService.addCheck(check);
             return ResultObj.ADD_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.ADD_ERROR;
         }
@@ -67,25 +74,27 @@ public class CheckController {
 
     /**
      * 查询所有检查单
-     * @param checkVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("loadAllCheck")
-    public DataGridView loadAllCheck(CheckVo checkVo){
-        return this.checkService.queryAllCheck(checkVo);
+    @PostMapping("loadAllCheck")
+    public DataGridView loadAllCheck(CheckReq req) {
+        return checkService.loadAllCheck(req);
     }
 
     /**
      * 删除一个检查单
-     * @param checkVo
+     *
+     * @param checkid
      * @return
      */
-    @RequestMapping("deleteCheck")
-    public ResultObj deleteCheck(CheckVo checkVo){
-        try{
-            this.checkService.deleteCheck(checkVo);
+    @GetMapping("deleteCheck")
+    public ResultObj deleteCheck(@RequestParam("checkid") String checkid) {
+        try {
+            checkService.deleteCheck(checkid);
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -93,14 +102,16 @@ public class CheckController {
 
     /**
      * 批量删除检查单
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("deleteBatchCheck")
-    public ResultObj deleteBatchCheck(CheckVo checkVo){
-        try{
-            this.checkService.deleteBatchCheck(checkVo.getIds());
+    @PostMapping("deleteBatchCheck")
+    public ResultObj deleteBatchCheck(CheckReq req) {
+        try {
+            checkService.deleteBatchCheck(req.getIds());
             return ResultObj.DELETE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.DELETE_ERROR;
         }
@@ -108,15 +119,18 @@ public class CheckController {
 
     /**
      * 更新检查单
-     * @param checkVo
+     *
+     * @param req
      * @return
      */
-    @RequestMapping("updateCheck")
-    public ResultObj updateCheck(CheckVo checkVo){
+    @PostMapping("updateCheck")
+    public ResultObj updateCheck(CheckReq req) {
         try {
-            this.checkService.updateCheck(checkVo);
+            Check check = new Check();
+            BeanUtil.copyProperties(req, check);
+            checkService.updateCheck(check);
             return ResultObj.UPDATE_SUCCESS;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResultObj.UPDATE_ERROR;
         }
