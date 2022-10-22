@@ -1,13 +1,17 @@
 package com.yeqifu.bus.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.yeqifu.bus.domain.Franchisee;
+import com.yeqifu.bus.req.AddOrUpdateFranchiseeReq;
+import com.yeqifu.bus.req.FranchiseeReq;
 import com.yeqifu.bus.service.FranchiseeService;
 import com.yeqifu.bus.vo.FranchiseeVo;
 import com.yeqifu.sys.utils.DataGridView;
 import com.yeqifu.sys.utils.ResultObj;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 加盟商控制器
@@ -15,33 +19,39 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chenyq
  * @Date: 2022/5/22 9:45
  */
+@Slf4j
 @RestController
 @RequestMapping("/franchisee")
 public class FranchiseeController {
+
     @Autowired
     private FranchiseeService franchiseeService;
 
     /**
      * 加载加盟商列表返回DataGridView
      *
-     * @param franchiseeVo
+     * @param req
      * @return
      */
-    @RequestMapping("loadAllFranchisee")
-    public DataGridView loadAllFranchisee(FranchiseeVo franchiseeVo) {
-        return this.franchiseeService.queryAllFranchisee(franchiseeVo);
+    @PostMapping("loadAllFranchisee")
+    public DataGridView loadAllFranchisee(FranchiseeReq req) {
+        log.info("加载加盟商列表返回DataGridView:{}", req);
+        return franchiseeService.loadAllFranchisee(req);
     }
 
     /**
      * 添加一个加盟商
      *
-     * @param franchiseeVo
+     * @param req
      * @return
      */
-    @RequestMapping("addFranchisee")
-    public ResultObj addFranchisee(FranchiseeVo franchiseeVo) {
+    @PostMapping("addFranchisee")
+    public ResultObj addFranchisee(AddOrUpdateFranchiseeReq req) {
+        log.info("添加一个加盟商:{}", req);
         try {
-            this.franchiseeService.addFranchisee(franchiseeVo);
+            Franchisee franchisee = new Franchisee();
+            BeanUtil.copyProperties(req, franchisee);
+            franchiseeService.addFranchisee(franchisee);
             return ResultObj.ADD_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,14 +62,14 @@ public class FranchiseeController {
     /**
      * 修改一个加盟商
      *
-     * @param franchisee
+     * @param req
      * @return
      */
-    @RequestMapping("updateFranchisee")
-    public ResultObj updateFranchisee(Franchisee franchisee) {
-        System.out.println(franchisee.toString());
+    @PostMapping("updateFranchisee")
+    public ResultObj updateFranchisee(AddOrUpdateFranchiseeReq req) {
+        log.info("修改一个加盟商:{}", req);
         try {
-            this.franchiseeService.updateFranchisee(franchisee);
+            franchiseeService.updateFranchisee(req);
             return ResultObj.UPDATE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,10 +83,11 @@ public class FranchiseeController {
      * @param id
      * @return
      */
-    @RequestMapping("deleteFranchisee")
-    public ResultObj deleteFranchisee(Integer id) {
+    @GetMapping("deleteFranchisee")
+    public ResultObj deleteFranchisee(@RequestParam("id") Integer id) {
+        log.info("删除一个加盟商:{}", id);
         try {
-            this.franchiseeService.deleteFranchisee(id);
+            franchiseeService.deleteFranchisee(id);
             return ResultObj.DELETE_SUCCESS;
         } catch (Exception e) {
             e.printStackTrace();

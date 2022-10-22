@@ -1,6 +1,8 @@
 package com.yeqifu.bus.service;
 
 import com.yeqifu.bus.domain.Franchisee;
+import com.yeqifu.bus.req.AddOrUpdateFranchiseeReq;
+import com.yeqifu.bus.req.FranchiseeReq;
 import com.yeqifu.bus.vo.FranchiseeVo;
 import com.yeqifu.sys.utils.DataGridView;
 
@@ -9,32 +11,33 @@ import com.yeqifu.sys.utils.DataGridView;
  * @Date: 2022/5/22 13:50
  */
 public interface FranchiseeService {
+
     /**
      * 查询所有加盟商
      *
-     * @param franchiseeVo
+     * @param req
      * @return
      */
-    public DataGridView queryAllFranchisee(FranchiseeVo franchiseeVo);
+    DataGridView loadAllFranchisee(FranchiseeReq req);
 
     /**
      * 添加加盟商
      *
      * @param franchisee
      */
-    public void addFranchisee(Franchisee franchisee);
+    void addFranchisee(Franchisee franchisee);
 
     /**
      * 修改加盟商
      *
-     * @param franchisee
+     * @param req
      */
-    public void updateFranchisee(Franchisee franchisee);
+    void updateFranchisee(AddOrUpdateFranchiseeReq req);
 
     /**
      * 删除加盟商
      *
      * @param id
      */
-    public void deleteFranchisee(Integer id);
+    void deleteFranchisee(Integer id);
 }

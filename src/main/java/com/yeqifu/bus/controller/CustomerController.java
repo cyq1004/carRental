@@ -37,6 +37,7 @@ public class CustomerController {
      */
     @PostMapping("loadAllCustomer")
     public DataGridView loadAllCustomer(CustomerReq req) {
+        log.info("加载客户列表返回DataGridView:{}", req);
         return customerService.loadAllCustomer(req);
     }
 
@@ -48,6 +49,7 @@ public class CustomerController {
      */
     @PostMapping("addCustomer")
     public ResultObj addCustomer(@Validated AddOrUpdateCustomerReq req) {
+        log.info("添加客户:{}", req);
         if (!ReUtil.isMatch(Pattern.compile("^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$").pattern(), req.getIdentity())) {
             return ResultObj.IDENTITY_ERROR;
         }
@@ -74,6 +76,7 @@ public class CustomerController {
      */
     @PostMapping("updateCustomer")
     public ResultObj updateCustomer(@Validated AddOrUpdateCustomerReq req) {
+        log.info("修改客户信息:{}", req);
         try {
             Customer customer = new Customer();
             BeanUtil.copyProperties(req, customer);
@@ -93,6 +96,7 @@ public class CustomerController {
      */
     @PostMapping("deleteCustomer")
     public ResultObj deleteCustomer(String identity) {
+        log.info("删除客户:{}", identity);
         try {
             customerService.deleteCustomer(identity);
             return ResultObj.DELETE_SUCCESS;
@@ -110,6 +114,7 @@ public class CustomerController {
      */
     @PostMapping("deleteBatchCustomer")
     public ResultObj deleteBatchCustomer(CustomerReq req) {
+        log.info("批量删除客户:{}", req);
         try {
             customerService.deleteBatchCustomer(req.getIds());
             return ResultObj.DELETE_SUCCESS;

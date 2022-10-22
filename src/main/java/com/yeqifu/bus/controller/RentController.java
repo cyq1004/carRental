@@ -165,6 +165,7 @@ public class RentController {
      */
     @PostMapping("updateRent")
     public ResultObj updateRent(RentReq req) {
+        log.info("修改出租单信息:{}", req);
         try {
             Rent rent = new Rent();
             BeanUtil.copyProperties(req, rent);

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  Franchisee: YQF
-  Date: 2019/10/14
-  Time: 18:50
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -110,6 +103,7 @@
         tableIns = table.render({
             elem: '#franchiseeTable'   //渲染的目标对象
             , url: '${yeqifu}/franchisee/loadAllFranchisee.action' //数据接口
+            , method: 'post'
             , title: '加盟商数据表'//数据导出来的标题
             , toolbar: "#franchiseeToolBar"   //表格的工具条
             , height: 'full-210'
@@ -158,7 +152,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.name + '】这个加盟商么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/franchisee/deleteFranchisee.action", {id: data.id}, function (res) {
+                    $.get("${yeqifu}/franchisee/deleteFranchisee.action", {id: data.id}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();

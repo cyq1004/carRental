@@ -1,6 +1,9 @@
 package com.yeqifu.bus.mapper;
 
 import com.yeqifu.bus.domain.Franchisee;
+import com.yeqifu.bus.req.AddOrUpdateFranchiseeReq;
+import com.yeqifu.bus.req.FranchiseeReq;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,19 +12,45 @@ import java.util.List;
  * @Date: 2022/5/22 13:57
  */
 public interface FranchiseeMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(Franchisee franchisee);
+    /**
+     * 查询所有加盟商信息
+     *
+     * @param req
+     * @return
+     */
+    List<Franchisee> loadAllFranchisee(@Param("req") FranchiseeReq req);
 
-    int insertSelective(Franchisee franchisee);
+    /**
+     * 添加一个加盟商
+     *
+     * @param franchisee
+     * @return
+     */
+    int addFranchisee(@Param("franchisee") Franchisee franchisee);
 
-    Franchisee selectByPrimaryKey(String identity);
+    /**
+     * 更新一个加盟商
+     *
+     * @param req
+     * @return
+     */
+    int updateFranchisee(AddOrUpdateFranchiseeReq req);
 
-    int updateByPrimaryKey(Franchisee record);
+    /**
+     * 删除加盟商
+     *
+     * @param id
+     * @return
+     */
+    int deleteFranchisee(Integer id);
 
-    int updateByPrimaryKeySelective(Franchisee franchisee);
-
-
-    List<Franchisee> queryAllFranchisee(Franchisee franchisee);
+    /**
+     * 根据id查询加盟商
+     *
+     * @param id
+     * @return
+     */
+    Franchisee selectByPrimaryKey(@Param("id") Integer id);
 
 }

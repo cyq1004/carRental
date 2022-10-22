@@ -37,6 +37,7 @@ public class CheckController {
      */
     @GetMapping("checkRentExist")
     public Rent checkRentExist(@RequestParam("rentid") String rentid) {
+        log.info("根据出租单号查询出租单信息:{}", rentid);
         Rent rent = rentService.queryRentByRentId(rentid);
         return rent;
     }
@@ -49,6 +50,7 @@ public class CheckController {
      */
     @GetMapping("initCheckFormData")
     public Map<String, Object> initCheckFormData(@RequestParam("rentid") String rentid) {
+        log.info("根据出租单号加载检查单的表单数据:{}", rentid);
         return checkService.initCheckFormData(rentid);
     }
 
@@ -60,6 +62,7 @@ public class CheckController {
      */
     @PostMapping("saveCheck")
     public ResultObj saveCheck(CheckReq req) {
+        log.info("保存检查单数据:{}", req);
         try {
             Check check = new Check();
             BeanUtil.copyProperties(req, check);
@@ -80,6 +83,7 @@ public class CheckController {
      */
     @PostMapping("loadAllCheck")
     public DataGridView loadAllCheck(CheckReq req) {
+        log.info("查询所有检查单:{}", req);
         return checkService.loadAllCheck(req);
     }
 
@@ -91,6 +95,7 @@ public class CheckController {
      */
     @GetMapping("deleteCheck")
     public ResultObj deleteCheck(@RequestParam("checkid") String checkid) {
+        log.info("删除一个检查单:{}", checkid);
         try {
             checkService.deleteCheck(checkid);
             return ResultObj.DELETE_SUCCESS;
@@ -108,6 +113,7 @@ public class CheckController {
      */
     @PostMapping("deleteBatchCheck")
     public ResultObj deleteBatchCheck(CheckReq req) {
+        log.info("批量删除检查单:{}", req);
         try {
             checkService.deleteBatchCheck(req.getIds());
             return ResultObj.DELETE_SUCCESS;
@@ -125,6 +131,7 @@ public class CheckController {
      */
     @PostMapping("updateCheck")
     public ResultObj updateCheck(CheckReq req) {
+        log.info("更新检查单:{}", req);
         try {
             Check check = new Check();
             BeanUtil.copyProperties(req, check);

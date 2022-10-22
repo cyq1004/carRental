@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.bus.domain.Franchisee;
 import com.yeqifu.bus.mapper.FranchiseeMapper;
+import com.yeqifu.bus.req.AddOrUpdateFranchiseeReq;
+import com.yeqifu.bus.req.FranchiseeReq;
 import com.yeqifu.bus.service.FranchiseeService;
 import com.yeqifu.bus.vo.FranchiseeVo;
 import com.yeqifu.sys.utils.DataGridView;
@@ -25,13 +27,13 @@ public class FranchiseeServiceImpl implements FranchiseeService {
     /**
      * 查询所有加盟商信息 分页
      *
-     * @param franchiseeVo
+     * @param req
      * @return
      */
     @Override
-    public DataGridView queryAllFranchisee(FranchiseeVo franchiseeVo) {
-        Page<Object> page = PageHelper.startPage(franchiseeVo.getPage(), franchiseeVo.getLimit());
-        List<Franchisee> data = this.franchiseeMapper.queryAllFranchisee(franchiseeVo);
+    public DataGridView loadAllFranchisee(FranchiseeReq req) {
+        Page<Object> page = PageHelper.startPage(req.getPage(), req.getLimit());
+        List<Franchisee> data = franchiseeMapper.loadAllFranchisee(req);
         return new DataGridView(page.getTotal(), data);
     }
 
@@ -42,22 +44,22 @@ public class FranchiseeServiceImpl implements FranchiseeService {
      */
     @Override
     public void addFranchisee(Franchisee franchisee) {
-        this.franchiseeMapper.insert(franchisee);
+        franchiseeMapper.addFranchisee(franchisee);
     }
 
     /**
      * 更新一个加盟商
      *
-     * @param franchisee
+     * @param req
      */
     @Override
-    public void updateFranchisee(Franchisee franchisee) {
-        this.franchiseeMapper.updateByPrimaryKeySelective(franchisee);
+    public void updateFranchisee(AddOrUpdateFranchiseeReq req) {
+        franchiseeMapper.updateFranchisee(req);
     }
 
     @Override
     public void deleteFranchisee(Integer id) {
-        this.franchiseeMapper.deleteByPrimaryKey(id);
+        franchiseeMapper.deleteFranchisee(id);
     }
 
 }

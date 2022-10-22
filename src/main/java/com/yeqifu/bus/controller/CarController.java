@@ -78,6 +78,7 @@ public class CarController {
      */
     @PostMapping("updateCar")
     public ResultObj updateCar(@Validated AddOrUpdateCarReq req) {
+        log.info("修改车辆:{}", req);
         try {
             String carimg = req.getCarimg();
             if (carimg.endsWith(SysConstast.FILE_UPLOAD_TEMP)) {
@@ -103,6 +104,7 @@ public class CarController {
      */
     @GetMapping("deleteCar")
     public ResultObj deleteCar(@RequestParam("carnumber") String carnumber) {
+        log.info("删除一个车辆:{}", carnumber);
         try {
             carService.deleteCar(carnumber);
             return ResultObj.DELETE_SUCCESS;
@@ -120,6 +122,7 @@ public class CarController {
      */
     @PostMapping("deleteBatchCar")
     public ResultObj deleteBatchCar(CarReq req) {
+        log.info("批量删除车辆:{}", req);
         try {
             carService.deleteBatchCar(req.getIds());
             return ResultObj.DELETE_SUCCESS;

@@ -1,20 +1,14 @@
-package com.yeqifu.bus.domain;
+package com.yeqifu.bus.req;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * 加盟商表
+ * 添加或更新加盟商请求req
  */
 @Data
-@TableName("bus_franchisee")
-public class Franchisee implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class AddOrUpdateFranchiseeReq {
 
     /**
      * 主键
