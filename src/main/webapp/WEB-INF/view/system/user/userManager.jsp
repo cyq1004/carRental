@@ -245,7 +245,7 @@
 
         //导出
         $("#exportExcel").click(function () {
-            var url = "${yeqifu}/user/exportExcel.action"
+            var url = "${yeqifu}/customer/exportExcel.action"
             var params = $("#searchFrm").serialize();
             $.post(url, params, function(result) {
                 if(200 == result.code){

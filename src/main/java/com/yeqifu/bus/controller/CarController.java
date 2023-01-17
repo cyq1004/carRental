@@ -132,4 +132,10 @@ public class CarController {
         }
     }
 
+    @PostMapping("exportExcel")
+    public ResultObj exportExcel(CarReq req) {
+        log.info("导出车辆信息:{}", req);
+        carService.exportExcel(req);
+        return new ResultObj(200, "导出成功");
+    }
 }

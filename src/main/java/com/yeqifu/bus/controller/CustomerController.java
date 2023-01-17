@@ -124,4 +124,17 @@ public class CustomerController {
         }
     }
 
+    /**
+     * 导出客户信息
+     *
+     * @param req
+     * @return
+     */
+    @PostMapping("exportExcel")
+    public ResultObj exportExcel(CustomerReq req) {
+        log.info("导出客户信息:{}", req);
+        customerService.exportExcel(req);
+        return new ResultObj(200, "导出成功");
+    }
+
 }

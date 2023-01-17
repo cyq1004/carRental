@@ -70,6 +70,10 @@
                     class="layui-btn layui-btn-warm layui-icon layui-icon-refresh layui-btn-radius layui-btn-sm"
                     style="margin-top: 4px">重置
             </button>
+            <button type="button"
+                    class="layui-btn layui-btn-green layui-icon layui-icon-download-circle layui-btn-radius layui-btn-sm"
+                    id="exportExcel" style="margin-top: 4px">导出
+            </button>
         </div>
     </div>
 
@@ -334,6 +338,19 @@
                 layer.close(mainIndex)
                 //刷新数据 表格
                 tableIns.reload();
+            })
+        });
+
+        //导出
+        $("#exportExcel").click(function () {
+            var url = "${yeqifu}/car/exportExcel.action"
+            var params = $("#searchFrm").serialize();
+            $.post(url, params, function(result) {
+                if(200 == result.code){
+                    alert("导出成功");
+                }else{
+                    alert("导出失败")
+                }
             })
         });
 

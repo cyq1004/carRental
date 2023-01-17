@@ -78,7 +78,7 @@
             </button>
             <button type="button"
                     class="layui-btn layui-btn-green layui-icon layui-icon-download-circle layui-btn-radius layui-btn-sm"
-                    id="doExport" style="margin-top: 4px">导出
+                    id="exportExcel" style="margin-top: 4px">导出
             </button>
         </div>
     </div>
@@ -281,9 +281,16 @@
         });
 
         //导出
-        $("#doExport").click(function () {
+        $("#exportExcel").click(function () {
+            var url = "${yeqifu}/customer/exportExcel.action"
             var params = $("#searchFrm").serialize();
-            window.location.href="${yeqifu}/stat/exportCustomer.action?"+params;
+            $.post(url, params, function(result) {
+                if(200 == result.code){
+                    alert("导出成功");
+                }else{
+                    alert("导出失败")
+                }
+            })
         });
 
         //监听头部工具栏事件

@@ -1,5 +1,9 @@
 package com.yeqifu.bus.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.DesensitizedUtil;
+import cn.hutool.core.util.IdcardUtil;
+import com.alibaba.excel.EasyExcel;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yeqifu.bus.domain.Customer;
@@ -7,10 +11,12 @@ import com.yeqifu.bus.mapper.CustomerMapper;
 import com.yeqifu.bus.req.CustomerReq;
 import com.yeqifu.bus.service.ICustomerService;
 import com.yeqifu.bus.vo.CustomerVo;
+import com.yeqifu.bus.vo.CustomerVosExportExcel;
 import com.yeqifu.sys.utils.DataGridView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -94,5 +100,23 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     public List<Customer> queryAllCustomerForList(CustomerReq req) {
         return customerMapper.loadAllCustomer(req);
+    }
+
+    @Override
+    public void exportExcel(CustomerReq req) {
+        List<Customer> data = customerMapper.loadAllCustomer(req);
+        List<CustomerVosExportExcel> list = new ArrayList<>();
+        for (Customer c : data) {
+            CustomerVosExportExcel customerVosExportExcel = new CustomerVosExportExcel();
+            BeanUtil.copyProperties(c, customerVosExportExcel);
+            customerVosExportExcel.setIdentity(DesensitizedUtil.idCardNum(customerVosExportExcel.getIdentity(), 1, 2));
+            customerVosExportExcel.setPhone(DesensitizedUtil.mobilePhone(customerVosExportExcel.getPhone()));
+            list.add(customerVosExportExcel);
+        }
+
+        String fileName = "C:\\Users\\aa\\Desktop\\customer.xlsx";
+        EasyExcel.write(fileName, CustomerVosExportExcel.class)
+                .sheet("customer")
+                .doWrite(list);
     }
 }

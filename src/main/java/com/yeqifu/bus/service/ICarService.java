@@ -58,4 +58,11 @@ public interface ICarService {
      * @param car
      */
     void updateCarCheck(Car car);
+
+    /**
+     * 导出车辆信息
+     *
+     * @param req
+     */
+    void exportExcel(CarReq req);
 }

@@ -60,4 +60,11 @@ public interface ICustomerService {
      * @return
      */
     List<Customer> queryAllCustomerForList(CustomerReq req);
+
+    /**
+     * 导出客户信息
+     *
+     * @param req
+     */
+    void exportExcel(CustomerReq req);
 }

@@ -22,6 +22,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
         <!--引入pageHelper分页插件-->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
@@ -243,7 +249,7 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>4.6.8</version>
+            <version>5.8.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
