@@ -42,7 +42,7 @@
     <!--轮播图模块 -->
     <div class="layui-col-lg6 layui-col-md6">
         <div class="lunbo">
-            <img id="lunbo_img" src="/lunbo/1.jpg" >
+            <img id="lunbo_img" src="${yeqifu}/static/images/lunbo/1.jpg" >
         </div>
     </div>
 </div>
@@ -96,7 +96,7 @@
         }
         //获取img对象
         var img = document.getElementById("lunbo_img");
-        img.src = "/lunbo/"+index+".jpg";
+        img.src = "${yeqifu}/static/images/lunbo/"+index+".jpg";
     }
     //2.定义定时器
     setInterval(lunbo,2000);
