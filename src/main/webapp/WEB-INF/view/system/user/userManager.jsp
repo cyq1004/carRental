@@ -247,11 +247,11 @@
         $("#exportExcel").click(function () {
             var url = "${yeqifu}/user/exportExcel.action"
             var params = $("#searchFrm").serialize();
-            $.post(url, params, function(resultJSONObject) {
-                if(resultJSONObject.code == 0){
-                    $.messager.alert("系统提示","导出成功","info");
+            $.post(url, params, function(result) {
+                if(200 == result.code){
+                    alert("导出成功");
                 }else{
-                    $.messager.alert("系统提示","导出失败","error");
+                    alert("导出失败")
                 }
             })
         });

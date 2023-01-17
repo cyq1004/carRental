@@ -210,8 +210,9 @@ public class UserController {
      * @param req
      */
     @PostMapping("exportExcel")
-    public void exportExcel(UserReq req) {
+    public ResultObj exportExcel(UserReq req) {
         log.info("导出用户管理列表：{}", req);
         userService.exportExcel(req);
+        return new ResultObj(200, "导出成功");
     }
 }

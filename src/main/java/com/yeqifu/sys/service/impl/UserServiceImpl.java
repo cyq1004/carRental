@@ -304,23 +304,11 @@ public class UserServiceImpl implements IUserService {
             BeanUtil.copyProperties(userVo, userVosExportExcel);
             list.add(userVosExportExcel);
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Resource resource = new ClassPathResource("file/reviewStatistics.xlsx");
-        if (!CollectionUtils.isEmpty(list)) {
-            try {
-                HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-                // 响应设置
-                String fileName = URLEncoder.encode("用户统计" + formatter.format(now()), "UTF-8").replaceAll("\\+", "%20");
-                String sheetName = "result";
-                response.setContentType("application/vnd.ms-excel;charset=UTF-8");
-                response.setCharacterEncoding("utf-8");
-                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xlsx");
-                EasyExcel.write(response.getOutputStream(), UserVosExportExcel.class).sheet(sheetName).doWrite(list);
-                response.getOutputStream().flush();
-                response.getOutputStream().close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
+        String fileName = "C:\\Users\\aa\\Desktop\\user.xlsx";
+
+        EasyExcel.write(fileName, UserVosExportExcel.class)
+                .sheet("user")
+                .doWrite(list);
     }
 }
