@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: YQF
-  Date: 2019/9/30
-  Time: 8:06
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -18,22 +11,24 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="${yeqifu}/static/layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="${yeqifu}/static/css/public.css" media="all" />
+    <style type="text/css">
+        .lunbo{
+            width: 450px;
+            height: 250px;
+        }
+        .lunbo img{
+            width: 100%;
+            height:100%;
+        }
+    </style>
 </head>
+<!-- 轮播图Js代码 -->
+
 <body class="childrenBody">
 <blockquote class="layui-elem-quote layui-bg-green">
     <div id="nowTime"></div>
 </blockquote>
 <div class="layui-row layui-col-space5">
-    <div class="layui-col-lg6 layui-col-md6">
-        <blockquote class="layui-elem-quote title">最新新闻 <i class="layui-icon layui-red">&#xe756;</i></blockquote>
-        <table class="layui-table mag0" lay-skin="line">
-            <colgroup>
-                <col>
-                <col width="110">
-            </colgroup>
-            <tbody class="hot_news"></tbody>
-        </table>
-    </div>
     <div class="layui-col-lg6 layui-col-md6">
         <blockquote class="layui-elem-quote title">最新留言 <i class="layui-icon layui-red">&#xe756;</i></blockquote>
         <table class="layui-table mag0" lay-skin="line">
@@ -44,18 +39,12 @@
             <tbody class="hot_message"></tbody>
         </table>
     </div>
-</div>
-<!-- 查看新闻的div -->
-<div id="desk_viewNewsDiv" style="padding: 10px;display: none;">
-    <h2 id="view_title" align="center"></h2>
-    <hr>
-    <div style="text-align: right;">
-        发布人:<span id="view_opername"></span>
-        <span style="display: inline-block;width: 20px" ></span>
-        发布时间:<span id="view_createtime"></span>
+    <!--轮播图模块 -->
+    <div class="layui-col-lg6 layui-col-md6">
+        <div class="lunbo">
+            <img id="lunbo_img" src="/lunbo/1.jpg" >
+        </div>
     </div>
-    <hr>
-    <div id="view_content"></div>
 </div>
 
 <!-- 查看留言的div -->
@@ -73,7 +62,6 @@
 
 <script type="text/javascript" src="${yeqifu}/static/layui/layui.js"></script>
 <script>
-
     //获取系统时间
     var newDate = '';
     getLangDate();
@@ -99,6 +87,22 @@
         setTimeout("getLangDate()",1000);
     }
 
+    var index = 1;
+    function lunbo(){
+        index ++ ;
+        //判断index是否大于3
+        if(index > 5){
+            index = 1;
+        }
+        //获取img对象
+        var img = document.getElementById("lunbo_img");
+        img.src = "/lunbo/"+index+".jpg";
+    }
+    //2.定义定时器
+    setInterval(lunbo,2000);
+    /*切记定时器里调用lunbo方法不能加(),setInterval(lunbo,2000);如果加()会执行lunbo（）方法，而导致定时器没用。
+
+     */
     layui.use(['form','element','layer','jquery'],function(){
         var form = layui.form,
             layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -115,20 +119,9 @@
         $(".panel a").click(function(){
             parent.addTab($(this));
         })
-        //最新新闻列表
-        $.get("${yeqifu}/news/loadAllNews.action?page=1&limit=10",function(data){
-            var hotNewsHtml = '';
-            for(var i=0;i<5;i++){
-                hotNewsHtml += '<tr ondblclick="viewNews('+data.data[i].id+')">'
-                    +'<td align="left"><a href="javascript:;"> '+data.data[i].title+'</a></td>'
-                    +'<td>'+data.data[i].createtime.substring(0,10)+'</td>'
-                    +'</tr>';
-            }
-            $(".hot_news").html(hotNewsHtml);
-            $(".userAll span").text(data.length);
-        })
+
         //最新留言列表
-        $.get("${yeqifu}/message/loadAllMessage.action?page=1&limit=10",function(data){
+        $.post("${yeqifu}/message/loadAllMessage.action?page=1&limit=10",function(data){
             var hotMessageHtml = '';
             for(var i=0;i<5;i++){
                 hotMessageHtml += '<tr ondblclick="viewMessage('+data.data[i].id+')">'
@@ -140,23 +133,6 @@
             $(".userAll span").text(data.length);
         })
     });
-
-    function viewNews(id){
-        $.get("${yeqifu}/news/loadNewsById.action",{id:id},function(news){
-            layer.open({
-                type:1,
-                title:'查看新闻',
-                content:$("#desk_viewNewsDiv"),
-                area:['800px','550px'],
-                success:function(index){
-                    $("#view_title").html(news.title);
-                    $("#view_opername").html(news.opername);
-                    $("#view_createtime").html(news.createtime);
-                    $("#view_content").html(news.content);
-                }
-            });
-        });
-    }
 
     function viewMessage(id){
         $.get("${yeqifu}/message/loadMessageById.action",{id:id},function(message){

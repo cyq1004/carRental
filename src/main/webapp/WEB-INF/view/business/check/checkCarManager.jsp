@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  Car: YQF
-  Date: 2019/10/14
-  Time: 18:50
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -21,7 +14,7 @@
     <link rel="stylesheet" href="${yeqifu}/static/layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="${yeqifu}/static/css/public.css" media="all"/>
 </head>
-<body class="childrenBody">
+<body class="childrenBody" style="background: rgba(255,253,244,0.51)">
 
 <!-- 搜索条件开始 -->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">

@@ -32,7 +32,7 @@ public class MessageController {
      * @param req
      * @return
      */
-    @RequestMapping("loadAllMessage")
+    @PostMapping("loadAllMessage")
     public DataGridView loadAllMessage(MessageReq req) {
         log.info("留言列表:{}", req);
         return messageService.queryAllMessage(req);
@@ -44,7 +44,7 @@ public class MessageController {
      * @param req
      * @return
      */
-    @RequestMapping("addMessage")
+    @PostMapping("addMessage")
     public ResultObj addMessage(@Validated AddOrUpdateMessageReq req) {
         log.info("添加留言:{}", req);
         try {

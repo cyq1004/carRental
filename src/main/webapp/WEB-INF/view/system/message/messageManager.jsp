@@ -232,7 +232,7 @@
             if (layEvent === 'del') { //删除
                 layer.confirm('真的删除【' + data.title + '】这个留言么？', function (index) {
                     //向服务端发送删除指令
-                    $.post("${yeqifu}/message/deleteMessage.action", {id: data.id}, function (res) {
+                    $.get("${yeqifu}/message/deleteMessage.action", {id: data.id}, function (res) {
                         layer.msg(res.msg);
                         //刷新数据表格
                         tableIns.reload();

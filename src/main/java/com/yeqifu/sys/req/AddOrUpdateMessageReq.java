@@ -16,7 +16,6 @@ public class AddOrUpdateMessageReq {
     /**
      * ID
      */
-    @NotNull(message = "ID不能为空")
     private Integer id;
 
     /**
