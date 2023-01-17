@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.sys.mapper.MessageMapper">
+
+  <!--查询所有-->
+  <select id="queryAllMessage" resultType="com.yeqifu.sys.domain.Message">
+    select
+    id as id,
+    title as title,
+    content as content,
+    createtime as createtime,
+    opername as opername
+    from sys_message
+    <where>
+      <if test="req.title!=null and req.title!=''">
+        and title like concat("%",#{req.title},"%")
+      </if>
+      <if test="req.content!=null and req.content!=''">
+        and content like concat("%",#{req.content},"%")
+      </if>
+      <if test="req.startTime!=null">
+        and createtime >=#{req.startTime}
+      </if>
+      <if test="req.endTime!=null">
+        and endtime <![CDATA[<=]]>#{req.endTime}
+      </if>
+    </where>
+    order by createtime desc
+  </select>
+
+
+  <insert id="addMessage" parameterType="com.yeqifu.sys.domain.Message">
+    insert into sys_message (title,content,createtime,opername) values (#{req.title}, #{req.content}, #{req.createtime}, #{req.opername})
+  </insert>
+
+
+  <delete id="deleteMessage" parameterType="java.lang.Long">
+    delete from sys_message where id = #{id}
+  </delete>
+
+
+  <update id="updateMessage" parameterType="com.yeqifu.sys.domain.Message">
+    update sys_message
+    <set>
+      <if test="req.title != null">
+        title = #{req.title},
+      </if>
+      <if test="req.content != null">
+        content = #{req.content},
+      </if>
+      <if test="req.createtime != null">
+        createtime = #{req.createtime},
+      </if>
+      <if test="req.opername != null">
+        opername = #{req.opername},
+      </if>
+    </set>
+    where id = #{req.id}
+  </update>
+
+
+  <select id="loadMessageById" parameterType="java.lang.Long" resultType="com.yeqifu.sys.domain.Message">
+    select
+        id as id, title as title, content as content, createtime as createtime, opername as opername
+    from sys_message
+    where id = #{id}
+  </select>
+</mapper>

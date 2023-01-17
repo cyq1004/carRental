@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.sys.mapper.UserMapper">
+
+    <select id="login" resultType="com.yeqifu.sys.domain.User">
+        SELECT userid,
+               loginname,
+            identity,
+            realname,
+            sex,
+            address,
+            phone,
+            pwd,
+            position,
+            type,
+            available
+        FROM
+            sys_user
+        WHERE
+            loginname = #{loginname}
+          and pwd=#{pwd}
+    </select>
+
+    <select id="queryAllUser" resultType="com.yeqifu.sys.vo.UserVos">
+        SELECT
+        t1.userid AS userid,
+        t1.loginname AS loginname,
+        t1.identity AS identity,
+        t1.realname AS realname,
+        t1.sex AS sex,
+        t1.address AS address,
+        t1.phone AS phone,
+        t1.position AS position,
+        t1.type AS type,
+        t1.available AS available,
+        GROUP_CONCAT(DISTINCT t3.rolename) AS rolename,
+        max(t4.logintime) as currentTime
+        from sys_user as t1
+        left join sys_role_user as t2 on t1.userid = t2.uid
+        left join sys_role as t3 on t3.roleid = t2.rid
+        left join sys_log_login as t4 on t4.loginname = CONCAT(t1.realname,'-',t1.loginname)
+        <where>
+            <if test="req.realname!=null and req.realname!=''">
+                and t1.realname like concat("%",#{req.realname},"%")
+            </if>
+            <if test="req.loginname!=null and req.loginname!=''">
+                and t1.loginname like concat("%",#{req.loginname},"%")
+            </if>
+            <if test="req.identity!=null and req.identity!=''">
+                and t1.identity = #{req.identity}
+            </if>
+            <if test="req.address!=null and req.address!=''">
+                and t1.address like concat("%",#{req.address},"%")
+            </if>
+            <if test="req.phone!=null and req.phone!=''">
+                and t1.phone = #{req.phone}
+            </if>
+            <if test="req.available!=null">
+                and t1.available = #{req.available}
+            </if>
+            <if test="req.sex!=null">
+                and t1.sex = #{req.sex}
+            </if>
+            and t1.type != 1
+        </where>
+        GROUP BY CONCAT(t1.realname,'-',t1.loginname)
+    </select>
+
+    <insert id="addUser">
+        INSERT INTO sys_user (loginname, identity, realname, sex, address, phone, pwd, position, type, available)
+        VALUES (#{user.loginname}, #{user.identity}, #{user.realname}, #{user.sex}, #{user.address}, #{user.phone},
+                #{user.pwd}, #{user.position}, #{user.type}, #{user.available})
+    </insert>
+
+    <update id="updateUser">
+        UPDATE sys_user
+        SET loginname = #{req.loginname},
+            identity  = #{req.identity},
+            realname  = #{req.realname},
+            sex       = #{req.sex},
+            address   = #{req.address},
+            phone     = #{req.phone},
+            position  = #{req.position},
+            available = #{req.available}
+        WHERE userid = #{req.userid}
+    </update>
+
+    <update id="resetUserPwd">
+        UPDATE sys_user
+        SET pwd = #{user.pwd}
+        WHERE userid = #{user.userid}
+    </update>
+
+    <!--保存用户和角色的关系-->
+    <insert id="saveUserRole">
+        insert into sys_role_user(uid, rid)
+        VALUES (#{userid}, #{rid})
+    </insert>
+
+    <update id="changePassword">
+        UPDATE sys_user
+        SET pwd = #{user.pwd}
+        WHERE userid = #{user.userid}
+    </update>
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.sys.mapper.MenuMapper">
+
+    <!--查询所有菜单-->
+    <select id="queryAllMenu" resultType="com.yeqifu.sys.domain.Menu">
+        select
+        id as id,
+        pid as pid,
+        title as title,
+        href as href,
+        spread as spread,
+        target as target,
+        icon as icon,
+        available as available
+        from sys_menu
+        <where>
+            <if test="req.title!=null and req.title!=''">
+                and title like concat("%",#{req.title},"%")
+            </if>
+            <if test="req.available!=null">
+                and available=#{req.available}
+            </if>
+            <if test="req.id!=null">
+                and (id=#{req.id} or pid=#{req.id})
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户id查询菜单-->
+    <select id="queryMenuByUid" resultType="com.yeqifu.sys.domain.Menu">
+    select distinct t1.* from sys_menu t1 inner join sys_role_menu t2 inner join sys_role_user t3 on(t1.id=t2.mid and t2.rid=t3.rid)
+    where t3.uid=#{uid} and t1.available=#{available}
+  </select>
+
+    <!--添加菜单-->
+    <insert id="addMenu" parameterType="com.yeqifu.sys.domain.Menu">
+        insert into sys_menu(pid,title,href,spread,target,icon,available)
+            values(#{menu.pid},#{menu.title},#{menu.href},#{menu.spread},#{menu.target},#{menu.icon},#{menu.available})
+    </insert>
+
+    <!--根据菜单id删除sys_role_menu里面的数据-->
+    <delete id="deleteRoleMenuByMid">
+        delete from sys_role_menu where mid=#{mid}
+  </delete>
+
+    <!--根据pid查询菜单数量-->
+    <select id="queryMenuByPid" resultType="java.lang.Integer">
+        select count(1) from sys_menu where pid=#{pid}
+    </select>
+
+    <!--根据角色id查询菜单-->
+    <select id="queryMenuByRoleId" resultType="com.yeqifu.sys.domain.Menu">
+    select t1.* from sys_menu t1 inner join sys_role_menu t2 on(t1.id=t2.mid) WHERE t2.rid=#{rid} and t1.available=#{available}
+  </select>
+
+
+</mapper>

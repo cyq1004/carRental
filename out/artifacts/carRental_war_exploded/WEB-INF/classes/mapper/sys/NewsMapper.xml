@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.sys.mapper.NewsMapper">
+
+    <!--查询所有-->
+    <select id="loadAllNews" resultType="com.yeqifu.sys.domain.News">
+        select
+        id as id,
+        title as title,
+        content as content,
+        createtime as createtime,
+        opername as opername
+        from sys_news
+        <where>
+            <if test="req.title!=null and req.title!=''">
+                and title like concat("%",#{req.title},"%")
+            </if>
+            <if test="req.content!=null and req.content!=''">
+                and content like concat("%",#{req.content},"%")
+            </if>
+            <if test="req.opername!=null and req.opername!=''">
+                and opername like concat("%",#{req.opername},"%")
+            </if>
+            <if test="req.startTime!=null">
+                and createtime >=#{req.startTime}
+            </if>
+            <if test="req.endTime!=null">
+                and endtime <![CDATA[<=]]>#{req.endTime}
+            </if>
+        </where>
+        order by createtime desc
+    </select>
+
+    <insert id="addNews" parameterType="com.yeqifu.sys.domain.News">
+        insert into sys_news(title, content, createtime, opername) values (#{news.title}, #{news.content}, #{news.createtime}, #{news.opername})
+    </insert>
+
+    <delete id="deleteNews" parameterType="java.lang.Long">
+        delete
+        from sys_news
+        where id = #{id}
+    </delete>
+
+    <update id="updateNews" parameterType="com.yeqifu.sys.domain.News">
+        update sys_news
+        <set>
+            <if test="req.title != null">
+                title = #{req.title},
+            </if>
+            <if test="req.content != null">
+                content = #{req.content},
+            </if>
+            <if test="req.createtime != null">
+                createtime = #{req.createtime},
+            </if>
+            <if test="req.opername != null">
+                opername = #{req.opername},
+            </if>
+        </set>
+        where id = #{req.id}
+    </update>
+
+    <select id="loadNewsById" parameterType="java.lang.Long" resultType="com.yeqifu.sys.domain.News">
+        select
+            id, title, content, createtime, opername
+        from sys_news
+        where id = #{id}
+    </select>
+</mapper>

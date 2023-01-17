@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.sys.mapper.LogMapper">
+
+  <select id="queryAllLogInfo" resultType="com.yeqifu.sys.domain.Log">
+    select
+     id as id,
+     logname as logname,
+     logip as logip,
+     log as log,
+     logtime as logtime
+    from sys_log
+    <where>
+      <if test="req.logname!=null and req.logname!=''">
+        and logname like concat("%",#{req.logname},"%")
+      </if>
+      <if test="req.logip!=null and req.logip!=''">
+        and logip eq #{req.logip})
+      </if>
+      <if test="req.log!=null and req.log!=''">
+        and log like concat("%",#{req.log},"%")
+      </if>
+      <if test="req.startTime!=null">
+        and logintime >= #{req.startTime}
+      </if>
+      <if test="req.endTime!=null">
+        and logintime &lt; = #{req.endTime}
+        and logintime  <![CDATA[<=]]> #{req.endTime}
+      </if>
+    </where>
+    order by logtime desc
+  </select>
+
+  <delete id="deleteLogInfo">
+    delete from sys_log where id = #{id}
+  </delete>
+
+  <insert id="addLog" parameterType="com.yeqifu.sys.domain.Log">
+    insert into sys_log(logname,logip,log,logtime) values (#{log.logname}, #{log.logip}, #{log.log}, #{log.logtime})
+  </insert>
+</mapper>

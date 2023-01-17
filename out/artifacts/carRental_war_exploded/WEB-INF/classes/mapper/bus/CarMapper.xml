@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.bus.mapper.CarMapper">
+
+  <select id="loadAllCar" resultType="com.yeqifu.bus.domain.Car">
+    select
+        carnumber as carnumber,
+        cartype as cartype,
+        color as color,
+        price as price,
+        rentprice as rentprice,
+        deposit as deposit,
+        isrenting as isrenting,
+        description as description,
+        carimg as carimg,
+        createtime as createtime
+    from bus_car
+    <where>
+      <if test="req.carnumber!=null and req.carnumber!=''">
+        and carnumber like concat("%",#{req.carnumber},"%")
+      </if>
+      <if test="req.cartype!=null and req.cartype!=''">
+        and cartype like concat("%",#{req.cartype},"%")
+      </if>
+      <if test="req.color!=null and req.color!=''">
+        and color like concat("%",#{req.color},"%")
+      </if>
+      <if test="req.description!=null and req.description!=''">
+        and description like concat("%",#{req.description},"%")
+      </if>
+      <if test="req.isrenting!=null">
+        and isrenting = #{req.isrenting}
+      </if>
+    </where>
+    order by createtime desc
+  </select>
+
+  <insert id="addCar" parameterType="com.yeqifu.bus.domain.Car">
+    insert into bus_car (carnumber, cartype, color, price, rentprice, deposit, isrenting, description, carimg, createtime)
+    values (#{car.carnumber}, #{car.cartype}, #{car.color}, #{car.price}, #{car.rentprice}, #{car.deposit}, #{car.isrenting},
+            #{car.description}, #{car.carimg}, #{car.createtime})
+  </insert>
+
+  <update id="updateCar" parameterType="com.yeqifu.bus.domain.Car">
+    update bus_car
+    set cartype = #{req.cartype},
+        color = #{req.color},
+        price = #{req.price},
+        rentprice = #{req.rentprice},
+        deposit = #{req.deposit},
+        isrenting = #{req.isrenting},
+        description = #{req.description},
+        carimg = #{req.carimg}
+    where carnumber = #{req.carnumber}
+  </update>
+
+  <select id="getByCarnumber" parameterType="java.lang.String" resultType="com.yeqifu.bus.domain.Car">
+    select
+      carnumber, cartype, color, price, rentprice, deposit, isrenting, description, carimg, createtime
+    from bus_car
+    where carnumber = #{carnumber}
+  </select>
+
+  <delete id="deleteCar" parameterType="java.lang.String">
+    delete from bus_car where carnumber = #{carnumber}
+  </delete>
+
+  <update id="updateByPrimaryKeySelective"
+          parameterType="com.yeqifu.bus.domain.Car">
+    update bus_car
+    <set>
+      <if test="cartype != null">
+        cartype = #{cartype},
+      </if>
+      <if test="color != null">
+        color = #{color},
+      </if>
+      <if test="price != null">
+        price = #{price},
+      </if>
+      <if test="rentprice != null">
+        rentprice = #{rentprice},
+      </if>
+      <if test="deposit != null">
+        deposit = #{deposit},
+      </if>
+      <if test="isrenting != null">
+        isrenting = #{isrenting},
+      </if>
+      <if test="description != null">
+        description = #{description},
+      </if>
+      <if test="carimg != null">
+        carimg = #{carimg},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime},
+      </if>
+    </set>
+    where carnumber = #{carnumber}
+  </update>
+
+
+
+</mapper>

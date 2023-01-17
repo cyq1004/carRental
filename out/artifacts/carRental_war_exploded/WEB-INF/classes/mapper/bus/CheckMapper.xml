@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.bus.mapper.CheckMapper">
+
+  <insert id="addCheck" parameterType="com.yeqifu.bus.domain.Check">
+    insert into bus_check (checkid, checkdate, checkdesc, problem, paymoney, opername, rentid, createtime)
+    values (#{check.checkid}, #{check.checkdate}, #{check.checkdesc}, #{check.problem}, #{check.paymoney}, #{check.opername}, #{check.rentid}, #{check.createtime})
+  </insert>
+
+  <select id="loadAllCheck" resultType="com.yeqifu.bus.domain.Check">
+    select
+        checkid as checkid,
+        checkdate as checkdate,
+        checkdesc as checkdesc,
+        problem as problem,
+        paymoney as paymoney,
+        opername as opername,
+        rentid as rentid,
+        createtime as createtime
+    from bus_check
+    <where>
+      <if test="req.checkid!=null and req.checkid!=''">
+        and checkid like concat("%",#{req.checkid},"%")
+      </if>
+      <if test="req.rentid!=null and req.rentid!=''">
+        and rentid like concat("%",#{req.rentid},"%")
+      </if>
+      <if test="req.problem!=null and req.problem!=''">
+        and problem like concat("%",#{req.problem},"%")
+      </if>
+      <if test="req.checkdesc!=null and req.checkdesc!=''">
+        and checkdesc like concat("%",#{req.checkdesc},"%")
+      </if>
+      <if test="req.startTime!=null">
+        and checkdate >=#{req.startTime}
+      </if>
+      <if test="req.endTime!=null">
+        and checkdate <![CDATA[<=]]>#{req.endTime}
+      </if>
+    </where>
+    order by createtime desc
+  </select>
+
+  <delete id="deleteCheck" parameterType="java.lang.String">
+    delete from bus_check where checkid = #{checkid}
+  </delete>
+
+  <update id="updateCheck" parameterType="com.yeqifu.bus.domain.Check">
+    update bus_check
+    set checkdate = #{check.checkdate},
+        checkdesc = #{check.checkdesc},
+        problem = #{check.problem},
+        paymoney = #{check.paymoney},
+        opername = #{check.opername},
+        rentid = #{check.rentid},
+        createtime = #{check.createtime}
+    where checkid = #{check.checkid}
+  </update>
+</mapper>
