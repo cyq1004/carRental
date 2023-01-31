@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
@@ -31,8 +33,8 @@ import java.util.Map;
 /**
  * 统计分析
  */
-@RequestMapping("stat")
 @Controller
+@RequestMapping("stat")
 public class StatController {
 
     @Autowired
@@ -60,7 +62,7 @@ public class StatController {
     @RequestMapping("loadCustomerAreaStatJson")
     @ResponseBody
     public List<BaseEntity> loadCustomerAreaStatJson() {
-        return this.statService.loadCustomerAreaStatList();
+        return statService.loadCustomerAreaStatList();
     }
 
     /**
@@ -79,9 +81,7 @@ public class StatController {
     @RequestMapping("loadCustomerAreaSexStatJson")
     @ResponseBody
     public List<BaseEntity> loadCustomerAreaSexStatJson(String area) {
-        System.out.println("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-        System.out.println(this.statService.loadCustomerAreaSexStatList(area));
-        return this.statService.loadCustomerAreaSexStatList(area);
+        return statService.loadCustomerAreaSexStatList(area);
     }
 
     /**
@@ -102,7 +102,7 @@ public class StatController {
     @RequestMapping("loadOpernameYearGradeStatJson")
     @ResponseBody
     public Map<String, Object> loadOpernameYearGradeStatJson(String year) {
-        List<BaseEntity> entities = this.statService.loadOpernameYearGradeStatList(year);
+        List<BaseEntity> entities = statService.loadOpernameYearGradeStatList(year);
         Map<String, Object> map = new HashMap<String, Object>();
         List<String> names = new ArrayList<String>();
         List<Double> values = new ArrayList<Double>();
@@ -133,7 +133,7 @@ public class StatController {
     @RequestMapping("loadCompanyYearGradeStatJson")
     @ResponseBody
     public List<Double> loadCompanyYearGradeStatJson(String year) {
-        List<Double> entities = this.statService.loadCompanyYearGradeStatList(year);
+        List<Double> entities = statService.loadCompanyYearGradeStatList(year);
         for (int i = 0; i < entities.size(); i++) {
             if (null == entities.get(i)) {
                 entities.set(i, 0.0);
@@ -141,6 +141,10 @@ public class StatController {
         }
         return entities;
     }
+
+
+    /**此部分导出暂时不需要使用**/
+
 
     /**
      * 导出客户数据

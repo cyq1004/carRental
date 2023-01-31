@@ -3,22 +3,22 @@
 <mapper namespace="com.yeqifu.stat.mapper.StatMapper">
 
     <!--查询客户地区-->
-    <select id="queryCustomerAreaStat" resultType="com.yeqifu.stat.domain.BaseEntity">
+    <select id="loadCustomerAreaStatList" resultType="com.yeqifu.stat.domain.BaseEntity">
       select address as name,count(1) as value from bus_customer GROUP BY address
     </select>
 
 	<!--查询客户地区性别-->
-	<select id="queryCustomerAreaSexStat" resultType="com.yeqifu.stat.domain.BaseEntity">
+	<select id="loadCustomerAreaSexStatList" resultType="com.yeqifu.stat.domain.BaseEntity">
 		select sex as name,count(1) as value from bus_customer where address=#{value} group by sex
 	</select>
 
     <!--查询业务员年度业绩-->
-    <select id="queryOpernameYearGradeStat" resultType="com.yeqifu.stat.domain.BaseEntity">
+    <select id="loadOpernameYearGradeStatList" resultType="com.yeqifu.stat.domain.BaseEntity">
       select opername as name,sum(price) as value from bus_rent where DATE_FORMAT(createtime,"%Y")=#{value} GROUP BY opername
     </select>
 
     <!--查询公司年度业绩-->
-    <select id="queryCompanyYearGradeStat" resultType="java.lang.Double">
+    <select id="loadCompanyYearGradeStatList" resultType="java.lang.Double">
         select sum(price) from bus_rent where
 		DATE_FORMAT(createtime,"%Y%m")=concat(#{value},'01')
 		UNION all

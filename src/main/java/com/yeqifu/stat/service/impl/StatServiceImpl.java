@@ -15,12 +15,12 @@ public class StatServiceImpl implements IStatService {
     private StatMapper statMapper;
 
     /**
-     * 查询客户地区统计数据
+     * 查询客户地区数据
      * @return
      */
     @Override
     public List<BaseEntity> loadCustomerAreaStatList() {
-        return this.statMapper.queryCustomerAreaStat();
+        return statMapper.loadCustomerAreaStatList();
     }
 
     /**
@@ -30,7 +30,7 @@ public class StatServiceImpl implements IStatService {
      */
     @Override
     public List<BaseEntity> loadCustomerAreaSexStatList(String area) {
-        return this.statMapper.queryCustomerAreaSexStat(area);
+        return statMapper.loadCustomerAreaSexStatList(area);
     }
 
     /**
@@ -40,7 +40,7 @@ public class StatServiceImpl implements IStatService {
      */
     @Override
     public List<BaseEntity> loadOpernameYearGradeStatList(String year) {
-        return this.statMapper.queryOpernameYearGradeStat(year);
+        return statMapper.loadOpernameYearGradeStatList(year);
     }
 
     /**
@@ -50,6 +50,6 @@ public class StatServiceImpl implements IStatService {
      */
     @Override
     public List<Double> loadCompanyYearGradeStatList(String year) {
-        return this.statMapper.queryCompanyYearGradeStat(year);
+        return statMapper.loadCompanyYearGradeStatList(year);
     }
 }
