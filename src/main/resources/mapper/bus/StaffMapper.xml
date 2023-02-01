@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.bus.mapper.StaffMapper">
+
+    <select id="loadAllStaff" resultType="com.yeqifu.bus.domain.Staff">
+        SELECT
+            staff_name AS staffName,
+            sex AS sex,
+            identity AS identity,
+            address AS address,
+            phone AS phone,
+            career AS career,
+            salary AS salary,
+            join_time AS joinTime,
+            leave_time AS leaveTime
+        FROM
+            bus_staff
+        <where>
+            <if test="req.staffName!=null and req.staffName!=''">
+                and staff_name LIKE concat("%",#{req.staffName},"%")
+            </if>
+            <if test="req.sex!=null">
+                and sex=#{req.sex}
+            </if>
+            <if test="req.identity!=null and req.identity!=''">
+                and identity eq #{req.identity}
+            </if>
+            <if test="req.address!=null and req.address!=''">
+                and address LIKE concat("%",#{req.address},"%")
+            </if>
+            <if test="req.phone!=null and req.phone!=''">
+                and phone eq #{req.phone}
+            </if>
+            <if test="req.career!=null and req.career!=''">
+                and career LIKE concat("%",#{req.career},"%")
+            </if>
+        </where>
+        order by join_time desc
+    </select>
+
+    <insert id="add">
+        insert into bus_staff(staff_name, sex, identity, address, phone, career, salary, join_time)
+        values(#{staff.staffName}, #{staff.sex}, #{staff.identity}, #{staff.address}, #{staff.phone}, #{staff.career}, #{staff.salary}, #{staff.joinTime})
+    </insert>
+
+    <update id="update">
+        update bus_staff
+        set staff_name = #{staff.staffName},
+            sex = #{staff.sex},
+            address = #{staff.address},
+            phone = #{staff.phone},
+            career = #{staff.career},
+            salary = #{staff.salary}
+        where identity = #{staff.identity}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from bus_staff where identity = #{identity}
+    </delete>
+
+    <update id="updateLeave">
+        update bus_staff set leave_time = now() where identity = #{identity}
+    </update>
+
+</mapper>

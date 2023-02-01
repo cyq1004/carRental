@@ -31,6 +31,16 @@ public class BusController {
     }
 
     /**
+     * 跳转到员工管理
+     *
+     * @return
+     */
+    @RequestMapping("toStaffManager")
+    public String toStaffManager() {
+        return "business/staff/staffManager";
+    }
+
+    /**
      * 跳转到汽车出租
      *
      * @return
