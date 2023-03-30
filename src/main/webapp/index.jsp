@@ -1,8 +1,3 @@
-<%--
-  User: YQF
-  Date: 2019/9/27
-  Time: 19:58
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>

@@ -12,24 +12,8 @@
         <property name="locations" value="classpath:db.properties"></property>
     </bean>
 
-    <!--声明dataSource 使用c3p0数据源-->
-    <bean id="dataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <!--注入连接属性-->
-        <property name="driverClass" value="${jdbc.driverClass}"/>
-        <property name="jdbcUrl" value="${url}"/>
-        <property name="user" value="${jdbc.user}"/>
-        <property name="password" value="${jdbc.password}"/>
-        <!--初始化连接池大小-->
-        <property name="initialPoolSize" value="5"></property>
-        <!--设置最大连接数-->
-        <property name="maxPoolSize" value="50"></property>
-        <!--设置最小的连接数-->
-        <property name="minPoolSize" value="10"></property>
-    </bean>
-
     <!--使用druid数据源-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init">
-        <!--注入连接属性-->
         <property name="driverClassName" value="${jdbc.driverClass}"/>
         <property name="url" value="${url}"/>
         <property name="username" value="${jdbc.user}"/>
@@ -44,13 +28,11 @@
         <property name="filters" value="stat"></property>
     </bean>
 
-    <!--声明sessionFactory 并注入mybatis.cfg.xml-->
+    <!--声明注入sessionFactory工厂-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!--注入数据源-->
         <property name="dataSource" ref="dataSource"></property>
-        <!--注入pagehelper分页插件-->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <!--注入mapper.xml-->
+        <!--注入mapper.xml配置文件-->
         <property name="mapperLocations">
             <array>
                 <value>classpath:mapper/*/*Mapper.xml</value>
@@ -58,7 +40,7 @@
         </property>
     </bean>
 
-    <!--扫描mapper接口-->
+    <!--声明扫描mapper接口-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--注入mapper接口所在的包-->
         <property name="basePackage" value="com.yeqifu.bus.mapper,com.yeqifu.sys.mapper,com.yeqifu.stat.mapper"></property>

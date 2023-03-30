@@ -59,14 +59,12 @@ public class LoginController {
             if (null != user) {
                 //放到session
                 WebUtils.getHttpSession().setAttribute("user", user);
-
                 //记录登陆日志 向sys_log_login里面插入数据
                 LogInfoVo logInfoVo = new LogInfoVo();
                 logInfoVo.setLogintime(new Date());
                 logInfoVo.setLoginname(user.getRealname() + "-" + user.getLoginname());
                 logInfoVo.setLoginip(WebUtils.getHttpServletRequest().getRemoteAddr());
                 logInfoService.addLogInfo(logInfoVo);
-
                 return "system/main/index";
             } else {
                 model.addAttribute("error", SysConstast.USER_LOGIN_ERROR_MSG);
@@ -76,7 +74,6 @@ public class LoginController {
             model.addAttribute("error", SysConstast.USER_LOGIN_CODE_ERROR_MSG);
             return "system/main/login";
         }
-
     }
 
     /**
